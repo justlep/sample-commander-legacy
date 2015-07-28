@@ -1,0 +1,21 @@
+{
+  "name": "Synchronizer",
+  "version": "1.0.1",
+  "description": "Tiny app to quickly synchonize audio from different locations like SD cards",
+  "author": "Lennart Pegel <github@justlep.net>",
+  "main": "index.html",
+  "window": {
+    "title": "LeP's Synchronizer",
+    "toolbar": true,
+    "frame": true,
+    "width": 900,
+    "height": 700,
+    "min_width": 500,
+    "min_height": 650
+  },
+  "dependencies": {
+	"readdirp": "1.1.0",
+    "jsonfile": "2.0.0",
+    "fs-extra": "~0.12.0"
+  }
+}

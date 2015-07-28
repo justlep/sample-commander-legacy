@@ -1,0 +1,16 @@
+{
+  "name": "some project",
+  "private": true,
+  "authors": [
+    "Lennart Pegel <lep@justlep.net>"
+  ],
+  "dependencies": {
+    "requirejs": "~2.1",
+    "underscore": "~1.7.0",
+    "momentjs": "~2.7.0",
+    "knockout": "~3.2.0",
+    "jquery": "~1.9",
+    "jquery.scrollTo": "~1.4.13"
+},
+  "devDependencies": {}
+}
