@@ -22,13 +22,17 @@
 </head>
 <body>
 
-    <header class="clearfix">
-        <form class="uk-form padded-top" id="filterForm">
-            <label>
+    <header>
+        <div id="player" class="column" data-bind="event: {contextmenu: stopAudio}">
+            <b class="player-filename" data-bind="css: {nonempty: !!filePlaying()}, text: (filePlaying() ? filePlaying().filename : 'No file selected'), click: scrollToPlayedFile"></b>
+            <audio id="innerplayer" controls data-bind="attr: {src: filePlaying() ? filePlaying().path : '', autoplay: config.autoplay}"></audio>
+        </div>
+
+        <form class="uk-form padded-top column" id="filterForm">
+            <label class="block">
                 <input type="text" data-bind="value: filter, valueUpdate: 'keyup'" class="filter uk-form-small" placeholder="Filter source filenames"/>
                 <button data-bind="click: resetFilter" class="uk-button uk-button-small uk-button-success">Clear</button>
             </label>
-            <br/>
             <div class="duplicate-filter">
                 <label>
                     <input type="radio" name="duplicateFilter" value="none" data-bind="checked: duplicateFilter"> All files
@@ -41,12 +45,6 @@
                 </label>
             </div>
         </form>
-
-        <div id="player" data-bind="event: {contextmenu: stopAudio}">
-            <b class="player-filename" data-bind="css: {nonempty: !!filePlaying()}, text: (filePlaying() ? filePlaying().filename : 'No file selected'), click: scrollToPlayedFile"></b>
-            <audio id="innerplayer" controls data-bind="attr: {src: filePlaying() ? filePlaying().path : '', autoplay: config.autoplay}"></audio>
-        </div>
-
     </header>
 
     <input type="file" webkitdirectory  directory id="sourcePath" data-bind="event: {change: source.onPathChange}" />
@@ -55,7 +53,7 @@
     <div class="main-columns">
 
         <!-- SOURCE BOX -->
-        <div class="column float-left padded-sides">
+        <div class="column">
             <h2 class="column-headline" data-bind="click: selectSourcePath, event: {contextmenu: onSourceRightclick}">
                 <span class="linkedIcon leftButton" title="Switch list/table mode" data-bind="css: {'uk-icon-bars': !config.floatingList(), 'uk-icon-ellipsis-h': config.floatingList}, click: switchListMode, clickBubble: false"></span>
                 Source
@@ -63,48 +61,54 @@
                 <span class="uk-icon-refresh rightButton linkedIcon" title="Refresh" data-bind="click: source.reload, clickBubble: false, css: {'uk-icon-spin': source.isLoading}"></span>
                 <span class="path" data-bind="text: source.path"></span>
             </h2>
-            <div class="col-content padded" data-bind="css: {'spinner-round': source.isLoading}, abortLoadingOnClick: source, event: {contextmenu: stopAudio}, click: onSourceListClick">
-                <div class="aborted" data-bind="visible: source.aborted">aborted</div>
-                <div class="invalid-path" data-bind="visible: source.invalidPath">invalid path</div>
-                <ul id="sourceList" class="file-list" data-bind="css: {asFloatingList: config.floatingList, asTable: !config.floatingList(), showFilesize: config.showFilesize, showCDate: config.showCDate}, click: onSourceFileClicked, event: {contextmenu: onSourceFileRightClicked}, clickBubble: false, foreach: source.files">
-                    <li class="file" draggable="true" dropzone="copy" data-bind="filteredFile: {hiddenIds1: $root.hiddenFileIdsByFilter, hiddenIds2: $root.hiddenFileIdsByDuplicateFilter}, attr: {'data-id': id, title: $root.config.filePathTooltip() && path}, css: {file: true, playing: ($root.filePlaying() && $data.id === $root.filePlaying().id)}">
-                        <span class="filename" data-bind="text: filename"></span>
-                        <span class="filesize" data-bind="text: formattedFilesize"></span>
-                        <span class="cdate" data-bind="text: formattedCDate"></span>
-                    </li>
-                </ul>
+            <div class="col-content" data-bind="css: {'spinner-round': source.isLoading}, abortLoadingOnClick: source, event: {contextmenu: stopAudio}, click: onSourceListClick">
+                <div class="scrollable-container">
+                    <div class="aborted" data-bind="visible: source.aborted">aborted</div>
+                    <div class="invalid-path" data-bind="visible: source.invalidPath">invalid path</div>
+                    <ul id="sourceList" class="file-list" data-bind="css: {asFloatingList: config.floatingList, asTable: !config.floatingList(), showFilesize: config.showFilesize, showCDate: config.showCDate}, click: onSourceFileClicked, event: {contextmenu: onSourceFileRightClicked}, clickBubble: false, foreach: source.files">
+                        <li class="file" draggable="true" dropzone="copy" data-bind="filteredFile: {hiddenIds1: $root.hiddenFileIdsByFilter, hiddenIds2: $root.hiddenFileIdsByDuplicateFilter}, attr: {'data-id': id, title: $root.config.filePathTooltip() && path}, css: {file: true, playing: ($root.filePlaying() && $data.id === $root.filePlaying().id)}">
+                            <span class="filename" data-bind="text: filename"></span>
+                            <span class="filesize" data-bind="text: formattedFilesize"></span>
+                            <span class="cdate" data-bind="text: formattedCDate"></span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
         <!-- /SOURCE BOX -->
 
         <!-- TARGET BOX -->
-        <div class="column float-right padded-sides">
+        <div class="column">
             <h2 class="column-headline" data-bind="click: selectTargetPath, event: {contextmenu: onTargetRightclick}">
                 Target
                 <span class="filesAndDirStats" data-bind="pathWatcherInfo: target"></span>
                 <span class="uk-icon-refresh rightButton linkedIcon" title="Refresh" data-bind="click: target.reload, clickBubble: false, css: {'uk-icon-spin': target.isLoading}"></span>
                 <span class="path" data-bind="text: target.path"></span>
             </h2>
-            <div class="col-content padded" data-bind="css: {'spinner-round': target.isLoading}, abortLoadingOnClick: target">
-                <div class="aborted" data-bind="visible: target.aborted">
-                    aborted
-                    <span class="maxDirsExceeded" data-bind="visible: target.maxDirsExceeded">limit reached</span>
+            <div class="col-content" data-bind="css: {'spinner-round': target.isLoading}, abortLoadingOnClick: target">
+                <div class="scrollable-container">
+                    <div class="aborted" data-bind="visible: target.aborted">
+                        aborted
+                        <span class="maxDirsExceeded" data-bind="visible: target.maxDirsExceeded">limit reached</span>
+                    </div>
+
+                    <div class="invalid-path" data-bind="visible: target.invalidPath">invalid path</div>
+
+                    <ul id="directoryList" class="dir-list" data-bind="foreach: target.directories">
+                        <li data-bind="style: {'paddingLeft': 15 * $data.depth + 'px'}">
+                            <div class="dir" data-bind="text: $data.name, css: {subdir: $data.depth}, attr: {id: elemId}"></div>
+                        </li>
+                    </ul>
                 </div>
-
-                <div class="invalid-path" data-bind="visible: target.invalidPath">invalid path</div>
-
-                <ul id="directoryList" class="dir-list" data-bind="foreach: target.directories">
-                    <li data-bind="style: {'paddingLeft': 15 * $data.depth + 'px'}">
-                        <div class="dir" data-bind="text: $data.name, css: {subdir: $data.depth}, attr: {id: elemId}"></div>
-                    </li>
-                </ul>
-
             </div>
         </div>
         <!-- /TARGET BOX -->
 
     </div>
 
+    <footer>
+        Written by LeP &lt;<a href="mailto:github@justlep.net">github@justlep.net</a>&gt;. Use at your own risk.
+    </footer>
 
     <!-- DIALOGS -->
 
@@ -121,7 +125,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- ********************* DIALOGS ********************* -->
     <!-- ********************* DIALOGS ********************* -->

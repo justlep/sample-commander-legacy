@@ -21,7 +21,9 @@ html, body { margin: 0; padding: 0; overflow: hidden;}
     display: inline-block;
     overlay: hidden;
 }
-
+.block {
+    display: block;
+}
 .fullsize {
     width: 100%;
 }
@@ -33,6 +35,8 @@ body {
     font-size: 12px;
     line-height: 16px;
     cursor: default;
+    display: flex;
+    flex-direction: column;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -125,19 +129,17 @@ form p {
 }
 
 header {
-    position: absolute;
-    padding: 0 @content-padding;
-    top: 0;
-    left: @content-padding;
-    right: @content-padding;
-    height: @header-height;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-.main-columns:extend(.clearfix) {
-    position: absolute;
-    width: 100%;
-    top: (@header-height + @content-padding + @content-padding);
-    bottom: (@footer-height + @content-padding + @content-padding);
+.main-columns {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    align-self: stretch;
+    margin-top: 10px;
 }
 
 .column-headline {
@@ -173,6 +175,19 @@ header {
     border-top: none;
     border-radius: 0 0 0 10px;
     box-shadow: 9px 9px 14px -5px rgba(0,0,0,0.75);
+    flex: 1;
+    position: relative;
+    align-self: stretch;
+}
+
+.scrollable-container {
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: @content-padding;
 }
 
 .matching-files {
@@ -293,15 +308,12 @@ header {
 }
 
 #player {
-    position: absolute;
-    top: 0;
-    left: 0;
     background: #353535 none;
-    width: 49%;
     padding: 8px;
     border: 1px solid #ccc;
     border-top: none;
     border-radius: 0 0 10px 10px;
+    min-width: 180px;
 
     audio {
         margin-top: 4px;
@@ -331,8 +343,10 @@ header {
 }
 
 #filterForm {
-    float: right;
     width: 40%;
+    max-width: 480px;
+    min-width: 350px;
+    align-self: flex-end;
     text-align: right;
 
     label {
@@ -355,7 +369,15 @@ header {
 }
 
 .column {
-    width: 50%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    margin: 0 @content-padding;
+
+    &:last-child {
+        margin-left: 0;
+    }
 }
 
 .padded-top {
@@ -662,5 +684,16 @@ table tr:nth-of-type(odd) {
             text-decoration: none;
             font-style: normal;
         }
+    }
+}
+
+footer {
+    font-size: 10px;
+    margin: 3px 0 0 0;
+    padding: 1px;
+    text-align: center;
+    color: @color-footer;
+    a {
+        color: @color-mid-gray;
     }
 }
