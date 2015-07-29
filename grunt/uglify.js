@@ -8,7 +8,9 @@ module.exports = function (/*grunt, options*/) {
             sourceMapName: function(jsPath) {
                 return jsPath.replace(/\.js$/, '-sourcemap.json');
             },
-            compress: {},
+            compress: {
+                drop_console: true
+            },
             environment: 'production'
         },
         jsForBuild: {
