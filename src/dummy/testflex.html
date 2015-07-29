@@ -1,0 +1,114 @@
+<html>
+<head>
+    <style type="text/css">
+        body {
+            background: #000;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: red;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .player {
+            width: 200px;
+            background: lightblue;
+        }
+        .filter {
+            background: lightcoral;
+            width: 250px;
+            align-self: flex-end;
+        }
+
+        #main {
+            background: #333;
+            display: flex;
+            flex-flow: row nowrap;
+            display: flex;
+            flex: 1;
+            margin-top: 10px;
+        }
+
+        .box {
+            background: #383838;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            max-height: 100%;
+        }
+
+        .box-left {
+            margin-right: 20px;
+        }
+
+        h2 {
+            color: green;
+            background: #222;
+            margin: 0;
+            padding: 0;
+        }
+        .scrollable-container {
+            background: #888;
+            flex: 1;
+            overflow: auto;
+            display: flex;
+            padding: 20px;
+        }
+
+        footer {
+            background: #001100;
+            padding: 5px;
+            text-align: center;
+            color: yellow;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="player">
+            Player
+        </div>
+        <div class="filter">
+            Filter
+        </div>
+    </header>
+
+    <div id="main">
+        <div class="box box-left">
+            <h2>headline left</h2>
+            <div class="scrollable-container">
+                scrollable 1
+            </div>
+        </div>
+        <div class="box box-right">
+            <h2>headline right</h2>
+            <div class="scrollable-container">
+                scrollable 2
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Footer
+    </footer>
+
+    <script src="../js/lib/jquery.min.js"></script>
+    <script>
+        $('.scrollable-container').each(function() {
+            for (var i=40; i>=1; i--) {
+                $(this).append('This is content<br/>');
+            }
+            $(this).append('That is it.');
+        });
+    </script>
+
+</body>
+</html>
