@@ -64,6 +64,10 @@ define(['knockout', 'AMD/Helper', 'underscore', 'AMD/FileComparer', 'moment'],
                 dirs[fileItem.parentDir] = null;
             });
             return _.keys(dirs);
+        },
+
+        compareFileOrDirItems = function(item1, item2) {
+            return item1.path.replace(/[\\\/]/g,'\n').localeCompare(item2.path.replace(/[\\\/]/g,'\n'))
         };
 
     /**
@@ -83,7 +87,7 @@ define(['knockout', 'AMD/Helper', 'underscore', 'AMD/FileComparer', 'moment'],
             dirsOnly = ko.observable(!!opts.directoriesOnly),
             abortRequested = false,
             lastSelectedFileId = null,
-            jList = $('#' + opts.listId);
+            jList = $('#' + opts.listId)
 
         this.directoriesOnly = ko.computed({
             read: dirsOnly,
@@ -124,15 +128,11 @@ define(['knockout', 'AMD/Helper', 'underscore', 'AMD/FileComparer', 'moment'],
         };
 
         this.sortDirectories = function() {
-            self.directories.sort(function(dirItem1, dirItem2) {
-                return dirItem1.path.localeCompare(dirItem2.path);
-            });
+            self.directories.sort(compareFileOrDirItems);
         };
 
         function sortFiles(files) {
-            files.sort(function(fileItem1, fileItem2) {
-                return fileItem1.path.localeCompare(fileItem2.path);
-            });
+            files.sort(compareFileOrDirItems);
         }
 
         this.getFileItemById = function(itemId) {
