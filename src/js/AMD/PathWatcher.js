@@ -87,7 +87,7 @@ define(['knockout', 'AMD/Helper', 'underscore', 'AMD/FileComparer', 'moment'],
             dirsOnly = ko.observable(!!opts.directoriesOnly),
             abortRequested = false,
             lastSelectedFileId = null,
-            jList = $('#' + opts.listId)
+            jList = $('#' + opts.listId);
 
         this.directoriesOnly = ko.computed({
             read: dirsOnly,
