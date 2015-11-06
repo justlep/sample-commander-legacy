@@ -5,7 +5,7 @@
   "description": "Tiny app to quickly synchonize audio from different locations like SD cards",
   "main": "Gruntfile.js",
   "author": "Lennart Pegel <github@justlep.net>",
-  "license": "GPL",
+  "license": "LGPL-3.0",
   "devDependencies": {
     "connect-livereload": "^0.4.0",
     "grunt": "^0.4.4",
