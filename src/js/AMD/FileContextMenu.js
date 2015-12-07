@@ -1,15 +1,17 @@
 'use strict';
 
-define(['underscore', 'AMD/Helper',
+define(['underscore', 'AMD/Helper', 'AMD/Config',
         'AMD/DialogManager',
         'AMD/dialogs/DeleteFilesDialog',
         'AMD/dialogs/RenameFilesDialog'],
-    function(_, Helper, DialogManager, DeleteFilesDialog, RenameFilesDialog) {
+    function(_, Helper, Config, DialogManager, DeleteFilesDialog, RenameFilesDialog) {
 
     var gui = require('nw.gui'),
         menu = new gui.Menu(),
+        fs = require('fs'),
         source = null,
         target = null,
+        config = Config.getInstance(),
         currentFileItem = null,
         nodePath = require('path'),
         instance = null,
@@ -25,6 +27,8 @@ define(['underscore', 'AMD/Helper',
             target = opts.targetWatcher;
             currentFileItem = opts.fileItem;
             updateOpenDuplicateItem();
+            updateOpenInEditorEditorItem();
+            config.editorExecutablePath.subscribe(updateOpenInEditorEditorItem);
             return instance;
         },
 
@@ -34,7 +38,10 @@ define(['underscore', 'AMD/Helper',
             itemOpenDuplicates.enabled = hasDuplicates;
             itemOpenDuplicates.label = itemOpenDuplicates.label.replace(/\d+/, duplicateNumber);
         },
+        updateOpenInEditorEditorItem = function() {
 
+            itemOpenInEditor.enabled = !!config.editorExecutablePath();
+        },
         HANDLERS = {
             ITEM_PLAY: function() {
                 if (currentFileItem && currentFileItem.isAudioFile) {
@@ -76,11 +83,31 @@ define(['underscore', 'AMD/Helper',
                         gui.Shell.showItemInFolder(duplicateItem.path);
                     }
                 });
+            },
+            CONFIGURE_EDITOR: function() {
+                config.openEditorExecutableFileDialog();
+            },
+            ITEM_OPEN_IN_EDITOR: function() {
+                Helper.assert(currentFileItem && currentFileItem.isAudioFile && currentFileItem.path, 'Invalid file');
+                var editorExecutable = config.editorExecutablePath(),
+                    cmdLine = editorExecutable && Helper.formatString('"{executable}" "{audioFile}"', {
+                            executable: editorExecutable,
+                            audioFile: currentFileItem.path
+                        });
+                if (cmdLine) {
+                    require("child_process").exec(cmdLine);
+                } else {
+                    alert('need to configure Editor first!');
+                }
             }
         },
         itemOpenDuplicates = new gui.MenuItem({
             label: 'Show Duplicates in Explorer (0)',
             click: HANDLERS.ITEM_OPEN_DUPLICATES
+        }),
+        itemOpenInEditor = new gui.MenuItem({
+            label: 'Open in Editor',
+            click: HANDLERS.ITEM_OPEN_IN_EDITOR
         });
 
     menu.append(new gui.MenuItem({
@@ -101,6 +128,12 @@ define(['underscore', 'AMD/Helper',
         label: 'Open in default application',
         click: HANDLERS.ITEM_OPEN_IN_APPLICATION
     }));
+    menu.append(itemOpenInEditor);
+    menu.append(new gui.MenuItem({
+        label: 'Configure Editor...',
+        click: HANDLERS.CONFIGURE_EDITOR
+    }));
+    menu.append(new gui.MenuItem({type: 'separator'}));
     menu.append(new gui.MenuItem({
         label: 'Show in Explorer',
         click: HANDLERS.ITEM_SHOW_IN_FOLDER

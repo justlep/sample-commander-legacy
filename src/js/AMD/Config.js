@@ -1,7 +1,7 @@
 
 'use strict';
 
-define(['knockout', 'underscore'], function(ko, _) {
+define(['knockout', 'underscore', 'jquery'], function(ko, _, $) {
 
     var nodePath = require('path'),
         execPath = process.execPath,
@@ -47,7 +47,8 @@ define(['knockout', 'underscore'], function(ko, _) {
                 'lastTargetPaths',
                 'filePathTooltip',
                 'lastRenamePatterns',
-                'projectFilePattern'
+                'projectFilePattern',
+                'editorExecutablePath'
             ],
             writeConfig = function() {
                 var configToWrite = {};
@@ -107,6 +108,18 @@ define(['knockout', 'underscore'], function(ko, _) {
         this.lastTargetPaths = ko.observableArray();
         this.lastRenamePatterns = ko.observableArray();
         this.projectFilePattern = ko.observable(DEFAULT_PROJECT_FILE_PATTERN);
+        this.editorExecutablePath = ko.observable('');
+
+        this.openEditorExecutableFileDialog = function() {
+            $('#editor-executable-file').trigger('click');
+        };
+
+        this.saveEditorExecutableFileDialog = function() {
+            var filePath = $('#editor-executable-file').val();
+            if (filePath) {
+                this.editorExecutablePath(filePath);
+            }
+        };
 
         this.clearLastSourcePaths = function() {
             self.lastSourcePaths.removeAll();

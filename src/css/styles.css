@@ -189,7 +189,7 @@ body {
 body {
   font-family: 'Open Sans', sans-serif;
   color: orange;
-  background: #222222;
+  background: #222;
   font-size: 12px;
   line-height: 16px;
   cursor: default;
@@ -232,7 +232,7 @@ audio {
 }
 .filesize {
   display: none;
-  color: #777777;
+  color: #777;
 }
 .filesize::after {
   content: ' MB';
@@ -244,7 +244,7 @@ audio {
   clear: both;
   display: none;
   text-align: left;
-  color: #777777;
+  color: #777;
   padding: 1px 0 0 0;
   font-size: 11px;
 }
@@ -292,13 +292,13 @@ header {
   position: relative;
   font-size: 15px;
   text-align: center;
-  border: 1px solid #777777;
+  border: 1px solid #777;
   border-bottom: none;
   border-radius: 10px 10px 0 0;
   cursor: pointer;
   background: #222;
   padding: 8px 0 0;
-  border-bottom: 1px solid #777777;
+  border-bottom: 1px solid #777;
 }
 .column-headline:hover {
   background-color: #444;
@@ -314,7 +314,7 @@ header {
   right: 12px;
 }
 .col-content {
-  border: 1px solid #777777;
+  border: 1px solid #777;
   border-top: none;
   border-radius: 0 0 0 10px;
   box-shadow: 9px 9px 14px -5px rgba(0, 0, 0, 0.75);
@@ -432,14 +432,14 @@ header {
 }
 #player .player-filename {
   font-weight: normal;
-  color: #777777;
+  color: #777;
 }
 #player .player-filename.nonempty {
-  color: #8a8a8a;
+  color: #8A8A8A;
   cursor: pointer;
 }
 #player .player-filename.nonempty:hover {
-  color: #acacac;
+  color: #ACACAC;
   padding-right: 20px;
   background: transparent url(../images/eye_arrow.png) right center no-repeat;
 }
@@ -499,7 +499,7 @@ table tr:nth-of-type(odd) {
 .path {
   display: block;
   text-align: center;
-  color: #777777;
+  color: #777;
   font-size: 12px;
   padding: 5px 0 6px;
 }
@@ -512,7 +512,7 @@ table tr:nth-of-type(odd) {
   color: #444;
 }
 .filesAndDirStats {
-  color: #777777;
+  color: #777;
   font-size: 12px;
   white-space: nowrap;
 }
@@ -528,7 +528,7 @@ table tr:nth-of-type(odd) {
 .aborted {
   text-align: center;
   padding: 0;
-  color: #acacac;
+  color: #ACACAC;
   margin-bottom: 8px;
 }
 .invalid-path:before,
@@ -552,7 +552,7 @@ table tr:nth-of-type(odd) {
   content: ')';
 }
 .linkedIcon {
-  color: #acacac;
+  color: #ACACAC;
   font-size: 17px;
 }
 .linkedIcon.active,
@@ -640,7 +640,7 @@ table tr:nth-of-type(odd) {
 #copyMoveFileDialog th {
   font-weight: bold;
   text-align: left;
-  color: #777777;
+  color: #777;
 }
 #deleteFileDialog th,
 #renameFilesDialog th,
@@ -653,7 +653,7 @@ table tr:nth-of-type(odd) {
 #deleteFileDialog td,
 #renameFilesDialog td,
 #copyMoveFileDialog td {
-  color: #777777;
+  color: #777;
 }
 #deleteFileDialog th,
 #renameFilesDialog th,
@@ -723,7 +723,7 @@ table tr:nth-of-type(odd) {
 #renameFilesDialog .source-file-list,
 #copyMoveFileDialog .source-file-list {
   max-height: 200px;
-  border: 1px solid #d9314a;
+  border: 1px solid #D9314A;
   border-radius: 5px;
   padding: 10px;
   overflow: auto;
@@ -765,7 +765,7 @@ table tr:nth-of-type(odd) {
   font-style: italic;
 }
 #renameFilesDialog .nameAferRename.nameChanged {
-  color: #d9314a;
+  color: #D9314A;
   font-weight: bold;
   text-decoration: none;
   font-style: normal;
@@ -775,8 +775,8 @@ footer {
   margin: 3px 0 0 0;
   padding: 1px;
   text-align: center;
-  color: #777777;
+  color: #777;
 }
 footer a {
-  color: #8a8a8a;
+  color: #8A8A8A;
 }

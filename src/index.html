@@ -47,6 +47,8 @@
     <input type="file" webkitdirectory  directory id="sourcePath" data-bind="event: {change: source.onPathChange}" />
     <input type="file" webkitdirectory  directory id="targetPath" data-bind="event: {change: target.onPathChange}" />
 
+    <input type="file" id="editor-executable-file" data-bind="event: {change: function(){$root.config.saveEditorExecutableFileDialog()}}" style="display:none"/>
+
     <div class="main-columns">
 
         <!-- SOURCE BOX -->
