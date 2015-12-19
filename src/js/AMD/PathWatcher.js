@@ -102,7 +102,7 @@ define(['knockout', 'AMD/Helper', 'underscore', 'AMD/FileComparer', 'moment'],
         this.files = ko.observableArray();
         this.invalidPath = ko.observable(false);
 
-        this.selectedFileIds = ko.observableArray();
+        this.selectedFileIds = ko.observableArray().extend({deferred: true});
         this.files.subscribe(function() {
             self.selectedFileIds.removeAll();
         });

@@ -1,6 +1,6 @@
 {
   "name": "Synchronizer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": "https://github.com/justlep/synchronizer",
   "description": "Tiny app to quickly synchonize audio from different locations like SD cards",
   "main": "Gruntfile.js",

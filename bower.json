@@ -8,7 +8,7 @@
     "requirejs": "~2.1",
     "underscore": "~1.7.0",
     "momentjs": "~2.7.0",
-    "knockout": "~3.2.0",
+    "knockout": "~3.4.0",
     "jquery": "~1.9",
     "jquery.scrollTo": "~1.4.13"
 },
