@@ -2,7 +2,7 @@
   "name": "some project",
   "private": true,
   "authors": [
-    "Lennart Pegel <lep@justlep.net>"
+    "Lennart Pegel <github@justlep.net>"
   ],
   "dependencies": {
     "requirejs": "~2.1",
