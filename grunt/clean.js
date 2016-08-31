@@ -3,7 +3,8 @@ module.exports = function (/*grunt, options*/) {
     return {
         options: {
         },
-        oldPreparedBuild: ["target/preparedBuild"],
-        oldBuild: ["target/Synchronizer"]
+        oldPreparedBuild: ["build/preparedBuild"],
+        oldBuild: ["build/Synchronizer"],
+        oldZips: ["build/*.zip"]
     };
 };

@@ -31,6 +31,12 @@ module.exports = function (grunt, options) {
         //, 'clean:oldPreparedBuild'
     ]);
 
+    grunt.registerTask('zipBuild', [
+        'clean:oldZips',
+        'compress:zipWin32',
+        'compress:zipWin64'
+    ]);
+
     grunt.registerTask('buildAppCompressed', [
         'clean',
         'default',

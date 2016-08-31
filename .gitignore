@@ -2,4 +2,4 @@ cache/**
 node_modules/**
 !src/node_modules/**
 src/config.json
-target/**
+build/**

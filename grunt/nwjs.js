@@ -3,12 +3,12 @@ module.exports = function (grunt, options) {
     return {
         options: {
             platforms: ['win'],
-            buildDir: 'target/',
+            buildDir: 'build/',
             // Issue with missing ffmpegsumo.dll -> https://github.com/nwjs/nw-builder/issues/252
             version: '0.12.3'
         },
         buildApp: {
-            src: ['target/preparedBuild/**']
+            src: ['build/preparedBuild/**']
         }
     };
 };

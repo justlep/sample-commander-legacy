@@ -24,8 +24,8 @@ $ grunt buildAppCompressed
 ```
 
 After either build task, the executable standalone program is located in 
-* **target/Synchronizer/win64/** and/or
-* **target/Synchronizer/win32/**  
+* **build/Synchronizer/win64/** and/or
+* **build/Synchronizer/win32/**
 
 ## Screenshots (see ./doc/screenshots/)
 The GUI with the SD card (=Source) on the left, and the sample collection folder (=Target) on the right.\

@@ -2,7 +2,7 @@ module.exports = function (grunt) {
     'use strict';
 
     var PACKAGE_JSON_SOURCE_PATH = 'src/package.json',
-        PACKAGE_JSON_TARGET_PATH = 'target/preparedBuild/package.json';
+        PACKAGE_JSON_TARGET_PATH = 'build/preparedBuild/package.json';
 
     grunt.registerTask('copyPackageJson', 'Copies an altered package.json to the preparedBuild path.',
         function () {

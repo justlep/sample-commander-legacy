@@ -19,7 +19,7 @@ module.exports = function (/*grunt, options*/) {
                     expand: true,
                     cwd: 'src/js',
                     src: ['**/*.js', '!lib/**/*.js'],
-                    dest: 'target/preparedBuild/js',
+                    dest: 'build/preparedBuild/js',
                     extDot: 'last',
                     ext: '.js'
                 }

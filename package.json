@@ -1,7 +1,10 @@
 {
   "name": "Synchronizer",
   "version": "1.0.2",
-  "repository": "https://github.com/justlep/synchronizer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/justlep/synchronizer.git"
+  },
   "description": "Tiny app to quickly synchonize audio from different locations like SD cards",
   "main": "Gruntfile.js",
   "author": "Lennart Pegel <github@justlep.net>",
@@ -12,18 +15,19 @@
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-compress": "^1.3.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-less": ">=0.11.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-newer": "^1.2.0",
-    "grunt-nw-builder": "~2.0.0",
-    "nodewebkit": "0.11.6",
+    "grunt-nw-builder": "^3.0.0",
     "grunt-shell": "^1.1.2",
     "grunt-spritesmith": "^6.3.1",
     "load-grunt-config": "^0.19.2",
     "load-grunt-tasks": "^3.5.2",
+    "nodewebkit": "0.11.6",
     "plugin": "^0.3.2",
     "requirejs": "^2.1.11",
     "time-grunt": "^1.4.0"
