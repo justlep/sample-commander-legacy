@@ -4,6 +4,6 @@ node_js:
 script:
   - grunt buildApp
 
-after_success:
-    - grunt compress:zipWin64
-    - "curl --ftp-create-dirs -T build/*.zip -u $FTP_USER:$FTP_PWD $FTP_UPLOAD_URL"
+#after_success:
+#    - grunt compress:zipWin64
+#    - "curl --ftp-create-dirs -T build/*.zip -u $FTP_USER:$FTP_PWD $FTP_UPLOAD_URL"
