@@ -1,12 +1,12 @@
 module.exports = function (grunt /* ,options*/) {
     'use strict';
 
-    var fs = require('fs'),
-        nwExePath = fs.realpathSync('./node_modules/nodewebkit/nodewebkit/nw.exe');
+    var path = require('path'),
+        nwExecutablePath = path.join(__dirname, '../node_modules/nodewebkit/nodewebkit/nw.exe');
 
     return {
         runDebug: {
-            command: nwExePath + ' .',
+            command: nwExecutablePath + ' .',
             options: {
                 callback: function(err, stdout, stderr, cb) {
                     grunt.log.ok(stdout);

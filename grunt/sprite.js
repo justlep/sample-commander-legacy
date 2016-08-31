@@ -4,8 +4,8 @@ module.exports = function (grunt, options) {
     return {
         all: {
             src: ['src/images/sprites/isolated/*.png'],
-            destImg: 'src/images/sprites/spritesheet.png',
-            destCSS: 'src/css/sprites.css',
+            dest: 'src/images/sprites/spritesheet.png',
+            destCss: 'src/css/sprites.css',
             algorithm: 'binary-tree',
             padding: 2,
             cssOpts: {
