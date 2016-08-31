@@ -1,6 +1,6 @@
 {
   "name": "Synchronizer",
-  "version": "1.0.1",
+  "version": "0.0.1",
   "description": "Tiny app to quickly synchonize audio from different locations like SD cards",
   "author": "Lennart Pegel <github@justlep.net>",
   "main": "index.html",
