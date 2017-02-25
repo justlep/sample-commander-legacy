@@ -5,6 +5,9 @@
     "type": "git",
     "url": "https://github.com/justlep/synchronizer.git"
   },
+  "engines": {
+    "node": ">=6.1"
+  },
   "description": "Tiny app to quickly synchonize audio from different locations like SD cards",
   "main": "Gruntfile.js",
   "author": "Lennart Pegel <github@justlep.net>",
