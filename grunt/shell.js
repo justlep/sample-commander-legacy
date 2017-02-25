@@ -2,18 +2,24 @@ module.exports = function (grunt /* ,options*/) {
     'use strict';
 
     var path = require('path'),
-        nwExecutablePath = path.join(__dirname, '../node_modules/nodewebkit/bin/nodewebkit');
+        buildCommand = 'node ' + path.resolve(__dirname, '../scripts/buildOrRun');
 
     return {
-        runDebug: {
-            command: 'node ' + nwExecutablePath + ' .',
+       nwjsBuild: {
+            command: buildCommand + ' --build',
             options: {
                 callback: function(err, stdout, stderr, cb) {
                     grunt.log.ok(stdout);
                     cb();
-                },
-                execOptions: {
-                    cwd: 'src/'
+                }
+            }
+        },
+        nwjsRun: {
+            command: buildCommand + ' --run',
+            options: {
+                callback: function(err, stdout, stderr, cb) {
+                    grunt.log.ok(stdout);
+                    cb();
                 }
             }
         }

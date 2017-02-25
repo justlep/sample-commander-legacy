@@ -15,7 +15,7 @@ module.exports = function (grunt, options) {
 
     grunt.registerTask('runDebug', [
         'default',
-        'shell:runDebug'
+        'shell:nwjsRun'
     ]);
 
     grunt.registerTask('buildApp', [
@@ -24,23 +24,17 @@ module.exports = function (grunt, options) {
         'copy:prepareBuild',
         'copyPackageJson',
         'uglify:jsForBuild',
-        'nwjs:buildApp'
+        'shell:nwjsBuild'
         //, 'clean:oldPreparedBuild'
     ]);
 
     grunt.registerTask('zipBuild', [
         'clean:oldZips',
-        'compress:zipWin32',
         'compress:zipWin64'
     ]);
 
     grunt.registerTask('buildAppCompressed', [
-        'clean',
-        'default',
-        'copy:prepareBuild',
-        'copyPackageJson',
-        'uglify:jsForBuild',
-        'nwjs:buildApp',
+        'buildApp',
         'compressExeFile'
         //, 'clean:oldPreparedBuild'
     ]);

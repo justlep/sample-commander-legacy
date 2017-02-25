@@ -15,18 +15,6 @@ module.exports = function (grunt, opts) {
             pretty: true,
             comment: zipComment
         },
-        zipWin32: {
-            options: {
-                archive: 'build/Synchronizer-v<%= pkg.version %>-Win32.zip'
-            },
-            files: [
-                {
-                    expand: true,
-                    cwd: 'build/',
-                    src: ['Synchronizer/win32/**/*.*']
-                }
-            ]
-        },
         zipWin64: {
             options: {
                 archive: 'build/Synchronizer-v<%= pkg.version %>-Win64.zip'

@@ -9,23 +9,32 @@ but should easily be adjustable for Linux/Mac.
 $ npm install
 ```
 
-## Run locally (with developer tools enabled)
+## Run locally (with developer tools enabled, optionally start watchers)
 ```sh
 $ grunt runDebug
+```
+
+## Run LESS/PUG watchers (auto-rebuild CSS/HTML when .less and .pug files change)
+```sh
+$ grunt watchLessAndPug
 ```
 
 ## Build standalone application (uncompressed)
 ```sh
 $ grunt buildApp
 ```
-## Build standalone application (with the .exe file compressed)
+## Build standalone application (with the .exe file compressed; win64 only)
 ```sh
 $ grunt buildAppCompressed
 ```
 
 After either build task, the executable standalone program is located in 
-* **build/Synchronizer/win64/** and/or
-* **build/Synchronizer/win32/**
+* **build/Synchronizer/<platform>/**
+
+Build platforms are defined in the config section of package.json.
+Allowed platforms: ['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64']
+See: https://github.com/nwjs/nw-builder
+
 
 ## Screenshots (see ./doc/screenshots/)
 The GUI with the SD card (=Source) on the left, and the sample collection folder (=Target) on the right.\
