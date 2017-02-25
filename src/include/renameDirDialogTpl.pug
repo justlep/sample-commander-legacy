@@ -1,0 +1,14 @@
+script#renameDirDialogTpl(type='text/html')
+    // (ko-context: RenameDirDialog)
+    .standard-confirm-dialog
+        form.uk-form(data-bind='submit: submit')
+            h5.dialog-headline
+                | Rename directory
+            p
+                | New name for
+                b(data-bind='text: dirItem().path')
+            p
+                input.fullsize(type='text', data-bind="value: newName, valueUpdate: 'keypress'")
+            .align-right
+                button.uk-button.uk-button-small.modalClose(type='button') Cancel
+                button.uk-button.uk-button-small.uk-button-primary(type='submit') Rename

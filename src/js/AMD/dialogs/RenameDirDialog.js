@@ -29,7 +29,7 @@ define(['knockout',
             submitCallback = null;
 
         this.settings = DialogManager.createDialogSettings({
-                            templateName: 'renameDir-dialog',
+                            templateName: 'renameDirDialogTpl',
                             modalWidth: DEFAULT_WIDTH
                         });
 

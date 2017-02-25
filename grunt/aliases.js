@@ -1,18 +1,16 @@
 module.exports = function (grunt, options) {
     'use strict';
 
-    grunt.registerTask('prepareCss', [
-        'less'
-    ]);
-
     grunt.registerTask('default', [
-        'prepareCss',
-        'jshint'
+        'less',
+        'jshint',
+        'pug'
     ]);
 
-    grunt.registerTask('watchLess', [
-        'prepareCss',
-        'watch:less'
+    grunt.registerTask('watchLessAndPug', [
+        'less',
+        'pug',
+        'concurrent:watchLessAndPug'
     ]);
 
     grunt.registerTask('runDebug', [

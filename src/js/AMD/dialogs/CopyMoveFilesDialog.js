@@ -31,7 +31,7 @@ define(['knockout',
             source;
 
         this.settings = DialogManager.createDialogSettings({
-                            templateName: 'copyOrMoveFiles-dialog',
+                            templateName: 'copyMoveFilesDialogTpl',
                             modalWidth: DEFAULT_WIDTH
                         });
 

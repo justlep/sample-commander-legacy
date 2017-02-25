@@ -43,7 +43,7 @@ define(['knockout',
             source;
 
         this.settings = DialogManager.createDialogSettings({
-                            templateName: 'renameFiles-dialog',
+                            templateName: 'renameFilesDialogTpl',
                             modalWidth: DEFAULT_WIDTH
                         });
 

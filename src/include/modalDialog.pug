@@ -1,0 +1,6 @@
+#syncer-modal-dialog(style='display:none', data-bind='if: dialogManager.templateToRender')
+    .syncer-modal-content(data-bind='style: {width: dialogManager.dialog().settings.modalWidth}')
+        div(data-bind='visible: dialogManager.dialog().settings.showCloseButton')
+            span.syncer-modal-close-btn(data-bind='css: dialogManager.dialog().settings.modalCloseClass')
+                | X
+        #modal-dialog-content-wrapper(data-bind='template: {name: dialogManager.templateToRender(), data: dialogManager.dialog}')

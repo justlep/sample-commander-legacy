@@ -7,7 +7,7 @@ define(['knockout',
 
     var DEFAULT_WIDTH = 530,
         TEMPLATES = {
-            DEFAULT: 'dialog-default-confirm'
+            DEFAULT: 'confirmDialogTpl'
         },
         instance,
         getInstance = function(confirmCallback, optionalTemplateName, optionalContextVars) {

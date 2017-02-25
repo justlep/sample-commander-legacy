@@ -30,7 +30,7 @@ define(['knockout',
             submitCallback = null;
 
         this.settings = DialogManager.createDialogSettings({
-                            templateName: 'createSubdir-dialog',
+                            templateName: 'createSubdirDialogTpl',
                             modalWidth: DEFAULT_WIDTH
                         });
 

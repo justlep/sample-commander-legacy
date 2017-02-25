@@ -2,4 +2,6 @@ cache/**
 node_modules/**
 !src/node_modules/**
 src/config.json
+src/index.html
 build/**
+.idea

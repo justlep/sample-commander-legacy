@@ -1,0 +1,39 @@
+script#copyMoveFilesDialogTpl(type='text/html')
+    // (ko-context: CopyMoveFilesDialog)
+    #copyMoveFileDialog
+        form(data-bind='submit: copyFiles')
+            h5.dialog-headline
+                | Copy or move
+                span(data-bind='text: fileItems().length')
+                |  selected file(s)
+            p
+                strong To:
+                br
+                span.target-dir(data-bind='text: targetDirItem.path')
+            div
+                strong Files:
+                ul.source-file-list(data-bind='foreach: fileItems')
+                    li
+                        // ko if: $parent.isComplete
+                            // ko if: (__skipExists)
+                            .uk-badge.uk-badge-warning Skipped - file already exists
+                            // /ko
+                            // ko ifnot: (__skipExists)
+                            .uk-badge(data-bind="css: {'uk-badge-danger': __copyFailed, 'uk-badge-success': !__copyFailed}, text: (__copyFailed ? 'Copy failed' : 'Copied') ")
+                            // /ko
+                            // ko if: (__deleteFailed !== null)
+                            .uk-badge(data-bind="css: {'uk-badge-danger': __deleteFailed, 'uk-badge-success': !__deleteFailed}, text: (__deleteFailed ? 'Delete failed' : 'Deleted') ")
+                            // /ko
+                        // /ko
+                        span(data-bind='text: path')
+            .align-right(data-bind='visible: !inProgress()')
+                button.uk-button.uk-button-small.modalClose(type='button') Cancel
+                button.uk-button.uk-button-small.uk-button-danger(type='button', data-bind='click: moveFiles') Move
+                button.uk-button.uk-button-small.uk-button-success(type='submit') Copy
+            // the progress bar
+            .copyMoveProgress(style='display: none', data-bind='visible: inProgress')
+                .uk-progress.uk-progress-striped(data-bind="css: {'uk-progress-danger': (isComplete && doneWithErrors), 'uk-progress-success': (isComplete && !doneWithErrors())}")
+                    .uk-progress-bar(data-bind="style: {width: progressInPercent() + '%'}, text: progressInPercent() + '%'")
+                .clearfix(style='display: none', data-bind='visible: isComplete')
+                    span.float-left(data-bind="text: doneWithErrors() ? 'Done with errors' : 'Finished'")
+                    button.float-right.uk-button.uk-button-small.modalClose(type='button') Close

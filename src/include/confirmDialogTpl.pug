@@ -1,0 +1,8 @@
+script#confirmDialogTpl(type='text/html')
+    // (ko-context: ConfirmDialog)
+    .standard-confirm-dialog
+        p
+            | Really?
+        button.float-left.modalClose Cancel
+        button.float-right(data-bind='click: confirm') Yes
+        .clear-float

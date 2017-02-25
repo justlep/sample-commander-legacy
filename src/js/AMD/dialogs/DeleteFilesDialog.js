@@ -33,7 +33,7 @@ define(['knockout',
             source;
 
         this.settings = DialogManager.createDialogSettings({
-                            templateName: 'deleteFiles-dialog',
+                            templateName: 'deleteFilesDialogTpl',
                             modalWidth: DEFAULT_WIDTH
                         });
 

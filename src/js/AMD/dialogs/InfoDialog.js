@@ -6,7 +6,7 @@ define(['knockout',
     function(ko, Helper, DialogManager) {
 
     var TEMPLATES = {
-            DEFAULT: 'dialog-default-info'
+            DEFAULT: 'infoDialogTpl'
         },
         instance,
         getInstance = function(templateName, optionalContextVars) {

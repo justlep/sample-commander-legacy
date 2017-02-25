@@ -1,0 +1,85 @@
+script#renameFilesDialogTpl(type='text/html')
+    // (ko-context: RenameFilesDialog)
+    #renameFilesDialog
+        h5.dialog-headline
+            | Rename
+            span(data-bind='text: fileItems().length')
+            |  selected file(s)
+        form.uk-form(data-bind='submit: applySettings')
+            .rename-settings.clearfix
+                .setting
+                    | Target  
+                    span.targetPatternFn
+                        | [
+                        a(href='#', data-bind='click: insertNamePlaceholder', title='Insert placeholder for original filename, [N] ')
+                            span.uk-icon-level-down
+                            |  Original Name
+                        | ]
+                        |                             [
+                        a(href='#', data-bind='click: insertCounterPlaceholder', title='Insert placeholder for counter, [C] ')
+                            span.uk-icon-level-down
+                            |  Counter
+                        | ]
+                    input.long-textfield(type='text', data-bind="value: targetPattern, valueUpdate: 'keyup'", style='width: 225px')
+                .setting
+                    label
+                        | Counter Start
+                        input(type='text', data-bind="value: counterStart, valueUpdate: 'keyup'", style='width: 80px')
+                .setting
+                    label
+                        | Digits
+                        select(data-bind='value: counterDigits, foreach: [1,2,3,4,5]')
+                            option(data-bind='text: $data')
+                .setting
+                    label
+                        | Stepping
+                        select(data-bind='value: counterStepsize, foreach: [1,10,100]')
+                            option(data-bind='text: $data')
+                .setting
+                    | Search  
+                    label
+                        input(type='checkbox', data-bind='checked: useRegex')
+                        |  Regex
+                    label(data-bind='visible: useRegex')
+                        input(type='checkbox', data-bind='checked: regexIgnoreCase')
+                        |  IgnoreCase
+                    input.long-textfield(type='text', data-bind="value: regexSearch, valueUpdate: 'keyup'")
+                .setting
+                    | Replace
+                    span(data-bind='visible: useRegex') (Placeholders $1 etc available)
+                    input.long-textfield(type='text', data-bind="value: regexReplace, valueUpdate: 'keyup'")
+                .settings-button-group
+                    // ko if: $root.config.lastRenamePatterns().length
+                    select(style='width: 100px', data-bind='event: {change: reusePatternSelected}')
+                        option(value='') Recent...
+                        // ko foreach: $root.config.lastRenamePatterns
+                        option(data-bind='text: $data')
+                        // /ko
+                    // /ko
+                    button.uk-button.uk-button-small(type='button', data-bind='click: resetSettings') Reset all fields
+                    //
+                        <button type="submit" class="uk-button uk-button-small uk-button-primary" data-bind="click: applySettings">Apply to list</button>
+        form.uk-form(onsubmit='return false')
+            .source-file-list
+                table.fullsize
+                    thead
+                        tr
+                            th Original name
+                            th New filename
+                            th  
+                    tbody(data-bind='foreach: fileItems')
+                        tr
+                            td(data-bind='text: filename')
+                            td.nameAferRename(data-bind="text: _newFilename, css: {'nameChanged': (_newFilename() !== filename)}")
+                            td(data-bind='if: $parent.isComplete')
+                                .uk-badge(data-bind="css: {'uk-badge-danger': __renameFailed, 'uk-badge-success': !__renameFailed && !__renameSkippedExists, 'uk-badge-warning': __renameSkippedExists}, text: (__renameSkippedExists ? 'Skipped, file exists' : __renameFailed ? 'Rename failed' : 'Renamed') ")
+            .align-right(data-bind='visible: !inProgress()')
+                button.uk-button.uk-button-small.modalClose(type='button') Cancel
+                button.uk-button.uk-button-small.uk-button-danger(type='button', data-bind='click: renameFilesNow') Rename NOW
+            // the progress bar
+            .copyMoveProgress(style='display: none', data-bind='visible: inProgress')
+                .uk-progress.uk-progress-striped(data-bind="css: {'uk-progress-danger': (isComplete && doneWithErrors), 'uk-progress-success': (isComplete && !doneWithErrors())}")
+                    .uk-progress-bar(data-bind="style: {width: progressInPercent() + '%'}, text: progressInPercent() + '%'")
+                .clearfix(style='display: none', data-bind='visible: isComplete')
+                    span.float-left(data-bind="text: doneWithErrors() ? 'Done with errors' : 'Finished'")
+                    button.float-right.uk-button.uk-button-small.modalClose(type='button') Close
