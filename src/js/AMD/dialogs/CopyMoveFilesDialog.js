@@ -62,43 +62,40 @@ define(['knockout',
         function startTransfer(moveMode) {
             var filesLeft = _.clone(self.fileItems()),
                 transferFiles = function() {
-                    if (filesLeft.length) {
-                        var fileItem = filesLeft.shift(),
-                            srcPath = fileItem.path,
-                            targetPath = nodePath.resolve(self.targetDirItem.path,
-                                                          fileItem.filenameRenamed || fileItem.filename);
+                    if (!filesLeft.length) {
+                        return process.nextTick(self.afterComplete);
+                    }
+                    var fileItem = filesLeft.shift(),
+                        srcPath = fileItem.path,
+                        targetPath = nodePath.resolve(self.targetDirItem.path, fileItem.filenameRenamed || fileItem.filename);
 
-                        fileItem.__copyFailed = false;
-                        fileItem.__deleteFailed = null;
-                        fileItem.__skipExists = false;
+                    fileItem.__copyFailed = false;
+                    fileItem.__deleteFailed = null;
+                    fileItem.__skipExists = false;
 
-                        if (nodeFs.existsSync(targetPath)) {
-                            fileItem.__skipExists = true;
-                            process.nextTick(transferFiles);
-                            return;
-                        }
+                    if (nodeFs.existsSync(targetPath)) {
+                        fileItem.__skipExists = true;
+                        return process.nextTick(transferFiles);
+                    }
 
-                        nodeFsExtra.copy(srcPath, targetPath, function(err) {
-                            if (err) {
-                                fileItem.__copyFailed = true;
-                            } else {
-                                self.copiedFileItems.push(fileItem);
-                                if (moveMode) {
-                                    try {
-                                        nodeFs.unlinkSync(srcPath);
-                                        self.deletedFileItems.push(fileItem);
-                                        fileItem.__deleteFailed = false;
-                                    } catch (e) {
-                                        fileItem.__deleteFailed = true;
-                                        console.error('Unable to delete file %s after copy.', srcPath, e);
-                                    }
+                    nodeFsExtra.copy(srcPath, targetPath, function(err) {
+                        if (err) {
+                            fileItem.__copyFailed = true;
+                        } else {
+                            self.copiedFileItems.push(fileItem);
+                            if (moveMode) {
+                                try {
+                                    nodeFs.unlinkSync(srcPath);
+                                    self.deletedFileItems.push(fileItem);
+                                    fileItem.__deleteFailed = false;
+                                } catch (e) {
+                                    fileItem.__deleteFailed = true;
+                                    console.error('Unable to delete file %s after copy.', srcPath, e);
                                 }
                             }
-                            process.nextTick(transferFiles);
-                        });
-                    } else {
-                        process.nextTick(self.afterComplete);
-                    }
+                        }
+                        process.nextTick(transferFiles);
+                    });
                 };
 
             self.inProgress(true);
