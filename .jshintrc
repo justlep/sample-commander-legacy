@@ -7,6 +7,7 @@
     "browser": true,
 
     "node": true,
+    "esnext": true,
     "rhino": false,
     "couch": false,
     "wsh": true,
@@ -18,8 +19,7 @@
 
     "predef": [
         "require",
-        "define",
-        "Handlebars"
+        "define"
     ],
 
     "debug": false,
