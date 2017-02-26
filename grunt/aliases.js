@@ -2,7 +2,6 @@ module.exports = function (grunt, options) {
     'use strict';
 
     grunt.registerTask('default', [
-        'updateSourcePackageJson',
         'less',
         'jshint',
         'pug'
