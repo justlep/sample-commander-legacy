@@ -16,7 +16,7 @@ module.exports = function (grunt, options) {
 
     grunt.registerTask('runDebug', [
         'default',
-        'shell:nwjsRun'
+        'nwjsRun'
     ]);
 
     grunt.registerTask('buildApp', [
@@ -25,7 +25,7 @@ module.exports = function (grunt, options) {
         'copy:prepareBuild',
         'copyPackageJson',
         'uglify:jsForBuild',
-        'shell:nwjsBuild'
+        'nwjsBuild'
         //, 'clean:oldPreparedBuild'
     ]);
 

@@ -26,7 +26,6 @@
     "grunt-contrib-uglify": "~2.1.0",
     "grunt-contrib-watch": "~1.0.0",
     "grunt-newer": "~1.2.0",
-    "grunt-shell": "~2.1.0",
     "load-grunt-config": "~0.19.2",
     "load-grunt-tasks": "~3.5.2",
     "nw-builder": "~3.2.0",
