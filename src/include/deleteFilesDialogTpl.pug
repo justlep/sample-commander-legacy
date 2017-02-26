@@ -5,11 +5,12 @@ script#deleteFilesDialogTpl(type='text/html')
             h5.dialog-headline
                 | Delete
                 span(data-bind='text: fileItems().length')
-                // ko if: !useFilePattern()
+                <!-- ko if: !useFilePattern() -->
                 | selected
-                // /ko
+                <!-- /ko -->
                 | file(s)
-            // ko if: useFilePattern
+
+            <!-- ko if: useFilePattern -->
             div
                 label
                     | File pattern:
@@ -17,15 +18,15 @@ script#deleteFilesDialogTpl(type='text/html')
                 select(data-bind="options: predefinedPatterns, optionsValue: 'pattern', optionsText: 'name', value: filePattern, valueAllowUnset: true")
                 button.uk-button.uk-button-small.uk-button-primary(type='button', data-bind='click: applyPattern, enable: (isValidPattern() && !isComplete())')
                     span.uk-icon-refresh
-                    |                         Update file list
-            // /ko
+                    | Update file list
+            <!-- /ko -->
             div
                 strong Files:
                 ul.source-file-list(data-bind='foreach: fileItems')
                     li
-                        // ko if: $parent.isComplete
+                        <!-- ko if: $parent.isComplete -->
                         .uk-badge(data-bind="css: {'uk-badge-danger': __deleteFailed, 'uk-badge-success': !__deleteFailed}, text: (__deleteFailed ? 'Delete failed' : 'Deleted') ")
-                        // /ko
+                        <!-- /ko -->
                         span(data-bind='text: path')
             .align-right(data-bind='visible: !inProgress()')
                 button.uk-button.uk-button-small.modalClose(type='button') Cancel

@@ -2,7 +2,6 @@
 @import 'imports/reset.less';
 @import 'imports/clearfix.less';
 @import 'imports/quotes.less';
-
 @import (reference) 'imports/mixins.less';
 
 // -----------------------------------------------------------------------------
@@ -684,13 +683,18 @@ table tr:nth-of-type(odd) {
     }
 }
 
-footer {
-    font-size: 10px;
+.footer {
+    font-family: monospace;
+    font-size: 11px;
     margin: 3px 0 0 0;
     padding: 1px;
     text-align: center;
     color: @color-footer;
     a {
         color: @color-mid-gray;
+    }
+
+    &__url {
+        user-select: all;
     }
 }

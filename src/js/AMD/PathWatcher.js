@@ -50,7 +50,7 @@ define(['knockout', 'AMD/Helper', 'underscore', 'AMD/FileComparer', 'moment'],
                 dirItem.depth = matchedDelimiters && matchedDelimiters.length;
             });
 
-            console.log(dirItems);
+            // console.log(dirItems);
         },
 
         /**

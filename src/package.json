@@ -1,6 +1,6 @@
 {
   "name": "Synchronizer",
-  "version": "0.0.1",
+  "version": "1.0.4",
   "description": "Tiny app to quickly synchonize audio from different locations like SD cards",
   "author": "Lennart Pegel <github@justlep.net>",
   "main": "index.html",
@@ -13,7 +13,7 @@
     "min_height": 650
   },
   "dependencies": {
-	"readdirp": "1.1.0",
+    "readdirp": "1.1.0",
     "jsonfile": "2.0.0",
     "fs-extra": "~0.12.0"
   }

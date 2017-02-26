@@ -317,7 +317,7 @@ define(['knockout', 'AMD/Config', 'AMD/PathWatcher', 'underscore', 'AMD/Helper',
             if (selector) {
                 // the same file may reside in multiple list simultaneously, and we wanna scroll all of them..
                 $(selector).each(function() {
-                    $(this).closest('.col-content').scrollTo(selector, {
+                    $(this).closest('.col-content .scrollable-container').scrollTo(selector, {
                         duration: 200,
                         offset: {top: -6}
                     });

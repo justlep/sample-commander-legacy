@@ -24,7 +24,8 @@ var path = require('path'),
         version: pkg.config.nwjsBuildVersion,
         zip: doBuild,
         flavor: doRun ? 'sdk' : 'normal',
-        toolbar: doRun
+        toolbar: doRun,
+        appVersion: pkg.version
     });
 
 nw.on('log',  console.log);

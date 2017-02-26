@@ -4,19 +4,15 @@ html
         meta(name='viewport', content='width=device-width, minimum-scale=1.0')
         meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
         link(rel='stylesheet', type='text/css', href='css/uikit.css')
-        //
-            <link rel="stylesheet" type="text/css" href="css/uikit.min.css">
-            <link rel="stylesheet" type="text/css" href="css/uikit.docs.min.css">
-            <link rel="stylesheet" type="text/css" href="css/uikit.almost-flat.min.css">
+
         link(rel='stylesheet', type='text/css', href='css/styles.css')
         script(src='js/lib/jquery.min.js', type='text/javascript')
         script(src='js/lib/require.js', type='text/javascript')
         script(src='js/require.config.js', type='text/javascript')
     body
         header
-            #player.column(data-bind='event: {contextmenu: stopAudio}')
-                b.player-filename(data-bind="css: {nonempty: !!filePlaying()}, text: (filePlaying() ? filePlaying().filename : 'No file selected'), click: scrollToPlayedFile")
-                audio#innerplayer(controls='', data-bind="attr: {src: filePlaying() ? filePlaying().path : '', autoplay: config.autoplay}")
+            include include/player
+
             form#filterForm.uk-form.padded-top.column
                 label.block
                     input.filter.uk-form-small(type='text', data-bind="value: filter, valueUpdate: 'keyup'", placeholder='Filter source filenames')
@@ -32,8 +28,8 @@ html
                         input(type='radio', name='duplicateFilter', value='without', data-bind='checked: duplicateFilter')
                         |  Non-Double only
 
-        input#sourcePath(type='file', webkitdirectory='', directory='', data-bind='event: {change: source.onPathChange}')
-        input#targetPath(type='file', webkitdirectory='', directory='', data-bind='event: {change: target.onPathChange}')
+        input#sourcePath(type='file', nwdirectory='', data-bind='event: {change: source.onPathChange}')
+        input#targetPath(type='file', nwdirectory='', data-bind='event: {change: target.onPathChange}')
         input#editor-executable-file(type='file', data-bind='event: {change: function(){$root.config.saveEditorExecutableFileDialog()}}', style='display:none')
 
         .main-columns
@@ -73,7 +69,7 @@ html
                                 .dir(data-bind='text: $data.name, css: {subdir: $data.depth}, attr: {id: elemId}')
             // /TARGET BOX
 
-        footer
+        footer.footer
             include include/footer
 
         include include/modalDialog

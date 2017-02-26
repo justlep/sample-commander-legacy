@@ -14,17 +14,17 @@ script#copyMoveFilesDialogTpl(type='text/html')
                 strong Files:
                 ul.source-file-list(data-bind='foreach: fileItems')
                     li
-                        // ko if: $parent.isComplete
-                            // ko if: (__skipExists)
+                        <!-- ko if: $parent.isComplete -->
+                            <!-- ko if: __skipExists -->
                             .uk-badge.uk-badge-warning Skipped - file already exists
-                            // /ko
-                            // ko ifnot: (__skipExists)
+                            <!-- /ko -->
+                            <!-- ko ifnot: __skipExists -->
                             .uk-badge(data-bind="css: {'uk-badge-danger': __copyFailed, 'uk-badge-success': !__copyFailed}, text: (__copyFailed ? 'Copy failed' : 'Copied') ")
-                            // /ko
-                            // ko if: (__deleteFailed !== null)
+                            <!-- /ko -->
+                            <!-- ko if: (__deleteFailed !== null) -->
                             .uk-badge(data-bind="css: {'uk-badge-danger': __deleteFailed, 'uk-badge-success': !__deleteFailed}, text: (__deleteFailed ? 'Delete failed' : 'Deleted') ")
-                            // /ko
-                        // /ko
+                            <!-- /ko -->
+                        <!-- /ko -->
                         span(data-bind='text: path')
             .align-right(data-bind='visible: !inProgress()')
                 button.uk-button.uk-button-small.modalClose(type='button') Cancel

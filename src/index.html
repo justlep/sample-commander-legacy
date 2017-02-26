@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <link rel="stylesheet" type="text/css" href="css/uikit.css"/>
-    <!--
-    <link rel="stylesheet" type="text/css" href="css/uikit.min.css">
-    <link rel="stylesheet" type="text/css" href="css/uikit.docs.min.css">
-    <link rel="stylesheet" type="text/css" href="css/uikit.almost-flat.min.css">
-    -->
     <link rel="stylesheet" type="text/css" href="css/styles.css"/>
     <script src="js/lib/jquery.min.js" type="text/javascript"></script>
     <script src="js/lib/require.js" type="text/javascript"></script>
@@ -38,8 +33,8 @@
         </div>
       </form>
     </header>
-    <input id="sourcePath" type="file" webkitdirectory="" directory="" data-bind="event: {change: source.onPathChange}"/>
-    <input id="targetPath" type="file" webkitdirectory="" directory="" data-bind="event: {change: target.onPathChange}"/>
+    <input id="sourcePath" type="file" nwdirectory="" data-bind="event: {change: source.onPathChange}"/>
+    <input id="targetPath" type="file" nwdirectory="" data-bind="event: {change: target.onPathChange}"/>
     <input id="editor-executable-file" type="file" data-bind="event: {change: function(){$root.config.saveEditorExecutableFileDialog()}}" style="display:none;"/>
     <div class="main-columns">
       <!-- SOURCE BOX-->
@@ -73,7 +68,7 @@
       </div>
       <!-- /TARGET BOX-->
     </div>
-    <footer>Written by LeP <<a href="mailto:github@justlep.net">github@justlep.net</a>>. Use at your own risk.</footer>
+    <footer class="footer">Source on Github: <span class="footer__url">https://github.com/justlep/synchronizer</span> &nbsp;|&nbsp; Use at your own risk.</footer>
     <div id="syncer-modal-dialog" style="display:none;" data-bind="if: dialogManager.templateToRender">
       <div class="syncer-modal-content" data-bind="style: {width: dialogManager.dialog().settings.modalWidth}">
         <div data-bind="visible: dialogManager.dialog().settings.showCloseButton"><span class="syncer-modal-close-btn" data-bind="css: dialogManager.dialog().settings.modalCloseClass">X</span></div>
@@ -104,19 +99,14 @@
           <p><strong>To:</strong><br/><span class="target-dir" data-bind="text: targetDirItem.path"></span></p>
           <div><strong>Files:</strong>
             <ul class="source-file-list" data-bind="foreach: fileItems">
-              <li>
-                <!-- ko if: $parent.isComplete
-                // ko if: (__skipExists)
-                .uk-badge.uk-badge-warning Skipped - file already exists
-                // /ko
-                // ko ifnot: (__skipExists)
-                .uk-badge(data-bind="css: {'uk-badge-danger': __copyFailed, 'uk-badge-success': !__copyFailed}, text: (__copyFailed ? 'Copy failed' : 'Copied') ")
-                // /ko
-                // ko if: (__deleteFailed !== null)
-                .uk-badge(data-bind="css: {'uk-badge-danger': __deleteFailed, 'uk-badge-success': !__deleteFailed}, text: (__deleteFailed ? 'Delete failed' : 'Deleted') ")
-                // /ko
-                -->
-                <!-- /ko--><span data-bind="text: path"></span>
+              <li><!-- ko if: $parent.isComplete -->
+<!-- ko if: __skipExists -->
+                <div class="uk-badge uk-badge-warning">Skipped - file already exists</div><!-- /ko -->
+<!-- ko ifnot: __skipExists -->
+                <div class="uk-badge" data-bind="css: {'uk-badge-danger': __copyFailed, 'uk-badge-success': !__copyFailed}, text: (__copyFailed ? 'Copy failed' : 'Copied') "></div><!-- /ko -->
+<!-- ko if: (__deleteFailed !== null) -->
+                <div class="uk-badge" data-bind="css: {'uk-badge-danger': __deleteFailed, 'uk-badge-success': !__deleteFailed}, text: (__deleteFailed ? 'Delete failed' : 'Deleted') "></div><!-- /ko -->
+<!-- /ko --><span data-bind="text: path"></span>
               </li>
             </ul>
           </div>
@@ -141,25 +131,18 @@
       <!-- (ko-context: DeleteFilesDialog)-->
       <div id="deleteFileDialog">
         <form class="uk-form" data-bind="submit: deleteFiles">
-          <h5 class="dialog-headline">Delete<span data-bind="text: fileItems().length"></span>
-            <!-- ko if: !useFilePattern()-->selected
-            <!-- /ko-->file(s)
-          </h5>
-          <!-- ko if: useFilePattern-->
+          <h5 class="dialog-headline">Delete<span data-bind="text: fileItems().length"></span><!-- ko if: !useFilePattern() -->selected<!-- /ko -->file(s)</h5><!-- ko if: useFilePattern -->
           <div>
             <label>File pattern:
               <input type="text" data-bind="textInput: filePattern, css: {'uk-form-danger': !isValidPattern()}"/>
             </label>
             <select data-bind="options: predefinedPatterns, optionsValue: 'pattern', optionsText: 'name', value: filePattern, valueAllowUnset: true"></select>
-            <button class="uk-button uk-button-small uk-button-primary" type="button" data-bind="click: applyPattern, enable: (isValidPattern() &amp;&amp; !isComplete())"><span class="uk-icon-refresh"></span>                        Update file list</button>
-          </div>
-          <!-- /ko-->
+            <button class="uk-button uk-button-small uk-button-primary" type="button" data-bind="click: applyPattern, enable: (isValidPattern() &amp;&amp; !isComplete())"><span class="uk-icon-refresh"></span>Update file list</button>
+          </div><!-- /ko -->
           <div><strong>Files:</strong>
             <ul class="source-file-list" data-bind="foreach: fileItems">
-              <li>
-                <!-- ko if: $parent.isComplete-->
-                <div class="uk-badge" data-bind="css: {'uk-badge-danger': __deleteFailed, 'uk-badge-success': !__deleteFailed}, text: (__deleteFailed ? 'Delete failed' : 'Deleted') "></div>
-                <!-- /ko--><span data-bind="text: path"></span>
+              <li><!-- ko if: $parent.isComplete -->
+                <div class="uk-badge" data-bind="css: {'uk-badge-danger': __deleteFailed, 'uk-badge-success': !__deleteFailed}, text: (__deleteFailed ? 'Delete failed' : 'Deleted') "></div><!-- /ko --><span data-bind="text: path"></span>
               </li>
             </ul>
           </div>
