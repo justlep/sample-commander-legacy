@@ -9,9 +9,11 @@ module.exports = function (grunt, options) {
             }
         },
         html: {
-            files: {
-                "src/index.html": "src/index.pug"
-            }
+            files: [{
+                expand: true,
+                src: ['./src/*.pug'],
+                ext: '.html'
+            }]
         }
     };
 };

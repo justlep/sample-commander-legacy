@@ -8,9 +8,13 @@ module.exports = function (/* grunt, cfg */) {
             sourceMap: true,
             relativeUrls: true
         },
-        all: {
+        styles: {
             files: {
-                'src/css/styles.css': 'src/less/styles.less',
+                'src/css/styles.css': 'src/less/styles.less'
+            }
+        },
+        uikit: {
+            files: {
                 'src/css/uikit.css': 'src/less/uikit.less'
             }
         }

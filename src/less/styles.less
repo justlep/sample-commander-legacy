@@ -1,7 +1,8 @@
-
 @import 'imports/reset.less';
 @import 'imports/clearfix.less';
 @import 'imports/quotes.less';
+@import 'imports/scrollbars';
+@import (reference) 'imports/variables';
 @import (reference) 'imports/mixins.less';
 
 // -----------------------------------------------------------------------------
@@ -144,7 +145,7 @@ header {
     text-align: center;
     border: 1px solid @color-border;
     border-bottom: none;
-    border-radius: 10px 10px 0 0;
+    border-radius: @defaultBorderRadius @defaultBorderRadius 0 0;
     cursor: pointer;
     background: #222;
     padding: 8px 0 0;
@@ -308,9 +309,8 @@ header {
     padding: 8px;
     border: 1px solid #ccc;
     border-top: none;
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 @defaultBorderRadius @defaultBorderRadius;
     min-width: 180px;
-
     audio {
         margin-top: 4px;
         width: 100%;

@@ -2,12 +2,12 @@ module.exports = function (grunt, options) {
     'use strict';
     return {
         less: {
-            files: ['src/less/**/*.less'],
-            tasks: ['newer:less']
+            files: ['src/less/styles.less', 'src/less/imports/**/*.less'],
+            tasks: ['less:styles']
         },
         pug: {
             files: ['src/**/*.pug'],
-            tasks: ['pug']
+            tasks: ['newer:pug:html']
         }
     };
 };
