@@ -9,20 +9,14 @@ html
         header
             include include/player
 
-            form#filterForm.uk-form.padded-top.column
-                label.block
-                    input.filter.uk-form-small(type='text', data-bind="value: filter, valueUpdate: 'keyup'", placeholder='Filter source filenames')
+            form.filter__form.uk-form.padded-top.column
+                .filter__block
+                    input.filter__text.uk-form-small(type='text', data-bind="value: filter, valueUpdate: 'keyup'", placeholder='Filter source filenames')
                     button.uk-button.uk-button-small.uk-button-success(data-bind='click: resetFilter') Clear
-                .duplicate-filter
-                    label
-                        input(type='radio', name='duplicateFilter', value='none', data-bind='checked: duplicateFilter')
-                        |  All files
-                    label(title='Show only files having identical copies in target')
-                        input(type='radio', name='duplicateFilter', value='with', data-bind='checked: duplicateFilter')
-                        |  Doubles only
-                    label(title='Show only files WITHOUT identical copies in target')
-                        input(type='radio', name='duplicateFilter', value='without', data-bind='checked: duplicateFilter')
-                        |  Non-Double only
+                .filter__block.filter__duplicates(data-bind="foreach: DUPLICATE_FILTER_OPTS")
+                    label.filter__duplicate(data-bind="click: $parent.duplicateFilter, " +
+                                                      "css: {'filter__duplicate--selected': $parent.duplicateFilter() === $data}, " +
+                                                      "text: {none: 'All files', with: 'Duplicates', without: 'Non-duplicates'}[$data]")
 
         input#sourcePath(type='file', nwdirectory='', data-bind='event: {change: source.onPathChange}')
         input#targetPath(type='file', nwdirectory='', data-bind='event: {change: target.onPathChange}')

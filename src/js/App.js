@@ -160,6 +160,8 @@ function App() {
             }
         };
 
+    this.DUPLICATE_FILTER_OPTS = _.values(DUPLICATE_FILTER_MODE);
+
     this.playFileItem = function(fileItemOrId) {
         var fileItem = _.isObject(fileItemOrId) ? fileItemOrId : null;
         if (!fileItem) {

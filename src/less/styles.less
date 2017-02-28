@@ -4,6 +4,7 @@
 @import 'imports/scrollbars';
 @import (reference) 'imports/variables';
 @import (reference) 'imports/mixins.less';
+@import 'imports/filter';
 
 // -----------------------------------------------------------------------------
 
@@ -334,32 +335,6 @@ header {
                 padding-right: 20px;
                 background: transparent url(../images/eye_arrow.png) right center no-repeat;
             }
-        }
-    }
-}
-
-#filterForm {
-    width: 40%;
-    max-width: 480px;
-    min-width: 350px;
-    align-self: flex-end;
-    text-align: right;
-
-    label {
-        width: 100%;
-    }
-
-    .filter {
-        border-radius: 5px;
-        width: 70%;
-    }
-
-    .duplicate-filter {
-        padding-top: 8px;
-
-        input {
-            margin: -1px 5px 0 10px;
-            vertical-align: middle;
         }
     }
 }
