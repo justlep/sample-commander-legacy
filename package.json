@@ -23,7 +23,6 @@
     "grunt-contrib-jshint": "~1.1.0",
     "grunt-contrib-less": ">=0.11.0",
     "grunt-contrib-pug": "~1.0.0",
-    "grunt-contrib-uglify": "~2.1.0",
     "grunt-contrib-watch": "~1.0.0",
     "grunt-newer": "~1.2.0",
     "load-grunt-config": "~0.19.2",
@@ -36,6 +35,8 @@
   "dependencies": {},
   "config": {
     "nwjsBuildVersion": "0.20.3",
-    "nwjsBuildPlatforms": ["win64"]
+    "nwjsBuildPlatforms": [
+      "win64"
+    ]
   }
 }

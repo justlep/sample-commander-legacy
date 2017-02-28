@@ -4,7 +4,7 @@ module.exports = function (/*grunt, options*/) {
         options: {
             expand: true
         },
-        prepareBuild: {
+        srcToPrepareBuild: {
             files: [
                 {
                     cwd: 'src/css',
@@ -13,20 +13,8 @@ module.exports = function (/*grunt, options*/) {
                     expand: true
                 },
                 {
-                    cwd: 'src/js',
-                    src: ['lib/**/*.js'],
-                    dest: 'build/preparedBuild/js/',
-                    expand: true
-                },
-                {
                     cwd: 'src',
-                    src: ['fonts/**'],
-                    dest: 'build/preparedBuild/',
-                    expand: true
-                },
-                {
-                    cwd: 'src',
-                    src: ['index.html', 'node_modules/**', 'images/**'],
+                    src: ['index.html', 'node_modules/**', 'images/**', 'js/**', 'fonts/**'],
                     dest: 'build/preparedBuild/',
                     expand: true
                 }

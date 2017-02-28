@@ -12,29 +12,19 @@
     "couch": false,
     "wsh": true,
 
-    "jquery": true,
+    "jquery": false,
     "prototypejs": false,
     "mootools": false,
     "dojo": false,
-
     "predef": [
-        "require",
-        "define"
     ],
-
     "debug": false,
     "devel": true,
-
     "globals": {
-        "jquery": true,
-        "$": true,
-        "require": true,
-        "requirejs": true
+        "require": true
     },
-
     "strict": true,
     "globalstrict": false,
-
     "asi": true,
     "laxbreak": true,
     "bitwise": true,

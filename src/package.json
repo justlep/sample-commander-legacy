@@ -8,6 +8,7 @@
     "url": "https://github.com/justlep/synchronizer.git"
   },
   "main": "index.html",
+  "chromium-args": "--mixed-context",
   "window": {
     "title": "LeP's Synchronizer",
     "frame": true,
