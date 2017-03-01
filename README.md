@@ -1,5 +1,5 @@
 # Synchronizer [![Build Status](https://travis-ci.org/justlep/synchronizer.svg?branch=master)](https://travis-ci.org/justlep/synchronizer)
-An application for copying .WAV files from a fieldrecorder and/or SD card to the harddisk.\
+An application for copying .WAV files from a fieldrecorder and/or SD card to the PC.
 Based on NodeJS and Node-Webkit. Compileable to a standalone program (currently tested on Win7/64bit only),
 but should easily be adjustable for Linux/Mac.
 

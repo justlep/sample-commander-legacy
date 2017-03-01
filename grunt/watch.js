@@ -7,7 +7,7 @@ module.exports = function (grunt, options) {
         },
         pug: {
             files: ['src/**/*.pug'],
-            tasks: ['newer:pug:html']
+            tasks: ['pug:html']
         }
     };
 };

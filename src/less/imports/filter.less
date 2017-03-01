@@ -1,0 +1,57 @@
+@import (reference) "variables";
+
+.filter {
+
+    &__form {
+        width: 40%;
+        max-width: 480px;
+        min-width: 350px;
+        align-self: flex-end;
+        text-align: right;
+    }
+
+    &__block {
+        width: 100%;
+    }
+
+    &__text {
+        border-radius: 5px;
+        width: 70%;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    &__duplicates {
+        padding-top: 8px;
+    }
+
+    &__duplicate {
+        @bgColor: rgba(255,255,255,0.1);
+        margin: 0 5px;
+        vertical-align: middle;
+        display: inline-block;
+        background: @bgColor;
+        border-radius: 3px;
+        line-height: 1.5em;
+        padding: 0 10px;
+        border: 1px solid @bgColor;
+        color: @color-light-gray;
+        text-transform: uppercase;
+
+        &:hover,
+        &--selected {
+            border-color: #96CB50;
+            color: #96CB50;
+        }
+
+        input {
+            display: none;
+        }
+    }
+
+    &__clear {
+        &--disabled {
+            opacity: 0.5;
+        }
+    }
+}

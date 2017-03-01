@@ -4,6 +4,12 @@
 @import 'imports/scrollbars';
 @import (reference) 'imports/variables';
 @import (reference) 'imports/mixins.less';
+@import 'imports/filter';
+@import 'imports/simplemodal';
+@import 'imports/dialog';
+@import 'imports/renameFilesDialog';
+@import 'imports/player';
+
 
 // -----------------------------------------------------------------------------
 
@@ -29,7 +35,7 @@ body {
     .sans-serif-font;
     color: @color-default;
     background: @color-body;
-    font-size: 12px;
+    font-size: @fontSizeDefault;
     line-height: 16px;
     cursor: default;
     display: flex;
@@ -58,6 +64,10 @@ a {
 
 input[type="file"] {
     display: none;
+}
+
+label > input[type="checkbox"] {
+    margin-right: 3px;
 }
 
 label, audio {
@@ -94,15 +104,6 @@ label, audio {
 
 .showCDate .cdate {
     display: block;
-}
-
-h5.dialog-headline {
-    font-size: 20px;
-    padding: 6px 0 12px;
-    text-shadow: 2px 2px 7px rgba(0,0,0,0.3);
-    color: #444;
-    border-bottom: 1px dotted #ccc;
-    margin-bottom: 8px;
 }
 
 form p {
@@ -304,66 +305,6 @@ header {
     }
 }
 
-#player {
-    background: #353535 none;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 @defaultBorderRadius @defaultBorderRadius;
-    min-width: 180px;
-    audio {
-        margin-top: 4px;
-        width: 100%;
-    }
-
-    label {
-        display: block;
-        padding-top: 10px;
-    }
-
-    .player-filename {
-        font-weight: normal;
-        color: @color-dark-gray;
-
-        &.nonempty {
-            color: @color-mid-gray;
-            cursor: pointer;
-
-            &:hover {
-                color: @color-light-gray;
-                padding-right: 20px;
-                background: transparent url(../images/eye_arrow.png) right center no-repeat;
-            }
-        }
-    }
-}
-
-#filterForm {
-    width: 40%;
-    max-width: 480px;
-    min-width: 350px;
-    align-self: flex-end;
-    text-align: right;
-
-    label {
-        width: 100%;
-    }
-
-    .filter {
-        border-radius: 5px;
-        width: 70%;
-    }
-
-    .duplicate-filter {
-        padding-top: 8px;
-
-        input {
-            margin: -1px 5px 0 10px;
-            vertical-align: middle;
-        }
-    }
-}
-
 .column {
     flex: 1;
     display: flex;
@@ -421,6 +362,7 @@ table tr:nth-of-type(odd) {
     color: @color-dark-gray;
     font-size: 12px;
     white-space: nowrap;
+    margin-left: 5px;
 
     &:before {
         content: '[ ';
@@ -466,220 +408,6 @@ table tr:nth-of-type(odd) {
     &:hover {
         color: @color-default;
         cursor: pointer;
-    }
-}
-
-
-
-
-#syncer-modal-container {
-    background-color: #fff;
-
-    h4 {
-        font-size: 24px;
-        margin: 0;
-        padding: 0;
-    }
-
-    .padded {
-        padding: @content-padding;
-    }
-
-    .padded-sides {
-        padding: 0 24px;
-    }
-
-    .spacer {
-        height: 24px;
-        overflow:hidden;
-    }
-
-    #syncer-modal-dialog {
-        padding: 0;
-        // width is set via knockout
-
-        .syncer-modal-content {
-            position: relative;
-            width:100%;
-            min-height: 80px;
-            color: #444;
-
-            .syncer-modal-close-btn {
-                position: absolute;
-                right:24px;
-                top:24px;
-                color: red;
-                cursor: pointer;
-
-                .icon {
-                    margin-left: 5px;
-                }
-            }
-        }
-    }
-
-    .error-dialog {
-        padding: @content-padding;
-
-        h4 {
-            padding: 0;
-        }
-
-        p {
-            font-size: 19px;
-            line-height: 23px;
-        }
-    }
-
-    .info-dialog {
-        padding: 65px 24px 0;
-
-        h4, p {
-            padding-bottom: 24px;
-        }
-
-        p {
-            font-size: 19px;
-            line-height: 23px;
-        }
-    }
-
-}
-
-.simplemodal-overlay {
-    background-color: #000000;
-    cursor: default;
-}
-
-.simplemodal-container {
-    width: 581px;
-    height: 440px;
-    border-radius: 6px;
-    background-color: #e4e6e7;
-    box-shadow: 5px 5px 5px 0px rgba(200, 200, 200, 0.2);
-}
-
-#modal-dialog-content-wrapper {
-    padding: @content-padding;
-}
-
-#deleteFileDialog,
-#renameFilesDialog,
-#copyMoveFileDialog {
-
-    strong, th {
-        font-weight: bold;
-        text-align: left;
-        color: @color-dark-gray;
-    }
-
-    th, td {
-        padding : 3px 5px;
-    }
-
-    td {
-        color: @color-dark-gray;
-    }
-
-    th {
-        border-bottom: 1px solid #eee;
-    }
-
-    td:last-child {
-        text-align: right;
-    }
-
-    tr:nth-of-type(odd) td {
-        background-color: #f0f0f0;
-    }
-
-    .target-dir {
-        .monospace-small();
-    }
-
-    .rename-settings {
-        padding: 3px 160px 6px 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-        position: relative;
-
-        .setting {
-            float: left;
-            margin: 5px 20px 0 0;
-
-            select, input[type=text] {
-                display: block;
-                margin: 2px 0 5px 0;
-            }
-
-            .long-textfield {
-                width: 225px;
-            }
-        }
-
-        .settings-button-group {
-            text-align: right;
-            position: absolute;
-            right: 8px;
-            bottom: 10px;
-
-            button {
-                margin-top: 10px;
-                display: block;
-            }
-        }
-    }
-
-    .source-file-list {
-        max-height: 200px;
-        border: 1px solid @color-red-danger;
-        border-radius: 5px;
-        padding: 10px;
-        overflow: auto;
-        margin: 5px 0 20px;
-
-        li, td {
-            padding-bottom: 2px;
-        }
-
-        span {
-            .monospace-small();
-        }
-    }
-
-    button {
-        margin-left: 20px;
-    }
-}
-
-#renameFilesDialog {
-    .targetPatternFn {
-        a {
-            color: @color-default;
-            margin: 0 2px;
-            &:hover {
-                background: transparent none;
-                text-decoration: none;
-            }
-        }
-    }
-
-    .source-file-list {
-        margin-top: 10px;
-        padding: 4px 10px 10px;
-    }
-
-    .nameAferRename {
-        text-decoration: line-through;
-        font-style: italic;
-
-        &.nameChanged {
-            color: @color-red-danger;
-            font-weight: bold;
-            text-decoration: none;
-            font-style: normal;
-        }
     }
 }
 

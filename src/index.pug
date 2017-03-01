@@ -4,29 +4,11 @@ html
         meta(name='viewport', content='width=device-width, minimum-scale=1.0')
         meta(http-equiv='X-UA-Compatible', content='IE=edge,chrome=1')
         link(rel='stylesheet', type='text/css', href='css/uikit.css')
-
         link(rel='stylesheet', type='text/css', href='css/styles.css')
-        script(src='js/lib/jquery.min.js', type='text/javascript')
-        script(src='js/lib/require.js', type='text/javascript')
-        script(src='js/require.config.js', type='text/javascript')
     body
         header
             include include/player
-
-            form#filterForm.uk-form.padded-top.column
-                label.block
-                    input.filter.uk-form-small(type='text', data-bind="value: filter, valueUpdate: 'keyup'", placeholder='Filter source filenames')
-                    button.uk-button.uk-button-small.uk-button-success(data-bind='click: resetFilter') Clear
-                .duplicate-filter
-                    label
-                        input(type='radio', name='duplicateFilter', value='none', data-bind='checked: duplicateFilter')
-                        |  All files
-                    label(title='Show only files having identical copies in target')
-                        input(type='radio', name='duplicateFilter', value='with', data-bind='checked: duplicateFilter')
-                        |  Doubles only
-                    label(title='Show only files WITHOUT identical copies in target')
-                        input(type='radio', name='duplicateFilter', value='without', data-bind='checked: duplicateFilter')
-                        |  Non-Double only
+            include include/filter
 
         input#sourcePath(type='file', nwdirectory='', data-bind='event: {change: source.onPathChange}')
         input#targetPath(type='file', nwdirectory='', data-bind='event: {change: target.onPathChange}')
@@ -37,7 +19,7 @@ html
             .column
                 h2.column-headline(data-bind='click: selectSourcePath, event: {contextmenu: onSourceRightclick}')
                     span.linkedIcon.leftButton(title='Switch list/table mode', data-bind="css: {'uk-icon-bars': !config.floatingList(), 'uk-icon-ellipsis-h': config.floatingList}, click: switchListMode, clickBubble: false")
-                    |                 Source
+                    | Source
                     span.filesAndDirStats(data-bind='pathWatcherInfo: source')
                     span.uk-icon-refresh.rightButton.linkedIcon(title='Refresh', data-bind="click: source.reload, clickBubble: false, css: {'uk-icon-spin': source.isLoading}")
                     span.path(data-bind='text: source.path')
@@ -81,4 +63,5 @@ html
         include include/createSubdirDialogTpl
         include include/renameDirDialogTpl
 
-        script(src='js/main.js', type='text/javascript')
+        script.
+            window.require('./js/App').run();

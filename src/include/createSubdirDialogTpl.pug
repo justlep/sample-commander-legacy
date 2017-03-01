@@ -2,13 +2,13 @@ script#createSubdirDialogTpl(type='text/html')
     // (ko-context: CreateSubdirDialog)
     .standard-confirm-dialog
         form.uk-form(data-bind='submit: submit')
-            h5.dialog-headline
-                | Create subdirectory
-            p
-                | Parent path:
-                b(data-bind='text: dirItem().path')
+            h5.dialog__headline.
+                Create subdirectory
+            p.
+                Parent path: <b data-bind="text: dirItem().path"></b>
             p
                 input.fullsize(type='text', data-bind="value: newName, valueUpdate: 'keypress'")
+
             .align-right
                 button.uk-button.uk-button-small.modalClose(type='button') Cancel
                 button.uk-button.uk-button-small.uk-button-primary(type='submit') Create

@@ -21,9 +21,10 @@ module.exports = function (grunt, options) {
     grunt.registerTask('buildApp', [
         'clean',
         'default',
-        'copy:prepareBuild',
+        'copy:srcToPrepareBuild',
+        // no uglification of js sources currently since grunt-contrib-uglify doesn't yet support the uglify2#harmony branch
+        // also: sources are getting zipped during nwjs build anyway
         'copyPackageJson',
-        'uglify:jsForBuild',
         'nwjsBuild'
         //, 'clean:oldPreparedBuild'
     ]);
