@@ -8,12 +8,11 @@
   "engines": {
     "node": ">=6.1"
   },
-  "description": "Tiny app to quickly synchonize audio from different locations like SD cards",
+  "description": "Desktop application to quickly transfer audio files from fieldrecorder SD cards etc to a PC",
   "main": "Gruntfile.js",
   "author": "Lennart Pegel <github@justlep.net>",
   "license": "LGPL-3.0",
   "devDependencies": {
-    "cloneextend": "0.0.3",
     "grunt": "~1.0.1",
     "grunt-cli": "~1.2.0",
     "grunt-concurrent": "~2.3.1",
@@ -28,8 +27,6 @@
     "load-grunt-config": "~0.19.2",
     "load-grunt-tasks": "~3.5.2",
     "nw-builder": "~3.2.0",
-    "plugin": "~0.3.2",
-    "requirejs": "~2.3.3",
     "time-grunt": "~1.4.0"
   },
   "dependencies": {},

@@ -1,7 +1,7 @@
 {
   "name": "Synchronizer",
   "version": "0.0.1",
-  "description": "Tiny app to quickly synchonize audio files from different locations like SD cards",
+  "description": "Desktop application to quickly transfer audio files from fieldrecorder SD cards etc to a PC",
   "author": "Lennart Pegel <github@justlep.net>",
   "repository": {
     "type": "git",
