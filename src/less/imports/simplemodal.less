@@ -1,0 +1,21 @@
+@import (reference) "variables";
+
+/**
+ * CSS overrides for the simplemodal related classes
+ * which are hardcoded in the simplemodal plugin
+ */
+.simplemodal {
+
+    &-overlay {
+        background-color: #000000;
+        cursor: default;
+    }
+
+    &-container {
+        width: 581px;
+        height: 440px;
+        border-radius: @defaultBorderRadius;
+        background-color: @dialogBackgroundColor;
+    }
+
+}

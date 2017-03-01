@@ -2,13 +2,10 @@ script#deleteFilesDialogTpl(type='text/html')
     // (ko-context: DeleteFilesDialog)
     #deleteFileDialog
         form.uk-form(data-bind='submit: deleteFiles')
-            h5.dialog-headline
-                | Delete
-                span(data-bind='text: fileItems().length')
-                <!-- ko if: !useFilePattern() -->
-                | selected
-                <!-- /ko -->
-                | file(s)
+            h5.dialog__headline
+                | Delete <span data-bind="text: fileItems().length"></span>
+                <!-- ko if: !useFilePattern() --> selected <!-- /ko -->
+                <!-- ko text: fileItems().length === 1 ? ' file ' : ' files ' --><!-- /ko -->
 
             <!-- ko if: useFilePattern -->
             div
@@ -22,7 +19,7 @@ script#deleteFilesDialogTpl(type='text/html')
             <!-- /ko -->
             div
                 strong Files:
-                ul.source-file-list(data-bind='foreach: fileItems')
+                ul.dialog__fileList(data-bind='foreach: fileItems')
                     li
                         <!-- ko if: $parent.isComplete -->
                         .uk-badge(data-bind="css: {'uk-badge-danger': __deleteFailed, 'uk-badge-success': !__deleteFailed}, text: (__deleteFailed ? 'Delete failed' : 'Deleted') ")
@@ -32,7 +29,7 @@ script#deleteFilesDialogTpl(type='text/html')
                 button.uk-button.uk-button-small.modalClose(type='button') Cancel
                 button.uk-button.uk-button-small.uk-button-danger(type='button', data-bind='click: deleteFiles, enable: canDelete') Delete
             // the progress bar
-            .copyMoveProgress(style='display: none', data-bind='visible: inProgress')
+            .progress__copyMove(style='display: none', data-bind='visible: inProgress')
                 .uk-progress.uk-progress-striped(data-bind="css: {'uk-progress-danger': (isComplete && doneWithErrors), 'uk-progress-success': (isComplete && !doneWithErrors())}")
                     .uk-progress-bar(data-bind="style: {width: progressInPercent() + '%'}, text: progressInPercent() + '%'")
                 .clearfix(style='display: none', data-bind='visible: isComplete')

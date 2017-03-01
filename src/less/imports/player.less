@@ -1,0 +1,35 @@
+@import (reference) "variables";
+
+#player {
+    background: #353535 none;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 @defaultBorderRadius @defaultBorderRadius;
+    min-width: 180px;
+    audio {
+        margin-top: 4px;
+        width: 100%;
+    }
+
+    label {
+        display: block;
+        padding-top: 10px;
+    }
+
+    .player-filename {
+        font-weight: normal;
+        color: @color-dark-gray;
+
+        &.nonempty {
+            color: @color-mid-gray;
+            cursor: pointer;
+
+            &:hover {
+                color: @color-light-gray;
+                padding-right: 20px;
+                background: transparent url(../../images/eye_arrow.png) right center no-repeat;
+            }
+        }
+    }
+}

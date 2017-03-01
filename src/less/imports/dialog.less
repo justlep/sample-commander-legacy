@@ -1,0 +1,127 @@
+
+@import (reference) "variables";
+@import (reference) "mixins";
+
+.dialog {
+
+    &__dialog {
+        padding: 0;
+        // width is set via knockout
+    }
+
+    &__headline {
+        font-size: 16px;
+        padding: 6px 0 12px;
+        color: @dialogTextColor;
+        border-bottom: 1px dotted #ccc;
+        margin-bottom: 8px;
+    }
+
+
+    &__container {
+        background-color: #fff;
+
+        h4 {
+            font-size: 24px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .padded {
+            padding: @content-padding;
+        }
+
+        .padded-sides {
+            padding: 0 24px;
+        }
+
+        .spacer {
+            height: 24px;
+            overflow:hidden;
+        }
+    }
+
+    &__content {
+        padding: @content-padding;
+
+        &Wrap {
+            position: relative;
+            width:100%;
+            min-height: 80px;
+            color: #eee;
+        }
+    }
+
+    &__close {
+        position: absolute;
+        right:24px;
+        top:24px;
+        color: red;
+        cursor: pointer;
+
+        .icon {
+            margin-left: 5px;
+        }
+    }
+
+
+    &__fileList {
+        max-height: 200px;
+        border: 1px solid lighten(@dialogBackgroundColor, 20%);
+        border-radius: @defaultBorderRadius;
+        padding: 10px;
+        overflow: auto;
+        margin: 5px 0 20px;
+
+        li, td {
+            padding-bottom: 2px;
+        }
+
+        thead {
+            background: lighten(@dialogBackgroundColor, 10%);
+            text-align: left;
+            margin-bottom: 5px;
+
+            th {
+                padding: 3px;
+                border-bottom: 5px solid @dialogBackgroundColor;
+                color: #b9b9b9;
+            }
+        }
+
+        tbody {
+            td {
+                padding: 2px 3px;
+
+                &:last-child {
+                    text-align: right;
+                }
+                &:first-child {
+                    text-align: left;
+                }
+            }
+
+            tr:nth-of-type(even) td {
+                background-color: #202020;
+            }
+        }
+    }
+
+    &__info {
+        padding: 65px 24px 0;
+
+        h4, p {
+            padding-bottom: 24px;
+        }
+
+        p {
+            font-size: 19px;
+            line-height: 23px;
+        }
+    }
+
+    &__dirname {
+        .monospace-small();
+    }
+}
+

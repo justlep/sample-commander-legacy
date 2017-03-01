@@ -17,6 +17,8 @@
     &__text {
         border-radius: 5px;
         width: 70%;
+        text-align: center;
+        font-weight: bold;
     }
 
     &__duplicates {
@@ -44,6 +46,12 @@
 
         input {
             display: none;
+        }
+    }
+
+    &__clear {
+        &--disabled {
+            opacity: 0.5;
         }
     }
 }

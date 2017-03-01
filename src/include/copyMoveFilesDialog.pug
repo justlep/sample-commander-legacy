@@ -2,18 +2,17 @@ script#copyMoveFilesDialogTpl(type='text/html')
     // (ko-context: CopyMoveFilesDialog)
     #copyMoveFileDialog
         form(data-bind='submit: copyFiles')
-            h5.dialog-headline
-                | Copy or move
-                span(data-bind='text: fileItems().length')
-                |  selected file(s)
+            h5.dialog__headline.
+                Copy or move <span data-bind='text: fileItems().length'></span> selected <!-- ko text: fileItems().length === 1 ? 'file' : 'files' --><!-- /ko -->
+
             p
                 strong To:
                 br
-                span.target-dir(data-bind='text: targetDirItem.path')
+                span.dialog__dirname(data-bind='text: targetDirItem.path')
             div
                 strong Files:
-                ul.source-file-list(data-bind='foreach: fileItems')
-                    li
+                .dialog__fileList
+                    table.fullsize: tbody(data-bind='foreach: fileItems'): tr: td
                         <!-- ko if: $parent.isComplete -->
                             <!-- ko if: __skipExists -->
                             .uk-badge.uk-badge-warning Skipped - file already exists
@@ -26,12 +25,13 @@ script#copyMoveFilesDialogTpl(type='text/html')
                             <!-- /ko -->
                         <!-- /ko -->
                         span(data-bind='text: path')
+
             .align-right(data-bind='visible: !inProgress()')
                 button.uk-button.uk-button-small.modalClose(type='button') Cancel
                 button.uk-button.uk-button-small.uk-button-danger(type='button', data-bind='click: moveFiles') Move
                 button.uk-button.uk-button-small.uk-button-success(type='submit') Copy
             // the progress bar
-            .copyMoveProgress(style='display: none', data-bind='visible: inProgress')
+            .progress__copyMove(style='display: none', data-bind='visible: inProgress')
                 .uk-progress.uk-progress-striped(data-bind="css: {'uk-progress-danger': (isComplete && doneWithErrors), 'uk-progress-success': (isComplete && !doneWithErrors())}")
                     .uk-progress-bar(data-bind="style: {width: progressInPercent() + '%'}, text: progressInPercent() + '%'")
                 .clearfix(style='display: none', data-bind='visible: isComplete')

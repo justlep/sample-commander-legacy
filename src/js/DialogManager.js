@@ -46,7 +46,7 @@ let {ko, _, $, Helper} = require('./common'),
  */
 function DialogManager() {
     var self = this,
-        jModalDialog = $('#syncer-modal-dialog'),
+        jModalDialog = $('#dialog'),
         currentDialog = ko.observable(null),
         currentDialogSettings = null,
         HANDLERS = {
@@ -113,7 +113,7 @@ function DialogManager() {
         if (focusFirstTextField) {
             console.warn('Focussing first visible textfield');
             setTimeout(function() {
-                $('#syncer-modal-dialog input[type=text]:visible:first').focus();
+                $('#dialog input[type=text]:visible:first').focus();
             }, 500);
         }
     };

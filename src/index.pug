@@ -8,15 +8,7 @@ html
     body
         header
             include include/player
-
-            form.filter__form.uk-form.padded-top.column
-                .filter__block
-                    input.filter__text.uk-form-small(type='text', data-bind="value: filter, valueUpdate: 'keyup'", placeholder='Filter source filenames')
-                    button.uk-button.uk-button-small.uk-button-success(data-bind='click: resetFilter') Clear
-                .filter__block.filter__duplicates(data-bind="foreach: DUPLICATE_FILTER_OPTS")
-                    label.filter__duplicate(data-bind="click: $parent.duplicateFilter, " +
-                                                      "css: {'filter__duplicate--selected': $parent.duplicateFilter() === $data}, " +
-                                                      "text: {none: 'All files', with: 'Duplicates', without: 'Non-duplicates'}[$data]")
+            include include/filter
 
         input#sourcePath(type='file', nwdirectory='', data-bind='event: {change: source.onPathChange}')
         input#targetPath(type='file', nwdirectory='', data-bind='event: {change: target.onPathChange}')
@@ -27,7 +19,7 @@ html
             .column
                 h2.column-headline(data-bind='click: selectSourcePath, event: {contextmenu: onSourceRightclick}')
                     span.linkedIcon.leftButton(title='Switch list/table mode', data-bind="css: {'uk-icon-bars': !config.floatingList(), 'uk-icon-ellipsis-h': config.floatingList}, click: switchListMode, clickBubble: false")
-                    |                 Source
+                    | Source
                     span.filesAndDirStats(data-bind='pathWatcherInfo: source')
                     span.uk-icon-refresh.rightButton.linkedIcon(title='Refresh', data-bind="click: source.reload, clickBubble: false, css: {'uk-icon-spin': source.isLoading}")
                     span.path(data-bind='text: source.path')

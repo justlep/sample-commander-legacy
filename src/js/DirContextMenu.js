@@ -31,6 +31,7 @@ let {Helper, gui, $} = require('./common'),
                     currentDirItem.name = newName;
                     currentDirItem.path = newPath;
                     $('#' + currentDirItem.elemId).text(currentDirItem.name);
+                    // TODO fix source+target path renamed path was selected.. seems buggy currently
                     target.fixDirItemPathsAfterDirectoryRenamed(oldPath, newPath);
                     target.sortDirectories();
                     DialogManager.getInstance().reset();
