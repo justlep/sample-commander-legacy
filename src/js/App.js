@@ -32,6 +32,7 @@ let {ko, _, Helper, $} = require('./common'),
  */
 function App() {
     var self = this,
+        audioElement = $('audio:first')[0],
         HANDLERS = {
             FILE_DRAG_START: function(e) {
                 var dt = e.originalEvent.dataTransfer,
@@ -266,6 +267,8 @@ function App() {
     function initOnce() {
         self.reloadAll();
 
+        Helper.assert(_.isElement(audioElement), 'Missing the audioElement');
+
         $(document.body).on('dragstart', '.file', HANDLERS.FILE_DRAG_START);
         $(document.body).on('dragover', '.dir', HANDLERS.DIR_DRAG_OVER);
         $(document.body).on('dragenter', '.dir', HANDLERS.DIR_DRAG_ENTER);
@@ -376,14 +379,12 @@ function App() {
 
     this.stopAudio = function(/* app, e */) {
         if (self.filePlaying()) {
-            $('#innerplayer').each(function() {
-                try {
-                    this.pause();
-                    this.currentTime = 0;
-                } catch (e) {
-                    // so what (can happen on invalid files
-                }
-            });
+            try {
+                audioElement.pause();
+                audioElement.currentTime = 0;
+            } catch (e) {
+                // so what (can happen on invalid files
+            }
         }
     };
 
