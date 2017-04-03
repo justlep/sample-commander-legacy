@@ -10,12 +10,16 @@
   "main": "index.html",
   "chromium-args": "--mixed-context",
   "window": {
+    "id": "LePs_Synchronizer",
     "title": "LeP's Synchronizer",
     "frame": true,
     "width": 900,
     "height": 700,
     "min_width": 500,
     "min_height": 650
+  },
+  "webkit": {
+    "plugin": false
   },
   "dependencies": {
     "readdirp": "1.1.0",
