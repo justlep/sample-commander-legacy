@@ -248,6 +248,4 @@ function RenameFilesDialog() {
     };
 }
 
-module.exports = {
-    getInstance: getInstance
-};
+module.exports = {getInstance};

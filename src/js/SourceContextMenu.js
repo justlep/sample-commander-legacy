@@ -169,6 +169,4 @@ function SourceContextMenu() {
     }
 }
 
-module.exports = {
-    getInstance: getInstance
-};
+module.exports = {getInstance};

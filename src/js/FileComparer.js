@@ -129,6 +129,6 @@ function flushCacheForFileItems(fileItems) {
 }
 
 module.exports = {
-    checkDuplicateFileItems: checkDuplicateFileItems,
-    flushCacheForFileItems: flushCacheForFileItems
-}
+    checkDuplicateFileItems,
+    flushCacheForFileItems
+};

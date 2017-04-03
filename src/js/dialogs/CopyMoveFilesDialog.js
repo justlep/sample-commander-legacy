@@ -153,7 +153,5 @@ function CopyMoveFilesDialog() {
     };
 }
 
-module.exports = {
-    getInstance: getInstance
-};
+module.exports = {getInstance};
 

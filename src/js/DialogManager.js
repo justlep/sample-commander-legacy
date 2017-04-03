@@ -34,9 +34,11 @@ let {ko, _, $, Helper} = require('./common'),
      */
     hasDialogValidSettings = function(dialog) {
         return dialog && dialog.settings && dialog.settings.templateName &&
-            !_.some(DEFAULT_DIALOG_SETTINGS||{}, function(val, key){
-                return (typeof dialog.settings[key] === 'undefined');
-            });
+                _.every(DEFAULT_DIALOG_SETTINGS||{}, (val, key) => typeof dialog.settings[key] !== 'undefined');
+    },
+
+    autoHeight = function() {
+        $('#syncer-modal-container').css('height','auto');
     };
 
 
@@ -130,11 +132,7 @@ function DialogManager() {
 }
 
 module.exports = {
-    getInstance: getInstance,
-    /** @static */
-    createDialogSettings: createDialogSettings,
-    /** @static */
-    autoHeight: function() {
-        $('#syncer-modal-container').css('height','auto');
-    }
+    getInstance,
+    createDialogSettings,
+    autoHeight
 };

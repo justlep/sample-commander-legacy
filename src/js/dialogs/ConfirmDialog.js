@@ -79,7 +79,7 @@ function ConfirmDialog() {
 }
 
 module.exports = {
-    getInstance: getInstance,
+    getInstance,
     getInstanceForSomething: function(someInfo, onConfirm) {
         return getInstance(onConfirm, TEMPLATES.DEFAULT, {someInfo: someInfo});
     }

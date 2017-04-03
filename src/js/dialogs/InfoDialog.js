@@ -51,7 +51,7 @@ function InfoDialog() {
 }
 
 module.exports = {
-    getInstance: getInstance,
+    getInstance,
     getDefaultInstance: function(infoText) {
         Helper.assertString(infoText, 'String excepted in InfoDialog.getDefaultInstance()');
         return getInstance(TEMPLATES.DEFAULT, {infoText: infoText || 'no info text'});

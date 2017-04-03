@@ -112,6 +112,4 @@ function TargetContextMenu() {
     }
 }
 
-module.exports = {
-    getInstance: getInstance
-};
+module.exports = {getInstance};

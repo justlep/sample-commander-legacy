@@ -165,6 +165,4 @@ function FileContextMenu() {
     }
 }
 
-module.exports = {
-    getInstance: getInstance
-};
+module.exports = {getInstance};

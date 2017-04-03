@@ -141,7 +141,7 @@ function DeleteFilesDialog() {
 }
 
 module.exports = {
-    getInstance: getInstance,
+    getInstance,
     getInstanceForDeleteProjectFiles: function(opts) {
         Helper.assertObject(opts, 'invalid opts for DeleteFilesDialog.getInstanceForDeleteProjectFiles');
         opts.forProjectFiles = true;

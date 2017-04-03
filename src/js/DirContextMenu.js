@@ -25,7 +25,7 @@ let {Helper, gui, $} = require('./common'),
         ITEM_DIR_RENAME: function() {
             RenameDirDialog.getInstance(currentDirItem, function(newName) {
                 try {
-                    var oldPath = currentDirItem.path,
+                    let oldPath = currentDirItem.path,
                         newPath = nodePath.resolve(currentDirItem.path, '..', newName);
                     nodeFs.renameSync(oldPath, newPath);
                     currentDirItem.name = newName;
@@ -43,18 +43,18 @@ let {Helper, gui, $} = require('./common'),
         ITEM_DIR_CREATE: function() {
             CreateSubdirDialog.getInstance(currentDirItem, function(newName) {
                 try {
-                    var newPath = nodePath.resolve(currentDirItem.path, newName);
+                    let newPath = nodePath.resolve(currentDirItem.path, newName);
                     nodeFs.mkdirSync(newPath);
 
                     target.addSubdirectoryItem(newName, currentDirItem);
                     DialogManager.getInstance().reset();
                 } catch (e) {
-                    console.error('Could not rename directory', e);
+                    console.error('Could not create directory', e);
                 }
             }).show();
         },
         DIR_ITEM_OPEN_IN_EXPLORER: function() {
-            var path = currentDirItem.path;
+            let path = currentDirItem.path;
             gui.Shell.openItem(path);
         },
         DIR_ITEM_OPEN_IN_SOURCE: function() {
@@ -91,6 +91,4 @@ function DirContextMenu() {
     }
 }
 
-module.exports = {
-    getInstance: getInstance
-};
+module.exports = {getInstance};

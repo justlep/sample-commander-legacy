@@ -163,7 +163,7 @@ function Config() {
 }
 
 module.exports = {
-    getInstance: getInstance,
-    MAX_RECENT_PATHS: MAX_RECENT_PATHS,
-    MAX_RECENT_REPLACE_PATTERNS: MAX_RECENT_REPLACE_PATTERNS
+    getInstance,
+    MAX_RECENT_PATHS,
+    MAX_RECENT_REPLACE_PATTERNS
 };
