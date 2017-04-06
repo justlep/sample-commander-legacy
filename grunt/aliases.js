@@ -25,8 +25,8 @@ module.exports = function (grunt, options) {
         // no uglification of js sources currently since grunt-contrib-uglify doesn't yet support the uglify2#harmony branch
         // also: sources are getting zipped during nwjs build anyway
         'copyPackageJson',
-        'nwjsBuild'
-        //, 'clean:oldPreparedBuild'
+        'nwjsBuild',
+        'clean:oldPreparedBuild'
     ]);
 
     grunt.registerTask('zipBuild', [

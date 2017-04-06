@@ -22,7 +22,7 @@ module.exports = function (grunt) {
                 buildDir: BUILD_TARGET_DIR,
                 platforms: pkg.config.nwjsBuildPlatforms,
                 version: pkg.config.nwjsBuildVersion,
-                zip: doBuild,
+                zip: doBuild && pkg.config.nwjsZipSources !== false,
                 flavor: doRun ? 'sdk' : 'normal',
                 toolbar: doRun,
                 appVersion: pkg.version
