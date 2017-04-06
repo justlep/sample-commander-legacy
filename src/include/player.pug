@@ -1,3 +1,3 @@
 .player.column(data-bind='event: {contextmenu: stopAudio}')
     b.player__filename(data-bind="css: {'player__filename--nonempty': !!filePlaying()}, text: (filePlaying() ? filePlaying().filename : 'No file selected'), click: scrollToPlayedFile")
-    audio.player__audio(controls='', data-bind="attr: {src: filePlaying() ? filePlaying().path : '', autoplay: config.autoplay}")
+    audio.player__audio(controls='', data-bind="attr: {src: filePlaying() ? 'file://' + filePlaying().path : '', autoplay: config.autoplay}")
