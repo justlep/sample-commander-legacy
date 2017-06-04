@@ -47,7 +47,8 @@ function Config() {
             'filePathTooltip',
             'lastRenamePatterns',
             'projectFilePattern',
-            'editorExecutablePath'
+            'editorExecutablePath',
+            'showTargetColumn'
         ],
         writeConfig = function() {
             var configToWrite = {};
@@ -100,6 +101,7 @@ function Config() {
     this.filePathTooltip = ko.observable(true);
     this.floatingList = ko.observable(true);
     this.showFilesize = ko.observable(true);
+    this.showTargetColumn = ko.observable(true);
     this.showCDate = ko.observable(true);
     this.maxDirs = ko.observable(300);
     this.showSourcePaths = ko.observable(true);

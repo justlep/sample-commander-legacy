@@ -10,6 +10,7 @@
 @import 'imports/renameFilesDialog';
 @import 'imports/player';
 
+@defaultGray: #444;
 
 // -----------------------------------------------------------------------------
 
@@ -153,18 +154,29 @@ header {
     border-bottom: 1px solid @color-border;
 
     &:hover {
-        background-color: #444;
+        background-color: @defaultGray;
+    }
+
+    .leftButton, .rightButton {
+        position: absolute;
+        padding: 5px;
+        color: @color-light-gray;
+        font-size: 12px;
+
+        &:hover {
+            color: @color-default;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+        }
     }
 
     .leftButton {
-        position: absolute;
-        top: 10px;
-        left: 12px;
+        top: 5px;
+        left: 7px;
     }
     .rightButton {
-        position: absolute;
-        top: 10px;
-        right: 12px;
+        top: 5px;
+        right: 7px;
     }
 }
 
@@ -253,7 +265,7 @@ header {
     &.asFloatingList {
         li.file {
             float: left;
-            border: 1px solid #444;
+            border: 1px solid @defaultGray;
             border-radius: 6px;
             margin: 0 10px 6px 0;
             padding: 5px 5px;
@@ -315,6 +327,24 @@ header {
     &:last-child {
         margin-left: 0;
     }
+
+    &__toggle {
+        cursor: pointer;
+        position: absolute;
+        right: 12px;
+        top: -3px;
+        bottom: 0;
+        padding: 0 10px;
+        font-size: 12px;
+        line-height: 12px;
+        display: flex;
+        align-items: center;
+
+        &:hover {
+            color: orange;
+            background: darken(@defaultGray, 5%);
+        }
+    }
 }
 
 .padded-top {
@@ -350,11 +380,11 @@ table tr:nth-of-type(odd) {
 
     &:before {
         content: '[ ';
-        color: #444;
+        color: @defaultGray;
     }
     &:after {
         content: ' ]';
-        color: #444;
+        color: @defaultGray;
     }
 }
 
@@ -366,11 +396,11 @@ table tr:nth-of-type(odd) {
 
     &:before {
         content: '[ ';
-        color: #444;
+        color: @defaultGray;
     }
     &:after {
         content: ' ]';
-        color: #444;
+        color: @defaultGray;
     }
 }
 
@@ -400,24 +430,15 @@ table tr:nth-of-type(odd) {
     }
 }
 
-.linkedIcon {
-    color: @color-light-gray;
-    font-size: 17px;
-
-    &.active,
-    &:hover {
-        color: @color-default;
-        cursor: pointer;
-    }
-}
-
 .footer {
+    position: relative;
     font-family: monospace;
     font-size: 11px;
     margin: 3px 0 0 0;
-    padding: 1px;
+    padding: 1px 0 0;
     text-align: center;
     color: @color-footer;
+
     a {
         color: @color-mid-gray;
     }

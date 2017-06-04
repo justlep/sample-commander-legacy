@@ -18,10 +18,10 @@ html
             // SOURCE BOX
             .column
                 h2.column-headline(data-bind='click: selectSourcePath, event: {contextmenu: onSourceRightclick}')
-                    span.linkedIcon.leftButton(title='Switch list/table mode', data-bind="css: {'uk-icon-bars': !config.floatingList(), 'uk-icon-ellipsis-h': config.floatingList}, click: switchListMode, clickBubble: false")
+                    span.leftButton(title='Switch list/table mode', data-bind="click: switchListMode, clickBubble: false") Mode
                     | Source
                     span.filesAndDirStats(data-bind='pathWatcherInfo: source')
-                    span.uk-icon-refresh.rightButton.linkedIcon(title='Refresh', data-bind="click: source.reload, clickBubble: false, css: {'uk-icon-spin': source.isLoading}")
+                    span.rightButton(title='Refresh', data-bind="click: source.reload, clickBubble: false") Refresh
                     span.path(data-bind='text: source.path')
                 .col-content(data-bind="css: {'spinner-round': source.isLoading}, abortLoadingOnClick: source, event: {contextmenu: stopAudio}, click: onSourceListClick")
                     .scrollable-container
@@ -34,11 +34,12 @@ html
                                 span.cdate(data-bind='text: formattedCDate')
             // /SOURCE BOX
             // TARGET BOX
-            .column
+            .column(data-bind="visible: config.showTargetColumn")
                 h2.column-headline(data-bind='click: selectTargetPath, event: {contextmenu: onTargetRightclick}')
                     | Target
                     span.filesAndDirStats(data-bind='pathWatcherInfo: target')
-                    span.uk-icon-refresh.rightButton.linkedIcon(title='Refresh', data-bind="click: target.reload, clickBubble: false, css: {'uk-icon-spin': target.isLoading}")
+                    span.rightButton(title='Hide this panel', data-bind="click: function(){$root.config.showTargetColumn(false)}, clickBubble: false") Hide
+                    span.leftButton(title='Refresh', data-bind="click: target.reload, clickBubble: false") Refresh
                     span.path(data-bind='text: target.path')
                 .col-content(data-bind="css: {'spinner-round': target.isLoading}, abortLoadingOnClick: target")
                     .scrollable-container
@@ -53,6 +54,7 @@ html
 
         footer.footer
             include include/footer
+            .column__toggle(title="Show Target Panel", data-bind="visible: !config.showTargetColumn(), click: function(){ $root.config.showTargetColumn(true) }") Target
 
         include include/modalDialog
         include include/infoDialogTpl
