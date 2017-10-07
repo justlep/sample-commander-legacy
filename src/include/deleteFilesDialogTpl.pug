@@ -15,16 +15,26 @@ script#deleteFilesDialogTpl(type='text/html')
                 select(data-bind="options: predefinedPatterns, optionsValue: 'pattern', optionsText: 'name', value: filePattern, valueAllowUnset: true")
                 button.uk-button.uk-button-small.uk-button-primary(type='button', data-bind='click: applyPattern, enable: (isValidPattern() && !isComplete())')
                     span.uk-icon-refresh
-                    | Update file list
+                    | &nbsp; Update file list
             <!-- /ko -->
-            div
+            div.dialog__leftRight
                 strong Files:
+                label(data-bind="if: isRemoveEmptyFolderOptionAvailable")
+                    | Remove parent folder if empty after project file deletion &nbsp;
+                    input(type='checkbox', data-bind='checked: isDeleteEmptyParentFolderSelected')
+            div
                 ul.dialog__fileList(data-bind='foreach: fileItems')
                     li
                         <!-- ko if: $parent.isComplete -->
                         .uk-badge(data-bind="css: {'uk-badge-danger': __deleteFailed, 'uk-badge-success': !__deleteFailed}, text: (__deleteFailed ? 'Delete failed' : 'Deleted') ")
                         <!-- /ko -->
                         span(data-bind='text: path')
+            div(data-bind="if: deletedFolders().length")
+                strong Deleted Folders:
+                ul.dialog__fileList(data-bind='foreach: deletedFolders')
+                    li
+                        .uk-badge.uk-badge-success Deleted
+                        span(data-bind="text: $data")
             .align-right(data-bind='visible: !inProgress()')
                 button.uk-button.uk-button-small.modalClose(type='button') Cancel
                 button.uk-button.uk-button-small.uk-button-danger(type='button', data-bind='click: deleteFiles, enable: canDelete') Delete

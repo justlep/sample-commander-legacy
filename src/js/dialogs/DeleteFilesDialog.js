@@ -17,6 +17,9 @@ let {ko, Helper, _} = require('../common'),
     },
     nodeFs = require('fs');
 
+const H6_PROJECT_FILE_PATTERN = '*.hprj';
+
+
 /**
  * Dialog opened after dragging selected files to a folder
  * @constructor
@@ -34,7 +37,7 @@ function DeleteFilesDialog() {
                     });
 
     this.predefinedPatterns = [
-        {name: 'ZOOM H6 project files', pattern: '*.hprj'},
+        {name: 'ZOOM H6 project files', pattern: H6_PROJECT_FILE_PATTERN},
         {name: 'Backup files', pattern: '*.bak'},
         {name: 'Wave files', pattern: '*.wav'},
         {name: 'MP3 files', pattern: '*.mp3'}
@@ -60,6 +63,11 @@ function DeleteFilesDialog() {
         return (totalSize) ? Math.round(100 * copiedSize / totalSize) : 0;
     });
 
+    this.isDeleteEmptyParentFolderSelected = ko.observable(true);
+    this.isRemoveEmptyFolderOptionAvailable = ko.computed(function() {
+        return self.useFilePattern() && self.filePattern() === H6_PROJECT_FILE_PATTERN;
+    });
+
     this.isValidPattern = ko.pureComputed(function() {
         return self.useFilePattern() && VALID_FILE_PATTERN_REGEX.test(self.filePattern()||'');
     });
@@ -71,6 +79,8 @@ function DeleteFilesDialog() {
         return isPatternOk && hasFiles;
     });
 
+    this.deletedFolders = ko.observableArray();
+
     this.deleteFiles = function() {
         if (!self.canDelete()) {
             return;
@@ -78,6 +88,11 @@ function DeleteFilesDialog() {
         if (self.useFilePattern()) {
             config.projectFilePattern(self.filePattern());
         }
+        self.deletedFolders.removeAll();
+
+        var deleteEmptyParentFolder = self.isRemoveEmptyFolderOptionAvailable() && self.isDeleteEmptyParentFolderSelected(),
+            deletableFoldersMap = {};
+
         self.inProgress(true);
         self.doneWithErrors(false);
         _.each(self.fileItems(), function(fileItem) {
@@ -87,12 +102,33 @@ function DeleteFilesDialog() {
                 nodeFs.unlinkSync(srcPath);
                 self.deletedFileItems.push(fileItem);
                 fileItem.__deleteFailed = false;
+                if (deleteEmptyParentFolder) {
+                    let folderPath = srcPath.replace(/(.*)[/\\][^/\\]+$/, '$1');
+                    deletableFoldersMap[folderPath] = 1;
+                }
             } catch (e) {
                 fileItem.__deleteFailed = true;
                 self.doneWithErrors(true);
                 console.error('Unable to delete file %s.', srcPath, e);
             }
             self.processedFileItems.push(fileItem);
+        });
+
+        Object.keys(deletableFoldersMap).forEach(function(folderPath) {
+            // console.log('Checking folder: ' + folderPath);
+            var pathContent = nodeFs.readdirSync(folderPath),
+                isEmpty = pathContent && pathContent.every(p => (p === '.' || p === '..'));
+
+            if (!isEmpty) {
+                console.log('Skip delete non-empty folder: ' + folderPath);
+            } else {
+                try {
+                    nodeFs.rmdirSync(folderPath);
+                    self.deletedFolders.push(folderPath);
+                } catch (e) {
+                    console.error('Error while deleting folder ' + folderPath);
+                }
+            }
         });
 
         self.isComplete(true);
@@ -130,6 +166,7 @@ function DeleteFilesDialog() {
         self.processedFileItems.removeAll();
         self.deletedFileItems.removeAll();
         self.useFilePattern(!!opts.forProjectFiles);
+        self.deletedFolders.removeAll();
         if (self.useFilePattern()) {
             self.filePattern(config.projectFilePattern());
             self.applyPattern();

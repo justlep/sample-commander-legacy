@@ -77,6 +77,11 @@
             padding-bottom: 2px;
         }
 
+        .uk-badge {
+            margin-right: 5px;
+            vertical-align: bottom;
+        }
+
         thead {
             background: lighten(@dialogBackgroundColor, 10%);
             text-align: left;
@@ -122,6 +127,12 @@
 
     &__dirname {
         .monospace-small();
+    }
+
+    &__leftRight {
+        display: flex;
+        justify-content: space-between;
+        padding-top: 11px;
     }
 }
 
