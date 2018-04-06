@@ -1,9 +1,11 @@
 
 require('./lib/jquery.min');
+window.ko = require('./lib/knockout');
+require('./lib/knockout-fast-foreach-mod');
 
 module.exports = {
     $: global.jQuery,
-    ko: require('./lib/knockout'),
+    ko: window.ko,
     Helper: require('./Helper'),
     jQueryScrollTo: require('./lib/jquery.scrollTo.min-patched'),
     jQuerySimpleModal: require('./lib/jquery.simplemodal.1.4.4.min'),

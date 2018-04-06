@@ -27,7 +27,7 @@ html
                     .scrollable-container
                         .aborted(data-bind='visible: source.aborted') aborted
                         .invalid-path(data-bind='visible: source.invalidPath') invalid path
-                        ul#sourceList.file-list(data-bind='css: {asFloatingList: config.floatingList, asTable: !config.floatingList(), showFilesize: config.showFilesize, showCDate: config.showCDate}, click: onSourceFileClicked, event: {contextmenu: onSourceFileRightClicked}, clickBubble: false, foreach: source.files')
+                        ul#sourceList.file-list(data-bind='css: {asFloatingList: config.floatingList, asTable: !config.floatingList(), showFilesize: config.showFilesize, showCDate: config.showCDate}, click: onSourceFileClicked, event: {contextmenu: onSourceFileRightClicked}, clickBubble: false, fastForEach: source.files')
                             li.file(draggable='true', dropzone='copy', data-bind="filteredFile: {hiddenIds1: $root.hiddenFileIdsByFilter, hiddenIds2: $root.hiddenFileIdsByDuplicateFilter}, attr: {'data-id': id, title: $root.config.filePathTooltip() && path}, css: {file: true, playing: ($root.filePlaying() && $data.id === $root.filePlaying().id)}")
                                 span.filename(data-bind='text: filename')
                                 span.filesize(data-bind='text: formattedFilesize')
@@ -47,7 +47,7 @@ html
                             | aborted
                             span.maxDirsExceeded(data-bind='visible: target.maxDirsExceeded') limit reached
                         .invalid-path(data-bind='visible: target.invalidPath') invalid path
-                        ul#directoryList.dir-list(data-bind='foreach: target.directories')
+                        ul#directoryList.dir-list(data-bind='fastForEach: target.directories')
                             li(data-bind="style: {'paddingLeft': 15 * $data.depth + 'px'}")
                                 .dir(data-bind='text: $data.name, css: {subdir: $data.depth}, attr: {id: elemId}')
             // /TARGET BOX
