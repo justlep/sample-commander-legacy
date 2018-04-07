@@ -10,9 +10,11 @@ html
             include include/player
             include include/filter
 
-        input#sourcePath(type='file', nwdirectory='', data-bind='event: {change: source.onPathChange}')
-        input#targetPath(type='file', nwdirectory='', data-bind='event: {change: target.onPathChange}')
-        input#editor-executable-file(type='file', data-bind='event: {change: function(){$root.config.saveEditorExecutableFileDialog()}}', style='display:none')
+            input#sourcePath(type='file', nwdirectory='', data-bind='event: {change: source.onPathChange}')
+            input#targetPath(type='file', nwdirectory='', data-bind='event: {change: target.onPathChange}')
+        form#filesForm(style="display:none")
+            input#editor-executable-file(type='file', data-bind='event: {change: function(){$root.config.saveEditorExecutableFileDialog()}}', style='display:none')
+            input#ffmpeg-executable-file(type='file', data-bind='event: {change: function(){$root.config.saveFfmpegExecutableFileDialog()}}', style='display:none')
 
         .main-columns
             // SOURCE BOX
@@ -32,6 +34,7 @@ html
                                 span.filename(data-bind='text: filename')
                                 span.filesize(data-bind='text: formattedFilesize')
                                 span.cdate(data-bind='text: formattedCDate')
+                                img.spectro(data-bind="attr: {src: spectrogram() || ''}, visible: spectrogram")
             // /SOURCE BOX
             // TARGET BOX
             .column(data-bind="visible: config.showTargetColumn")
@@ -51,6 +54,13 @@ html
                             li(data-bind="style: {'paddingLeft': 15 * $data.depth + 'px'}")
                                 .dir(data-bind='text: $data.name, css: {subdir: $data.depth}, attr: {id: elemId}')
             // /TARGET BOX
+
+        <!-- ko with: source.remainingSpectrogramsToProcess -->
+        .remainingSpectrograms.spinner
+            span Processing spectrogram...<br> <!-- ko text: $parent.source.currentlyProcessedAudioFilename --><!-- /ko -->
+            div(data-bind="text: $data + ' remaining'")
+            button.uk-button.uk-button-small.uk-button-danger(data-bind="click: $parent.source.cancelSpectrogramProcessing") Abort after current
+        <!-- /ko -->
 
         footer.footer
             include include/footer

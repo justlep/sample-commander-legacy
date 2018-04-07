@@ -7,6 +7,8 @@ let {ko, Helper, _, moment, $} = require('./common'),
     AUDIO_FILE_PATTERN = /\.(wav|mp3|ogg)$/i,
     readdirp = require('readdirp'),
     nodeCrypto = require('crypto'),
+    config = require('./Config').getInstance(),
+    nodeExec = require('child_process').exec,
     nodeFs = require('fs'),
     nodePath = require('path'),
     createFileItem = function(fileInfo) {
@@ -26,7 +28,8 @@ let {ko, Helper, _, moment, $} = require('./common'),
             parentDir: fileInfo.parentDir,
             filesize: size,
             formattedCDate: moment(mtime).format('DD.MM.YYYY - hh:mm:ss (ddd)'),
-            formattedFilesize: (size/(1024*1024)).toFixed(1)
+            formattedFilesize: (size/(1024*1024)).toFixed(1),
+            spectrogram: ko.observable()
         };
     },
     createDirectoryItem = function(name, path) {
@@ -424,6 +427,87 @@ function PathWatcher(opts) {
             FileComparer.checkDuplicateFileItems(sourceItems, self.files(), callback);
         }
     };
+
+
+    this.hideSpectrograms = () => this.files().forEach(f => f.spectrogram(null));
+
+    let _spectrogramProcessQueue = ko.observableArray(),
+        _processNextSpectrogram = () => {
+            let {f, audioFilename, parentDirPath, spectroImgFilename, spectroImgFilePath, ffmpegExe} = _spectrogramProcessQueue()[0],
+                cmd = ffmpegExe + ` -i "${audioFilename}" -lavfi showspectrumpic=s=hd480:color=fire:legend=0,format=yuv444p "${spectroImgFilename}"`; // jshint ignore:line
+
+            // console.log('cmd: ' + cmd);
+
+            nodeExec(cmd, {
+                cwd: parentDirPath,
+                timeout: undefined // makes sense or not?
+            }, (err, stdout, stderr) => {
+                if (err) {
+                    console.error('Failed to generate %s', spectroImgFilePath);
+                } else {
+                    f.spectrogram(spectroImgFilePath);
+                }
+
+                _spectrogramProcessQueue.shift();
+                if (_spectrogramProcessQueue().length) {
+                    setTimeout(_processNextSpectrogram, 50);
+                }
+            });
+        };
+
+    this.remainingSpectrogramsToProcess = ko.computed(() => _spectrogramProcessQueue().length);
+    this.currentlyProcessedAudioFilename = ko.pureComputed(() => {
+        let o = _spectrogramProcessQueue()[0];
+        return o && o.audioFilename;
+    });
+    this.cancelSpectrogramProcessing = () => {
+        let currentQueue = _spectrogramProcessQueue();
+        if (currentQueue.length > 1) {
+            _spectrogramProcessQueue(currentQueue[0]) // let the current job finish, but remove the others
+        }
+    };
+
+    this.showSpectrograms = () => {
+        let ffmpegExe = config.ffmpegExecutablePath();
+
+        if (!ffmpegExe) {
+            alert('Need to set path to ffmpeg.exe first!');
+            return;
+        }
+
+        if (this.remainingSpectrogramsToProcess()) {
+            alert('Please wait until all pending spectrogram jobs have finished');
+            return;
+        }
+
+        this.files().filter(f => f.isAudioFile && !f.spectrogram()).forEach(f => {
+            let audioFilename = f.filename,
+                audioFilePath = f.path,
+                parentDirPath = nodePath.resolve(audioFilePath, '..'),
+                spectroImgFilename = audioFilePath + '-spectro.png',
+                spectroImgFilePath = nodePath.resolve(parentDirPath, spectroImgFilename),
+                stats,
+                exists = false;
+
+            try {
+                stats = nodeFs.statSync(spectroImgFilePath);
+                exists = stats.isFile();
+            } catch (err) {
+                // nothing
+            }
+
+            if (exists) {
+                f.spectrogram(spectroImgFilename);
+            } else {
+                _spectrogramProcessQueue.push({f, audioFilename, parentDirPath, spectroImgFilename, spectroImgFilePath, ffmpegExe});
+            }
+        });
+
+        if (this.remainingSpectrogramsToProcess()) {
+            _processNextSpectrogram();
+        }
+    };
+
 }
 
 

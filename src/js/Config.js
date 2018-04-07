@@ -48,9 +48,12 @@ function Config() {
             'lastRenamePatterns',
             'projectFilePattern',
             'editorExecutablePath',
+            'ffmpegExecutablePath',
             'showTargetColumn'
         ],
         writeConfig = function() {
+            resetFileInputs();
+
             var configToWrite = {};
             _.each(PROPERTIES_TO_PERSIST, function(prop) {
                 if (_.isFunction(self[prop])) {
@@ -93,7 +96,8 @@ function Config() {
                 // assert isFunction(self[prop])
                 self[prop].subscribe(writeConfig);
             });
-        };
+        },
+        resetFileInputs = () => document.getElementById('filesForm').reset();
 
     this.sourcePath = ko.observable(appPath);
     this.targetPath = ko.observable(appPath);
@@ -110,15 +114,29 @@ function Config() {
     this.lastRenamePatterns = ko.observableArray();
     this.projectFilePattern = ko.observable(DEFAULT_PROJECT_FILE_PATTERN);
     this.editorExecutablePath = ko.observable('');
+    this.ffmpegExecutablePath = ko.observable('');
 
     this.openEditorExecutableFileDialog = function() {
         $('#editor-executable-file').trigger('click');
     };
 
+    this.openFfmpegExecutableFileDialog = function() {
+        $('#ffmpeg-executable-file').trigger('click');
+    };
+
     this.saveEditorExecutableFileDialog = function() {
         var filePath = $('#editor-executable-file').val();
+        resetFileInputs();
         if (filePath) {
-            this.editorExecutablePath(filePath);
+            self.editorExecutablePath(filePath);
+        }
+    };
+
+    this.saveFfmpegExecutableFileDialog = function() {
+        var filePath = $('#ffmpeg-executable-file').val();
+        resetFileInputs();
+        if (filePath && /ffmpeg/.test(filePath)) {
+            self.ffmpegExecutablePath(filePath);
         }
     };
 

@@ -107,6 +107,39 @@ label, audio {
     display: block;
 }
 
+img.spectro {
+    max-height: 100px;
+    width: 100%;
+
+    .asFloatingList & {
+        max-width: 300px;
+    }
+}
+
+.remainingSpectrograms {
+    position: fixed;
+    bottom: 17px;
+    left: 8px;
+    min-width: 300px;
+    background: #dcafaf;
+    padding: 5px 10px;
+    border: 2px solid @color-headline-red;
+    text-align: center;
+    border-radius: 3px;
+
+    span {
+        color: #111;
+        font-weight: bold;
+        display: block;
+        padding: 5px 0 30px;
+    }
+    div {
+        color: #333;
+        font-weight: bold;
+        padding-bottom: 4px;
+    }
+}
+
 form p {
     padding-bottom: 10px;
 }
