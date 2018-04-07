@@ -34,7 +34,7 @@ function App() {
     let self = this,
         audioElement = $('audio:first')[0],
         HANDLERS = {
-            FILE_DRAG_START: function(e) {
+            FILE_DRAG_START: (e) => {
                 let dt = e.originalEvent.dataTransfer,
                     fileItem = ko.contextFor(e.target).$data;
 
@@ -57,16 +57,16 @@ function App() {
                 // in the windows temp folder!
                 // dt.setData('DownloadURL', Helper.MIME_TYPES.WAV + ':' + fileItem.filename + ':' + fileItem.path);
             },
-            DIR_DRAG_OVER: function(e) {e.preventDefault()},
-            DIR_DRAG_ENTER: function(e) {
+            DIR_DRAG_OVER: (e) => e.preventDefault(),
+            DIR_DRAG_ENTER: (e) => {
                 e.preventDefault();
                 $(this).addClass('drag-over');
             },
-            DIR_DRAG_LEAVE: function(e) {
+            DIR_DRAG_LEAVE: (e) => {
                 e.preventDefault();
                 $(this).removeClass('drag-over');
             },
-            DIR_DROP: function(e) {
+            DIR_DROP: (e) => {
                 e.preventDefault();
                 $(this).removeClass('drag-over');
 
@@ -77,15 +77,15 @@ function App() {
                     targetDirItem: dirItem
                 }).show();
             },
-            DIR_CONTEXTMENU: function(e) {
+            DIR_CONTEXTMENU: (e) => {
                 let dirItem = ko.contextFor(e.target).$data;
                 DirContextMenu.getInstance(self.target, dirItem).show(e);
             },
-            DIR_DOUBLECLICK: function(e) {
+            DIR_DOUBLECLICK: (e) => {
                 let dirItem = ko.contextFor(e.target).$data;
                 self.target.path(dirItem.path);
             },
-            SELECTED_SOURCE_FILES_CHANGE: function() {
+            SELECTED_SOURCE_FILES_CHANGE: () => {
                 let selectedIds = self.source.selectedFileIds();
                 $('#sourceList li').each(function() {
                     let id = this.getAttribute('data-id') || '',
@@ -98,7 +98,7 @@ function App() {
                     }
                 });
             },
-            KEY_PRESSED: function(e) {
+            KEY_PRESSED: (e) => {
                 if (e.charCode) {
                     return;
                 }
@@ -120,7 +120,7 @@ function App() {
              * @param e
              * @param filePlaying
              */
-            SOURCE_FILE_CLICK: function(ctx, e /* , filePlaying */) {
+            SOURCE_FILE_CLICK: (ctx, e /* , filePlaying */) => {
                 let context = ko.contextFor(e.target),
                     clickedFileItem = context && context.$data,
                     skipFilePlaying = false;
@@ -139,7 +139,7 @@ function App() {
                 }
             },
 
-            SOURCE_FILE_RIGHTCLICK: function(ctx, e /*, filePlaying */) {
+            SOURCE_FILE_RIGHTCLICK: (ctx, e /*, filePlaying */) => {
                 let context = ko.contextFor(e.target),
                     clickedFileItem = context && context.$data;
                 e.preventDefault();
@@ -150,15 +150,9 @@ function App() {
                     fileItem: clickedFileItem
                 }).show(e);
             },
-            SOURCE_RIGHTCLICK: function(ctx, e) {
-                SourceContextMenu.getInstance(self.source).show(e);
-            },
-            TARGET_RIGHTCLICK: function(ctx, e) {
-                TargetContextMenu.getInstance(self.target).show(e);
-            },
-            SOURCE_LIST_CLICK: function() {
-                self.source.selectedFileIds.removeAll();
-            }
+            SOURCE_RIGHTCLICK: (ctx, e) => SourceContextMenu.getInstance(self.source).show(e),
+            TARGET_RIGHTCLICK: (ctx, e) => TargetContextMenu.getInstance(self.target).show(e),
+            SOURCE_LIST_CLICK: () => self.source.selectedFileIds.removeAll()
         };
 
     this.DUPLICATE_FILTER_OPTS = _.values(DUPLICATE_FILTER_MODE);
@@ -269,14 +263,15 @@ function App() {
 
         Helper.assert(_.isElement(audioElement), 'Missing the audioElement');
 
-        $(document.body).on('dragstart', '.file', HANDLERS.FILE_DRAG_START);
-        $(document.body).on('dragover', '.dir', HANDLERS.DIR_DRAG_OVER);
-        $(document.body).on('dragenter', '.dir', HANDLERS.DIR_DRAG_ENTER);
-        $(document.body).on('dragleave', '.dir', HANDLERS.DIR_DRAG_LEAVE);
-        $(document.body).on('drop', '.dir', HANDLERS.DIR_DROP);
         $(document).on('keyup', HANDLERS.KEY_PRESSED);
-        $('#directoryList').on('contextmenu', '.dir', HANDLERS.DIR_CONTEXTMENU);
-        $('#directoryList').on('dblclick', '.dir', HANDLERS.DIR_DOUBLECLICK);
+        $(document.body).on('dragstart', '.file', HANDLERS.FILE_DRAG_START)
+                        .on('dragover', '.dir', HANDLERS.DIR_DRAG_OVER)
+                        .on('dragenter', '.dir', HANDLERS.DIR_DRAG_ENTER)
+                        .on('dragleave', '.dir', HANDLERS.DIR_DRAG_LEAVE)
+                        .on('drop', '.dir', HANDLERS.DIR_DROP);
+
+        $('#directoryList').on('contextmenu', '.dir', HANDLERS.DIR_CONTEXTMENU)
+                           .on('dblclick', '.dir', HANDLERS.DIR_DOUBLECLICK);
         self.source.selectedFileIds.subscribe(HANDLERS.SELECTED_SOURCE_FILES_CHANGE);
         Helper.listen(Helper.EVENTS.PLAY_FILE, self.playFileItem);
         Helper.listen(Helper.EVENTS.CHANGE_SOURCE_PATH, function(newPath) {
