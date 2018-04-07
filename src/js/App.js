@@ -24,7 +24,8 @@ let {ko, _, Helper, $} = require('./common'),
         NONE: 'none',
         WITH_DUPLICATES: 'with',
         WITHOUT_DUPLICATES: 'without'
-    };
+    },
+    SPECTROGRAM_CLICKZONE_CLASS = 'spectro__clickzone';
 
 /**
  * The App.
@@ -134,7 +135,7 @@ function App() {
                     skipFilePlaying = !self.source.isFileItemSelected(clickedFileItem);
                 } else if (clickedFileItem.isAudioFile && this.isFilePlaying(clickedFileItem) && clickedFileItem.spectrogram()) {
                     let offsetX = e.offsetX || 0,
-                        target = (e.target.className === 'spectro__clickzone') && e.target,
+                        target = (e.target.className === SPECTROGRAM_CLICKZONE_CLASS) && e.target,
                         percentage = target ? (100 * offsetX / $(target).width()) : 0;
 
                     this.audioPositionInPercent(percentage);
@@ -153,6 +154,12 @@ function App() {
                     clickedFileItem = context && context.$data;
                 e.preventDefault();
                 e.stopPropagation();
+
+                if (e.target.className === SPECTROGRAM_CLICKZONE_CLASS) {
+                    audioElement.pause();
+                    return;
+                }
+
                 FileContextMenu.getInstance({
                     sourceWatcher: self.source,
                     targetWatcher: self.target,
