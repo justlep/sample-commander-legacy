@@ -1,29 +1,40 @@
 # Synchronizer [![Build Status](https://travis-ci.org/justlep/synchronizer.svg?branch=master)](https://travis-ci.org/justlep/synchronizer)
-An application for copying .WAV files from a fieldrecorder and/or SD card to the PC.
+An application for browsing an audio sample collection and for synchronizing .WAV files from a fieldrecorder or SD card to the PC.
 Based on NodeJS and Node-Webkit. Compileable to a standalone program (currently tested on Win7/64bit only),
 but should easily be adjustable for Linux/Mac.
 
-## Install
+**Update April 2018**: you can now generate & display spectrograms for the .wav files (requires [ffmpeg](https://ffmpeg.org/download.html) to be installed).
 
+![](https://raw.githubusercontent.com/justlep/synchronizer/master/doc/screenshots/overview.png)
+With spectrograms:
+![](https://raw.githubusercontent.com/justlep/synchronizer/master/doc/screenshots/spectrogram-floating.png)
+
+
+## Installation
+A pre-compiled zip with the latest build can be 
+[downloaded here](http://dl.justlep.net/synchronizer/Synchronizer-v1.0.6-Win64.zip) (approx. 65MB, unpacked ~150MB).
+Just extract it somewhere and run `Synchronizer.exe`.
+
+However, if you have Nodejs installed, you're free to build the app all by yourself.
 ```sh
 $ npm install
 ```
 
-## Run locally (with developer tools enabled, optionally start watchers)
+#### Run locally (with developer tools enabled, optionally start watchers)
 ```sh
 $ grunt runDebug
 ```
 
-## Run LESS/PUG watchers (auto-rebuild CSS/HTML when .less and .pug files change)
+#### Run LESS/PUG watchers (auto-rebuild CSS/HTML when .less and .pug files change)
 ```sh
 $ grunt watchLessAndPug
 ```
 
-## Build standalone application (uncompressed)
+#### Build standalone application (uncompressed)
 ```sh
 $ grunt buildApp
 ```
-## Build standalone application (with the .exe file compressed; win64 only)
+#### Build standalone application (with the .exe file compressed; win64 only)
 ```sh
 $ grunt buildAppCompressed
 ```
@@ -36,12 +47,4 @@ Allowed platforms: ['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64']
 See: https://github.com/nwjs/nw-builder
 
 
-## Screenshots (see ./doc/screenshots/)
-The GUI with the SD card (=Source) on the left, and the sample collection folder (=Target) on the right.\
-Files can be dragged to the right to open a copy/move dialog.\
-Optionally, files can be hidden which either already **exist** or **not exist** in the Target. Duplicates are recognized no matter how deep within the Target subfolder structure they are or if they've been renamed.
-![](https://raw.githubusercontent.com/justlep/synchronizer/master/doc/screenshots/dragging.png)
-Renaming files. Allows to search/replace inside the filenames, add sequence numbers etc.
-![](https://raw.githubusercontent.com/justlep/synchronizer/master/doc/screenshots/rename.png)
-Drag files to the target, then decide whether to copy or move them.
-![](https://raw.githubusercontent.com/justlep/synchronizer/master/doc/screenshots/copymove.png)
+## More Screenshots: (see [doc/](./doc/))
