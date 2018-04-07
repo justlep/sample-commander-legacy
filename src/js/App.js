@@ -341,8 +341,11 @@ function App() {
         return style;
     };
 
-    this.switchListMode = function() {
-        self.config.floatingList(!self.config.floatingList());
+    this.switchListMode = () => {
+        this.config.floatingList(!this.config.floatingList());
+        if (this.filePlaying() && !audioElement.paused) {
+            setTimeout(this.scrollToPlayedFile, 100);
+        }
     };
 
     /**
