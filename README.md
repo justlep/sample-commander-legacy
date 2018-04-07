@@ -9,7 +9,7 @@ but should easily be adjustable for Linux/Mac.
 With spectrograms (clickable to change the play position):
 ![](https://raw.githubusercontent.com/justlep/synchronizer/master/doc/screenshots/spectrogram-floating.png)
 
-More screenshots in [doc/](./doc/))
+More screenshots in [doc/](./doc/)
 
 ## Download & Installation (prebuild for Windows 7)
 A pre-compiled zip with the latest build can be 
