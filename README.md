@@ -12,7 +12,7 @@ With spectrograms (clickable to change the play position):
 
 ## Installation
 A pre-compiled zip with the latest build can be 
-[downloaded here](http://dl.justlep.net/synchronizer/Synchronizer-v1.0.7-Win64.zip) (approx. 65MB, unpacked ~150MB).
+[downloaded here](http://dl.justlep.net/synchronizer/Synchronizer-v1.0.8-Win64.zip) (approx. 65MB, unpacked ~150MB).
 Just extract it somewhere and run `Synchronizer.exe`.
 
 However, if you have Nodejs installed, you're free to build the app all by yourself.
