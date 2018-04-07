@@ -173,14 +173,13 @@ function App() {
 
     this.DUPLICATE_FILTER_OPTS = _.values(DUPLICATE_FILTER_MODE);
 
-    this.playFileItem = function(fileItemOrId) {
+    this.playFileItem = (fileItemOrId) => {
         let fileItem = _.isObject(fileItemOrId) ? fileItemOrId : null;
         if (!fileItem) {
-            fileItem = _.find(self.source.files(), function(item) {
-                return item.id === fileItemOrId;
-            });
+            fileItem = self.source.files().find(item => item.id === fileItemOrId);
         }
         if (fileItem) {
+            audioDuration(0);
             self.filePlaying(_.clone(fileItem));
         }
     };
