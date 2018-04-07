@@ -443,7 +443,7 @@ function PathWatcher(opts) {
                 timeout: undefined // makes sense or not?
             }, (err, stdout, stderr) => {
                 if (err) {
-                    console.error('Failed to generate %s', spectroImgFilePath);
+                    console.error('Failed to generate %s. Error is:\n%s', spectroImgFilePath, stderr);
                 } else {
                     f.spectrogram(spectroImgFilePath);
                 }
