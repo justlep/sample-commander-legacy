@@ -40,6 +40,10 @@ let {Helper, gui} = require('./common'),
     lastPathMenu = new gui.Menu();
 
 
+menu.append(new gui.MenuItem({
+    label: 'One up',
+    click: () => target.gotoParent()
+}));
 menu.append(new gui.MenuItem( {
     label: 'Recent paths',
     submenu: lastPathMenu

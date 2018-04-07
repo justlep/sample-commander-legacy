@@ -70,6 +70,10 @@ let {Helper, gui} = require('./common'),
     lastPathMenu = new gui.Menu();
 
 
+menu.append(new gui.MenuItem({
+    label: 'One up',
+    click: () => source.gotoParent()
+}));
 menu.append(new gui.MenuItem( {
     label: 'Recent paths',
     submenu: lastPathMenu
@@ -93,14 +97,7 @@ menu.append(new gui.MenuItem({
 menu.append(new gui.MenuItem({type: 'separator'}))
 menu.append(new gui.MenuItem({
     label: 'Show Spectrograms',
-    click: () => {
-        let ffmpegExe = config.ffmpegExecutablePath();
-        if (ffmpegExe) {
-            source.showSpectrograms();
-        } else {
-            config.openFfmpegExecutableFileDialog();
-        }
-    }
+    click: () => source.showSpectrograms()
 }));
 menu.append(new gui.MenuItem({
     label: 'Hide Spectrograms',

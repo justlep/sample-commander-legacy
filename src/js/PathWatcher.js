@@ -393,6 +393,15 @@ function PathWatcher(opts) {
         }
     });
 
+    this.gotoParent = () => {
+        let path = this.path(),
+            parentPath = path && nodePath.resolve(path, '..');
+
+        if (parentPath && parentPath !== path) {
+            this.path(parentPath);
+        }
+    };
+
     /**
      * Reloads the current path of this watcher.
      */
