@@ -336,7 +336,7 @@ function App() {
         if (!path) {
             return '';
         }
-        let style = `background-image: url('file:///${path.replace(/[\\]/g, '/')}')`;
+        let style = `background-image: url('file:///${path.replace(/[\\]/g, '/').replace(/'/g,'\\\'')}')`;
         // console.warn('x: %o, path: %s, url=%s', x, path, url);
         return style;
     };
