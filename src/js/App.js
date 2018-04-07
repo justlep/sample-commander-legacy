@@ -33,6 +33,8 @@ let {ko, _, Helper, $} = require('./common'),
 function App() {
     let self = this,
         audioElement = $('audio:first')[0],
+        audioDuration = ko.observable(0),
+        audioPositionInSeconds = ko.observable(0),
         HANDLERS = {
             FILE_DRAG_START: (e) => {
                 let dt = e.originalEvent.dataTransfer,
@@ -130,6 +132,13 @@ function App() {
                 } else if (e.ctrlKey) {
                     self.source.toggleSelectFileItem(clickedFileItem);
                     skipFilePlaying = !self.source.isFileItemSelected(clickedFileItem);
+                } else if (clickedFileItem.isAudioFile && this.isFilePlaying(clickedFileItem) && clickedFileItem.spectrogram()) {
+                    let offsetX = e.offsetX || 0,
+                        target = (e.target.className === 'spectro__clickzone') && e.target,
+                        percentage = target ? (100 * offsetX / $(target).width()) : 0;
+
+                    this.audioPositionInPercent(percentage);
+                    return;
                 } else {
                     self.source.selectFileItem(clickedFileItem);
                 }
@@ -297,6 +306,34 @@ function App() {
 
     this.onSourceFileRightClicked = HANDLERS.SOURCE_FILE_RIGHTCLICK;
 
+    this.audioPositionInPercent = ko.computed({
+        read: ko.pureComputed(() => {
+            let duration = audioDuration();
+            return duration ? Math.floor(100 * audioPositionInSeconds() / duration) : 0;
+        }),
+        write: (percent) => {
+            let duration = audioDuration();
+            audioElement.currentTime = Math.min(duration * percent / 100, duration);
+            if (!audioElement.ended) {
+                audioElement.play();
+            }
+        }
+    });
+
+    this.isFilePlaying = (file) => {
+        let fp = file && this.filePlaying();
+        return fp && fp.id === file.id;
+    };
+
+    this.getBgImageStyleForPath = (path) => {
+        if (!path) {
+            return '';
+        }
+        let style = `background-image: url('file:///${path.replace(/[\\]/g, '/')}')`;
+        // console.warn('x: %o, path: %s, url=%s', x, path, url);
+        return style;
+    };
+
     this.switchListMode = function() {
         self.config.floatingList(!self.config.floatingList());
     };
@@ -381,6 +418,14 @@ function App() {
                 // so what (can happen on invalid files
             }
         }
+    };
+
+    audioElement.ondurationchange = (e) => {
+        audioDuration(audioElement.duration || 0);
+    };
+
+    audioElement.ontimeupdate = (e) => {
+        audioPositionInSeconds(audioElement.currentTime || 0);
     };
 
     initOnce();

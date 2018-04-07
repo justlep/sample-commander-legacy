@@ -107,12 +107,35 @@ label, audio {
     display: block;
 }
 
-img.spectro {
-    max-height: 100px;
+.spectro {
+    height: 100px;
     width: 100%;
+    background: transparent none 0 0 no-repeat;
+    background-clip: content-box;
+    background-size: 100% 100%;
+    position: relative;
 
     .asFloatingList & {
         max-width: 300px;
+    }
+
+    &__progress {
+        height: 100%;
+        background: rgba(255,255,255,0.1);
+        overflow: hidden;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    &__clickzone {
+        height: 100%;
+        width: 100%;
+        background: transparent;
+        overflow: hidden;
+        position: absolute;
+        left: 0;
+        top: 0;
+        cursor: crosshair;
     }
 }
 

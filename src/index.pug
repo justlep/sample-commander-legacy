@@ -30,11 +30,16 @@ html
                         .aborted(data-bind='visible: source.aborted') aborted
                         .invalid-path(data-bind='visible: source.invalidPath') invalid path
                         ul#sourceList.file-list(data-bind='css: {asFloatingList: config.floatingList, asTable: !config.floatingList(), showFilesize: config.showFilesize, showCDate: config.showCDate}, click: onSourceFileClicked, event: {contextmenu: onSourceFileRightClicked}, clickBubble: false, fastForEach: source.files')
-                            li.file(draggable='true', dropzone='copy', data-bind="filteredFile: {hiddenIds1: $root.hiddenFileIdsByFilter, hiddenIds2: $root.hiddenFileIdsByDuplicateFilter}, attr: {'data-id': id, title: $root.config.filePathTooltip() && path}, css: {file: true, playing: ($root.filePlaying() && $data.id === $root.filePlaying().id)}")
+                            li.file(draggable='true', dropzone='copy', data-bind="filteredFile: {hiddenIds1: $root.hiddenFileIdsByFilter, hiddenIds2: $root.hiddenFileIdsByDuplicateFilter}, attr: {'data-id': id, title: $root.config.filePathTooltip() && path}, css: {file: true, playing: $root.isFilePlaying($data)}")
                                 span.filename(data-bind='text: filename')
                                 span.filesize(data-bind='text: formattedFilesize')
                                 span.cdate(data-bind='text: formattedCDate')
-                                img.spectro(data-bind="attr: {src: spectrogram() || ''}, visible: spectrogram")
+                                <!-- ko if: spectrogram() -->
+                                .spectro(data-bind="attr: {style: $root.getBgImageStyleForPath(spectrogram())}, if: $root.isFilePlaying($data)")
+                                    .spectro__progress(data-bind="style: {width: $root.audioPositionInPercent() + '%'}")
+                                    .spectro__clickzone
+                                <!-- /ko -->
+
             // /SOURCE BOX
             // TARGET BOX
             .column(data-bind="visible: config.showTargetColumn")
