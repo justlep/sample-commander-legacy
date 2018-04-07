@@ -21,7 +21,7 @@ let {Helper, gui} = require('./common'),
         label: 'Directory limit...',
         checked: true,
         click: function() {
-            var oldValue = config.maxDirs() || '',
+            let oldValue = config.maxDirs() || '',
                 newValue = false;
 
             while (!newValue) {
@@ -67,14 +67,14 @@ menu.append(new gui.MenuItem({
     }
 }));
 
-var onPathItemClick = function () {
-    var newPath = this.label;
+let onPathItemClick = function () {
+    let newPath = this.label;
     target.path(newPath);
 };
 
 function updateRecentPaths() {
-    for (var i=0; i<Config.MAX_RECENT_PATHS; i++) {
-        var item = lastPathMenu.items[i],
+    for (let i=0; i<Config.MAX_RECENT_PATHS; i++) {
+        let item = lastPathMenu.items[i],
             path = config.lastTargetPaths()[i];
         if (!item) {
             item = new gui.MenuItem({

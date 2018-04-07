@@ -47,7 +47,7 @@ let {ko, _, $, Helper} = require('./common'),
  * @constructor
  */
 function DialogManager() {
-    var self = this,
+    let self = this,
         jModalDialog = $('#dialog'),
         currentDialog = ko.observable(null),
         currentDialogSettings = null,
@@ -76,7 +76,7 @@ function DialogManager() {
 
     this.templateToRender = ko.computed(function() {
         // (!) don't use just currentDialogSettings here, otherwise this computed won't be updated anymore!
-        var templateName = self.dialog() && self.dialog().settings.templateName;
+        let templateName = self.dialog() && self.dialog().settings.templateName;
         console.log('Overlay template: %s', templateName);
         return templateName;
     });

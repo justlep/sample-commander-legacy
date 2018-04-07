@@ -12,7 +12,7 @@ let {ko, Helper, _, moment, $} = require('./common'),
     nodeFs = require('fs'),
     nodePath = require('path'),
     createFileItem = function(fileInfo) {
-        var size = fileInfo.stat.size || 0,
+        let size = fileInfo.stat.size || 0,
             idHash = nodeCrypto.createHash('sha1'),
             resolvedPath = nodePath.resolve(fileInfo.fullPath),
             ctime = fileInfo.stat.ctime.getTime(),
@@ -33,7 +33,7 @@ let {ko, Helper, _, moment, $} = require('./common'),
         };
     },
     createDirectoryItem = function(name, path) {
-        var item = {
+        let item = {
                 name: name,
                 path: nodePath.resolve(path),
                 depth: 0,
@@ -48,7 +48,7 @@ let {ko, Helper, _, moment, $} = require('./common'),
             if (dirItem.path.toLowerCase().indexOf(rootPath.toLowerCase()) !== 0) {
                 return;
             }
-            var matchedDelimiters = dirItem.path.substring(rootPath.length).match(/[\/\\]/g);
+            let matchedDelimiters = dirItem.path.substring(rootPath.length).match(/[\/\\]/g);
             dirItem.depth = matchedDelimiters && matchedDelimiters.length;
         });
 
@@ -61,7 +61,7 @@ let {ko, Helper, _, moment, $} = require('./common'),
      * @return Array of String
      */
     getDirectoriesFromFileItems = function(fileItems) {
-        var dirs = {};
+        let dirs = {};
         _.each(fileItems, function(fileItem) {
             dirs[fileItem.parentDir] = null;
         });
@@ -85,7 +85,7 @@ function PathWatcher(opts) {
     Helper.assert(!opts.directoriesOnly || _.isFunction(opts.maxDirsObservable), 'Missing maxDirs');
     Helper.assertString(opts.listId, 'Missing listId');
 
-    var self = this,
+    let self = this,
         dirsOnly = ko.observable(!!opts.directoriesOnly),
         abortRequested = false,
         lastSelectedFileId = null,
@@ -122,7 +122,7 @@ function PathWatcher(opts) {
     };
 
     this.selectAll = function() {
-        var allIds = _.map(self.files(), function(fileItem) {
+        let allIds = _.map(self.files(), function(fileItem) {
             return fileItem.id;
         });
         self.selectedFileIds(allIds);
@@ -155,11 +155,11 @@ function PathWatcher(opts) {
      * @return only those selected file items that are currently visible
      */
     this.getVisibleSelectedFileItems = function() {
-        var newFileItems = [],
+        let newFileItems = [],
             visibleLIs = jList.find('li:visible');
 
         _.each(self.getSelectedFileItems(), function(fileItem) {
-            var fileIsVisible = !!visibleLIs.filter('li[data-id="'+ fileItem.id +'"]:first').length;
+            let fileIsVisible = !!visibleLIs.filter('li[data-id="'+ fileItem.id +'"]:first').length;
 
             if (fileIsVisible) {
                 newFileItems.push(fileItem);
@@ -173,7 +173,7 @@ function PathWatcher(opts) {
         if (!lastSelectedFileId) {
             return;
         }
-        var indexLast = -1,
+        let indexLast = -1,
             indexClicked = -1,
             startIndex,
             endIndex,
@@ -192,8 +192,8 @@ function PathWatcher(opts) {
         startIndex = Math.min(indexLast, indexClicked);
         endIndex = Math.max(indexLast, indexClicked);
 
-        for (var i=startIndex; i <= endIndex; i++) {
-            var idToAdd = filesArray[i].id;
+        for (let i=startIndex; i <= endIndex; i++) {
+            let idToAdd = filesArray[i].id;
             if (self.selectedFileIds().indexOf(idToAdd) < 0) {
                 self.selectedFileIds.push(idToAdd);
             }
@@ -211,7 +211,7 @@ function PathWatcher(opts) {
         Helper.assertString(filePattern, 'invalid filePattern for PathWatcher.getFileItemsByPattern');
         Helper.assertFunction(callback, 'invalid callback for PathWatcher.getFileItemsByPattern');
 
-        var matchedFiles = [],
+        let matchedFiles = [],
             stream = readdirp({
                 root: self.path(),
                 fileFilter: (_.isArray(filePattern)) ? filePattern : [filePattern]
@@ -226,7 +226,7 @@ function PathWatcher(opts) {
     };
 
     this.toggleSelectFileItem = function(fileItem, skipRememberLastSelected) {
-        var id = fileItem.id;
+        let id = fileItem.id;
         if (self.selectedFileIds().indexOf(id) >= 0) {
             self.selectedFileIds.remove(id);
         } else {
@@ -238,7 +238,7 @@ function PathWatcher(opts) {
     };
 
     this.selectFileItem = function(fileItem) {
-        var id = fileItem.id;
+        let id = fileItem.id;
         self.unselectAll();
         self.selectedFileIds([id]);
         lastSelectedFileId = id;
@@ -247,7 +247,7 @@ function PathWatcher(opts) {
     this.addSubdirectoryItem = function(name, parentDirItem) {
         Helper.assertObject(parentDirItem, 'missing parentDirItem in PathWatcher.addSubdirectoryItem()');
         Helper.assertString(name, 'missing name in PathWatcher.addSubdirectoryItem()');
-        var subdirItem = createDirectoryItem(name, nodePath.resolve(parentDirItem.path, name)),
+        let subdirItem = createDirectoryItem(name, nodePath.resolve(parentDirItem.path, name)),
             parentDirIndex = self.directories().indexOf(parentDirItem);
         subdirItem.depth = parentDirItem.depth + 1;
         if (parentDirIndex >= 0) {
@@ -282,7 +282,7 @@ function PathWatcher(opts) {
         self.isLoading(true);
         abortRequested = false;
 
-        var newFiles = [],
+        let newFiles = [],
             aborted = false,
             stream = readdirp({
                 root: newPath,
@@ -325,7 +325,7 @@ function PathWatcher(opts) {
         self.files.removeAll();
         abortRequested = false;
 
-        var newDirectories = [],
+        let newDirectories = [],
             aborted = false,
             maxDirsLeft = Math.max(opts.maxDirsObservable(), 0),
             resolvedPath = nodePath.resolve(newPath),
@@ -371,7 +371,7 @@ function PathWatcher(opts) {
                 return;
             }
 
-            var resolvedPath = nodePath.resolve(newPath || '.');
+            let resolvedPath = nodePath.resolve(newPath || '.');
 
             Helper.notify(Helper.EVENTS.PATH_CHANGED);
 
@@ -405,7 +405,7 @@ function PathWatcher(opts) {
     };
 
     this.onPathChange = function(ctx, e) {
-        var newPath = e.target.value;
+        let newPath = e.target.value;
         if (newPath) {
             self.path(newPath);
         }

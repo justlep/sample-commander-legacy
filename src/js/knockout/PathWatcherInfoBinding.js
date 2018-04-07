@@ -13,7 +13,7 @@ ko.bindingHandlers.pathWatcherInfo = {
     update: function(element, valueAccessor /*, allBindings, viewModel, bindingContext */) {
         Helper.assert(valueAccessor() instanceof PathWatcher, 'No PathWatcher given for pathWatcherInfo binding');
 
-        var watcher = valueAccessor(),
+        let watcher = valueAccessor(),
             dirsOnly = watcher.directoriesOnly(),
             fileNum = !dirsOnly && watcher.files().length,
             dirNum = (dirsOnly) ? watcher.directories().length : watcher.directoriesWithFiles().length,

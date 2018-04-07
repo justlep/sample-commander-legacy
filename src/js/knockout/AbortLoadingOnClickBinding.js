@@ -6,7 +6,7 @@ let {ko, Helper, $} = require('../common'),
 
 ko.bindingHandlers.abortLoadingOnClick = {
     init: function(element, valueAccessor /*, allBindings, viewModel, bindingContext */) {
-        var watcher = valueAccessor();
+        let watcher = valueAccessor();
 
         Helper.assert(watcher instanceof PathWatcher, 'No PathWatcher given for abortLoadingOnClick binding');
 

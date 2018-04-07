@@ -32,7 +32,7 @@ if (!isStandalone) {
  */
 function Config() {
 
-    var self = this,
+    let self = this,
         PROPERTIES_TO_PERSIST = [
             'sourcePath',
             'targetPath',
@@ -54,7 +54,7 @@ function Config() {
         writeConfig = function() {
             resetFileInputs();
 
-            var configToWrite = {};
+            let configToWrite = {};
             _.each(PROPERTIES_TO_PERSIST, function(prop) {
                 if (_.isFunction(self[prop])) {
                     configToWrite[prop] = self[prop]();
@@ -71,7 +71,7 @@ function Config() {
         initOnce = function() {
             // Load config OR use default one and persist it
             try {
-                var config = jsonfile.readFileSync(CONFIG_FILE);
+                let config = jsonfile.readFileSync(CONFIG_FILE);
                 console.log('Found config file "%s"', CONFIG_FILE);
                 _.each(config, function(val, key) {
                     if (_.contains(PROPERTIES_TO_PERSIST, key)) {
@@ -125,7 +125,7 @@ function Config() {
     };
 
     this.saveEditorExecutableFileDialog = function() {
-        var filePath = $('#editor-executable-file').val();
+        let filePath = $('#editor-executable-file').val();
         resetFileInputs();
         if (filePath) {
             self.editorExecutablePath(filePath);
@@ -133,7 +133,7 @@ function Config() {
     };
 
     this.saveFfmpegExecutableFileDialog = function() {
-        var filePath = $('#ffmpeg-executable-file').val();
+        let filePath = $('#ffmpeg-executable-file').val();
         resetFileInputs();
         if (filePath && /ffmpeg/.test(filePath)) {
             self.ffmpegExecutablePath(filePath);
@@ -169,7 +169,7 @@ function Config() {
             alert('no pattern');
             return;
         }
-        var obsArr = self.lastRenamePatterns;
+        let obsArr = self.lastRenamePatterns;
         if (_.contains(obsArr(), pattern)) {
             obsArr.remove(pattern);
         }

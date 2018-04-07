@@ -31,11 +31,11 @@ let {ko, _, Helper, $} = require('./common'),
  * @constructor
  */
 function App() {
-    var self = this,
+    let self = this,
         audioElement = $('audio:first')[0],
         HANDLERS = {
             FILE_DRAG_START: function(e) {
-                var dt = e.originalEvent.dataTransfer,
+                let dt = e.originalEvent.dataTransfer,
                     fileItem = ko.contextFor(e.target).$data;
 
                 // TODO fixme in some situations after some selecting/deselection, this event wont fire anymore.
@@ -70,7 +70,7 @@ function App() {
                 e.preventDefault();
                 $(this).removeClass('drag-over');
 
-                var dirItem = ko.contextFor(e.target).$data;
+                let dirItem = ko.contextFor(e.target).$data;
 
                 CopyMoveFilesDialog.getInstance({
                     source: self.source,
@@ -78,17 +78,17 @@ function App() {
                 }).show();
             },
             DIR_CONTEXTMENU: function(e) {
-                var dirItem = ko.contextFor(e.target).$data;
+                let dirItem = ko.contextFor(e.target).$data;
                 DirContextMenu.getInstance(self.target, dirItem).show(e);
             },
             DIR_DOUBLECLICK: function(e) {
-                var dirItem = ko.contextFor(e.target).$data;
+                let dirItem = ko.contextFor(e.target).$data;
                 self.target.path(dirItem.path);
             },
             SELECTED_SOURCE_FILES_CHANGE: function() {
-                var selectedIds = self.source.selectedFileIds();
+                let selectedIds = self.source.selectedFileIds();
                 $('#sourceList li').each(function() {
-                    var id = this.getAttribute('data-id') || '',
+                    let id = this.getAttribute('data-id') || '',
                         newSelected = (selectedIds.indexOf(id) >= 0),
                         oldSelected = (this.className.indexOf('selected') >= 0);
 
@@ -121,7 +121,7 @@ function App() {
              * @param filePlaying
              */
             SOURCE_FILE_CLICK: function(ctx, e /* , filePlaying */) {
-                var context = ko.contextFor(e.target),
+                let context = ko.contextFor(e.target),
                     clickedFileItem = context && context.$data,
                     skipFilePlaying = false;
 
@@ -140,7 +140,7 @@ function App() {
             },
 
             SOURCE_FILE_RIGHTCLICK: function(ctx, e /*, filePlaying */) {
-                var context = ko.contextFor(e.target),
+                let context = ko.contextFor(e.target),
                     clickedFileItem = context && context.$data;
                 e.preventDefault();
                 e.stopPropagation();
@@ -164,7 +164,7 @@ function App() {
     this.DUPLICATE_FILTER_OPTS = _.values(DUPLICATE_FILTER_MODE);
 
     this.playFileItem = function(fileItemOrId) {
-        var fileItem = _.isObject(fileItemOrId) ? fileItemOrId : null;
+        let fileItem = _.isObject(fileItemOrId) ? fileItemOrId : null;
         if (!fileItem) {
             fileItem = _.find(self.source.files(), function(item) {
                 return item.id === fileItemOrId;
@@ -183,10 +183,10 @@ function App() {
 
     this.hiddenFileIdsByFilter = ko.observableArray();
     this.filter.subscribe(function() {
-        var newHiddenIds = [],
+        let newHiddenIds = [],
             filter = self.filter().toLowerCase();
         _.each(self.source.files(), function(fileItem) {
-            var filename = fileItem.filename.toLowerCase(),
+            let filename = fileItem.filename.toLowerCase(),
                 matches = !filter || (filename.indexOf(filter) >= 0);
             if (!matches) {
                 newHiddenIds.push(fileItem.id);
@@ -216,13 +216,13 @@ function App() {
     };
 
     function updateHiddenFileIdsByDuplicateFilter() {
-        var newHiddenIds = [],
+        let newHiddenIds = [],
             showDuplicates = (self.duplicateFilter() === DUPLICATE_FILTER_MODE.WITH_DUPLICATES),
             hideDuplicates = (self.duplicateFilter() === DUPLICATE_FILTER_MODE.WITHOUT_DUPLICATES);
 
         if (hideDuplicates || showDuplicates) {
             _.each(self.source.files(), function(fileItem) {
-                var hasDuplicates = (fileItem.duplicateIds && fileItem.duplicateIds.length);
+                let hasDuplicates = (fileItem.duplicateIds && fileItem.duplicateIds.length);
                 if ((showDuplicates && !hasDuplicates) || (hasDuplicates && hideDuplicates)) {
                     newHiddenIds.push(fileItem.id);
                 }
@@ -312,7 +312,7 @@ function App() {
      * @param e
      */
     this.scrollToPlayedFile = function(/* ctx, e */) {
-        var selector = self.filePlaying() && 'li[data-id=' + self.filePlaying().id + ']:first';
+        let selector = self.filePlaying() && 'li[data-id=' + self.filePlaying().id + ']:first';
         if (selector) {
             // the same file may reside in multiple list simultaneously, and we wanna scroll all of them..
             $(selector).each(function() {
@@ -325,7 +325,7 @@ function App() {
     };
 
     this.swapPaths = function() {
-        var oldTargetPath = self.target.path();
+        let oldTargetPath = self.target.path();
         self.target.path(self.source.path());
         self.source.path(oldTargetPath);
     };
@@ -335,7 +335,7 @@ function App() {
         self.duplicatesLoading(true);
         self.target.checkDuplicates(self.source.files(), function() {
             console.log('Duplicate check done.');
-            var duplicateIds = [];
+            let duplicateIds = [];
             _.each(self.source.files(), function(fileItem) {
                 if (fileItem.duplicateIds) {
                     duplicateIds.push(fileItem.id);
@@ -352,7 +352,7 @@ function App() {
     }
 
     function playNextOrPrev(next) {
-        var playedId = self.filePlaying() && self.filePlaying().id,
+        let playedId = self.filePlaying() && self.filePlaying().id,
             newIdToPlay = null,
             jSourceList = $('#sourceList'),
             nextLI = next && (jSourceList.find('li[data-id='+ playedId +']:visible:first').next('li')[0]

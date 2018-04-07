@@ -26,7 +26,7 @@ const H6_PROJECT_FILE_PATTERN = '*.hprj';
  */
 function DeleteFilesDialog() {
 
-    var self = this,
+    let self = this,
         dialogManager = DialogManager.getInstance(),
         config = Config.getInstance(),
         source;
@@ -57,7 +57,7 @@ function DeleteFilesDialog() {
     this.processedFileItems = ko.observableArray();
     this.deletedFileItems = ko.observableArray();
     this.progressInPercent = ko.pureComputed(function() {
-        var copiedSize = self.processedFileItems().length,
+        let copiedSize = self.processedFileItems().length,
             totalSize = self.fileItems().length;
 
         return (totalSize) ? Math.round(100 * copiedSize / totalSize) : 0;
@@ -73,7 +73,7 @@ function DeleteFilesDialog() {
     });
 
     this.canDelete = ko.pureComputed(function() {
-        var isPatternOk = (!self.useFilePattern() || self.isValidPattern()),
+        let isPatternOk = (!self.useFilePattern() || self.isValidPattern()),
             hasFiles = !!self.fileItems().length;
 
         return isPatternOk && hasFiles;
@@ -90,14 +90,14 @@ function DeleteFilesDialog() {
         }
         self.deletedFolders.removeAll();
 
-        var deleteEmptyParentFolder = self.isRemoveEmptyFolderOptionAvailable() && self.isDeleteEmptyParentFolderSelected(),
+        let deleteEmptyParentFolder = self.isRemoveEmptyFolderOptionAvailable() && self.isDeleteEmptyParentFolderSelected(),
             deletableFoldersMap = {};
 
         self.inProgress(true);
         self.doneWithErrors(false);
         _.each(self.fileItems(), function(fileItem) {
             fileItem.__deleteFailed = false;
-            var srcPath = fileItem.path;
+            let srcPath = fileItem.path;
             try {
                 nodeFs.unlinkSync(srcPath);
                 self.deletedFileItems.push(fileItem);
@@ -116,7 +116,7 @@ function DeleteFilesDialog() {
 
         Object.keys(deletableFoldersMap).forEach(function(folderPath) {
             // console.log('Checking folder: ' + folderPath);
-            var pathContent = nodeFs.readdirSync(folderPath),
+            let pathContent = nodeFs.readdirSync(folderPath),
                 isEmpty = pathContent && pathContent.every(p => (p === '.' || p === '..'));
 
             if (!isEmpty) {

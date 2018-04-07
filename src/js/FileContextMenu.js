@@ -31,7 +31,7 @@ let {_, Helper, gui} = require('./common'),
     },
 
     updateOpenDuplicateItem = function() {
-        var hasDuplicates = (currentFileItem.duplicateIds && currentFileItem.duplicateIds.length),
+        let hasDuplicates = (currentFileItem.duplicateIds && currentFileItem.duplicateIds.length),
             duplicateNumber = (hasDuplicates) ? currentFileItem.duplicateIds.length : 0;
         itemOpenDuplicates.enabled = hasDuplicates;
         itemOpenDuplicates.label = itemOpenDuplicates.label.replace(/\d+/, duplicateNumber);
@@ -76,7 +76,7 @@ let {_, Helper, gui} = require('./common'),
         },
         ITEM_OPEN_DUPLICATES: function() {
             _.each(currentFileItem.duplicateIds, function(duplicateItemId) {
-                var duplicateItem = target.getFileItemById(duplicateItemId);
+                let duplicateItem = target.getFileItemById(duplicateItemId);
                 if (duplicateItem) {
                     gui.Shell.showItemInFolder(duplicateItem.path);
                 }
@@ -87,7 +87,7 @@ let {_, Helper, gui} = require('./common'),
         },
         ITEM_OPEN_IN_EDITOR: function() {
             Helper.assert(currentFileItem && currentFileItem.isAudioFile && currentFileItem.path, 'Invalid file');
-            var editorExecutable = config.editorExecutablePath(),
+            let editorExecutable = config.editorExecutablePath(),
                 cmdLine = editorExecutable && Helper.formatString('"{executable}" "{audioFile}"', {
                         executable: editorExecutable,
                         audioFile: currentFileItem.path

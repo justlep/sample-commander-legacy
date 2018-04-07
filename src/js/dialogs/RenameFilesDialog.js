@@ -23,7 +23,7 @@ let {ko, Helper, _, $} = require('../common'),
  */
 function RenameFilesDialog() {
 
-    var self = this,
+    let self = this,
         DEFAULT_REGEX_SEARCH = '',
         DEFAULT_REGEX_REPLACE = '',
         ORIGINAL_NAME_PLACEHOLDER = '[N]',
@@ -56,7 +56,7 @@ function RenameFilesDialog() {
     this.processedFileItems = ko.observableArray();
     this.renamedFileItems = ko.observableArray();
     this.progressInPercent = ko.pureComputed(function() {
-        var copiedSize = self.processedFileItems().length,
+        let copiedSize = self.processedFileItems().length,
             totalSize = self.fileItems().length;
 
         return (totalSize) ? Math.round(100 * copiedSize / totalSize) : 0;
@@ -72,12 +72,12 @@ function RenameFilesDialog() {
     this.counterStepsize = ko.observable(DEFAULT_COUNTER_STEPSIZE);
 
     function createRegex() {
-        var ignoreCaseI = (self.regexIgnoreCase()) ? 'i' : '';
+        let ignoreCaseI = (self.regexIgnoreCase()) ? 'i' : '';
         return new RegExp('(' + self.regexSearch() + ')', 'g' + ignoreCaseI);
     }
 
     this.isRegexValid = ko.pureComputed(function() {
-        var regex = self.regexSearch(),
+        let regex = self.regexSearch(),
             isValid = true;
         if (regex) {
             try {
@@ -90,7 +90,7 @@ function RenameFilesDialog() {
     });
 
     this.regexToUse = ko.pureComputed(function() {
-        var useRegex = self.useRegex(),
+        let useRegex = self.useRegex(),
             isValid = self.isRegexValid();
         return (useRegex && isValid) ? createRegex() : null;
     });
@@ -108,24 +108,24 @@ function RenameFilesDialog() {
     };
 
     this.applySettings = function() {
-        var trimmedTargetPattern = $.trim(self.targetPattern());
+        let trimmedTargetPattern = $.trim(self.targetPattern());
         if (!trimmedTargetPattern) {
             return;
         }
 
-        var parsedCounterStart = parseInt(self.counterStart(), 10),
+        let parsedCounterStart = parseInt(self.counterStart(), 10),
             counterStart = isNaN(parsedCounterStart) ? DEFAULT_COUNTER_START : Math.round(parsedCounterStart),
             counterStepsize = parseInt(self.counterStepsize(), 10) || DEFAULT_COUNTER_STEPSIZE,
             counterDigits = parseInt(self.counterDigits(), 10) || DEFAULT_COUNTER_DIGITS,
             counter = counterStart;
 
         _.each(self.fileItems(), function(fileItem) {
-            var oldName = /* fileItem._newFilename() || */ fileItem.filename,
+            let oldName = /* fileItem._newFilename() || */ fileItem.filename,
                 oldExt = '',
                 newName = '',
                 counterStr = '' + counter;
 
-            for (var i = counterDigits - counterStr.length; i > 0; i--) {
+            for (let i = counterDigits - counterStr.length; i > 0; i--) {
                 counterStr = '0' + counterStr;
             }
 
@@ -168,7 +168,7 @@ function RenameFilesDialog() {
     };
 
     this.reusePatternSelected = function(ctx, e) {
-        var dropdown = e.target,
+        let dropdown = e.target,
             pattern = dropdown.value;
         self.targetPattern(pattern || ORIGINAL_NAME_PLACEHOLDER);
         dropdown.selectedIndex = 0;
@@ -177,7 +177,7 @@ function RenameFilesDialog() {
     this.renameFilesNow = function() {
         self.inProgress(true);
         self.doneWithErrors(false);
-        var trimmedPattern = $.trim(self.targetPattern());
+        let trimmedPattern = $.trim(self.targetPattern());
         if (trimmedPattern !== ORIGINAL_NAME_PLACEHOLDER) {
             config.addLastRenamePattern(trimmedPattern);
         }
@@ -186,7 +186,7 @@ function RenameFilesDialog() {
             fileItem.__renameFailed = true;
             fileItem.__renameSkippedExists = false;
 
-            var oldPath = fileItem.path,
+            let oldPath = fileItem.path,
                 newPath = nodePath.resolve(oldPath, '..', fileItem._newFilename());
 
             // TODO fs.exists is deprecated
@@ -235,7 +235,7 @@ function RenameFilesDialog() {
         self.renamedFileItems.removeAll();
         self.fileItems(source.getVisibleSelectedFileItems());
         _.each(self.fileItems(), function(fileItem) {
-            var newFilenameToInitWith = fileItem.newFilename || fileItem.filename;
+            let newFilenameToInitWith = fileItem.newFilename || fileItem.filename;
             if (!fileItem.newFilename) {
                 fileItem._newFilename = ko.observable(newFilenameToInitWith);
             } else {

@@ -23,7 +23,7 @@ let {ko, Helper} = require('../common'),
  */
 function InfoDialog() {
 
-    var self = this,
+    let self = this,
         dialogManager = DialogManager.getInstance();
 
     this.settings = DialogManager.createDialogSettings({

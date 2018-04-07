@@ -26,7 +26,7 @@ let {ko, Helper} = require('../common'),
  */
 function ConfirmDialog() {
 
-    var self = this,
+    let self = this,
         dialogManager = DialogManager.getInstance(),
         confirmCallback = null;
 

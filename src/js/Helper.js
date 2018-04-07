@@ -100,9 +100,9 @@ module.exports = {
      * @returns (String) s with placeholders replaced
      */
     formatString: function(s, data) {
-        var d = data || {},
+        let d = data || {},
             str = s || '';
-        for (var k in d) {
+        for (let k in d) {
             if (d.hasOwnProperty(k)) {
                 str = str.replace('{'+k+'}', ''+d[k]);
             }
@@ -130,11 +130,11 @@ module.exports = {
      * @return (String) formatted number
      */
     formatNumber: function(num) {
-        var FORMAT_REGEX = /^([+-])?(\d{1,3})(\d{3})?(\d{3})?(\d{3})?(\d{3})?(\d{3})?(\.\d*)?$/;
+        let FORMAT_REGEX = /^([+-])?(\d{1,3})(\d{3})?(\d{3})?(\d{3})?(\d{3})?(\d{3})?(\.\d*)?$/;
 
         return (''+num).replace(FORMAT_REGEX, function() {
-            var formatted = [ (arguments[1]||'') + arguments[2]];
-            for (var i = 3; i <= 7; i++) {
+            let formatted = [ (arguments[1]||'') + arguments[2]];
+            for (let i = 3; i <= 7; i++) {
                 if (arguments[i]) {
                     formatted.push('.' + arguments[i]);
                 }
@@ -164,8 +164,8 @@ module.exports = {
      * @returns (Object) a extended by properties of b
      */
     extend: function(a, bOrNothing) {
-        var b = bOrNothing || {};
-        for (var k in b) {
+        let b = bOrNothing || {};
+        for (let k in b) {
             if (b.hasOwnProperty(k)) {
                 a[k] = b[k];
             }
@@ -204,7 +204,7 @@ module.exports = {
      */
     generateElementIdFor: function(obj) {
         this.assertObject(obj, 'Invalid object passed to Helper.generateElementIdFor()');
-        var propertyName = (_.isElement(obj)) ? 'id' : this.ELEMENT_ID_PROPERTY;
+        let propertyName = (_.isElement(obj)) ? 'id' : this.ELEMENT_ID_PROPERTY;
         if (!obj[propertyName]) {
             obj[propertyName] = this.generateId();
             // console.log('Generated element id "%s" for %o (propertyName="%s")', obj[propertyName], obj,
@@ -222,7 +222,7 @@ module.exports = {
      */
     getElementIdFor: function(obj, lazyCreate) {
         this.assertObject(obj, 'Invalid object passed to Helper.getElementIdFrom()');
-        var propertyName = (_.isElement(obj)) ? 'id' : this.ELEMENT_ID_PROPERTY;
+        let propertyName = (_.isElement(obj)) ? 'id' : this.ELEMENT_ID_PROPERTY;
         if (!obj[propertyName] && lazyCreate) {
             this.generateElementIdFor(obj);
         }
@@ -277,7 +277,7 @@ module.exports = {
     listenOnce: function(eventName, handler) {
         this.assertString(eventName, 'Invalid event name for Helper.listenOnce()');
         this.assertFunction(handler, 'Invalid handler function for Helper.listenOnce()');
-        var self = this,
+        let self = this,
             wrappedHandler = function() {
                 self.unlisten(eventName, wrappedHandler);
                 handler.apply(self, arguments);
@@ -297,7 +297,7 @@ module.exports = {
     notify: function(eventName /* , params... */) {
         this.assertString(eventName, 'Invalid event name for Helper.notify()');
         // console.info('Event "%s" triggered', eventName);
-        var handlerArgs =  _.toArray(arguments).splice(1);
+        let handlerArgs =  _.toArray(arguments).splice(1);
         _.each(listeners[eventName], function(handler) {
             handler.apply(this, handlerArgs)
         });

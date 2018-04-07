@@ -23,7 +23,7 @@ let {ko, Helper, _} = require('../common'),
  */
 function CopyMoveFilesDialog() {
 
-    var self = this,
+    let self = this,
         dialogManager = DialogManager.getInstance(),
         source;
 
@@ -50,7 +50,7 @@ function CopyMoveFilesDialog() {
         }, 0);
     });
     this.progressInPercent = ko.pureComputed(function() {
-        var copiedSize = self.copiedSize(),
+        let copiedSize = self.copiedSize(),
             totalSize = self.totalSize();
 
         return (totalSize) ? Math.round(100 * copiedSize / totalSize) : 0;
@@ -58,12 +58,12 @@ function CopyMoveFilesDialog() {
 
     // TODO refactor: ditch fsExtra; use stream api; update progress continuously
     function startTransfer(moveMode) {
-        var filesLeft = _.clone(self.fileItems()),
+        let filesLeft = _.clone(self.fileItems()),
             transferFiles = function() {
                 if (!filesLeft.length) {
                     return process.nextTick(self.afterComplete);
                 }
-                var fileItem = filesLeft.shift(),
+                let fileItem = filesLeft.shift(),
                     srcPath = fileItem.path,
                     targetPath = nodePath.resolve(self.targetDirItem.path, fileItem.filenameRenamed || fileItem.filename);
 

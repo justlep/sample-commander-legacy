@@ -22,7 +22,7 @@ let {ko, Helper} = require('../common'),
  */
 function RenameDirDialog() {
 
-    var self = this,
+    let self = this,
         dialogManager = DialogManager.getInstance(),
         submitCallback = null;
 

@@ -19,7 +19,7 @@ let {_, Helper} = require('./common'),
  * @param [noCache] (boolean) if true, the cache is (re-)calculated, ignoring the cache
  */
 function calculateHash(fileItem, callback, useFullHash, noCache) {
-    var filePath = nodePath.resolve(fileItem.path),
+    let filePath = nodePath.resolve(fileItem.path),
         cacheKey = fileItem.id,
         cache = (useFullHash) ? fullHashCache : middleHashCache;
 
@@ -34,7 +34,7 @@ function calculateHash(fileItem, callback, useFullHash, noCache) {
         return;
     }
 
-    var hash = nodeCrypto.createHash('sha1'),
+    let hash = nodeCrypto.createHash('sha1'),
         fileCenterOffset = Math.floor(fileItem.filesize / 2),
         endIndex = fileItem.filesize - 1,
         streamOpts = {
@@ -76,7 +76,7 @@ function checkDuplicateFileItems(sourceList, targetList, callback) {
     Helper.assertArray(targetList, 'invalid targetList for checkDuplicateFileItems');
     Helper.assertFunction(callback, 'invalid callback for checkDuplicateFileItems');
 
-    var sourceFilesRemaining = sourceList.length,
+    let sourceFilesRemaining = sourceList.length,
         targetSizeMap = {}; // map of targetSize -> [targetItem, ..]
 
     // prepare a map of target filesizes
@@ -88,7 +88,7 @@ function checkDuplicateFileItems(sourceList, targetList, callback) {
     });
 
     _.each(sourceList, function(sourceItem){
-        var targetItemsOfSameSize = targetSizeMap[sourceItem.filesize];
+        let targetItemsOfSameSize = targetSizeMap[sourceItem.filesize];
         sourceItem.duplicateIds = null;
 
         if (!targetItemsOfSameSize || !targetItemsOfSameSize.length) {
@@ -99,7 +99,7 @@ function checkDuplicateFileItems(sourceList, targetList, callback) {
             }
         } else {
             calculateMiddleHash(sourceItem, function(sourceHash) {
-                var targetItemsRemaining = targetItemsOfSameSize.length;
+                let targetItemsRemaining = targetItemsOfSameSize.length;
                 _.each(targetItemsOfSameSize, function(targetItem){
                     calculateMiddleHash(targetItem, function(targetHash) {
                         if (sourceHash === targetHash) {

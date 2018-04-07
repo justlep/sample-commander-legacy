@@ -23,7 +23,7 @@ let {ko, Helper} = require('../common'),
  */
 function CreateSubdirDialog() {
 
-    var self = this,
+    let self = this,
         dialogManager = DialogManager.getInstance(),
         submitCallback = null;
 
