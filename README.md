@@ -1,5 +1,5 @@
 # Synchronizer [![Build Status](https://travis-ci.org/justlep/synchronizer.svg?branch=master)](https://travis-ci.org/justlep/synchronizer)
-An application for browsing an audio sample collection and for synchronizing .WAV files from a fieldrecorder or SD card to the PC.
+An application for browsing an audio sample collection and for copying/moving .WAV files from a fieldrecorder or SD card to the PC.
 Based on NodeJS and Node-Webkit. Compileable to a standalone program (currently tested on Win7/64bit only),
 but should easily be adjustable for Linux/Mac.
 
@@ -9,13 +9,15 @@ but should easily be adjustable for Linux/Mac.
 With spectrograms (clickable to change the play position):
 ![](https://raw.githubusercontent.com/justlep/synchronizer/master/doc/screenshots/spectrogram-floating.png)
 
+More screenshots in [doc/](./doc/))
 
-## Installation
+## Download & Installation (prebuild for Windows 7)
 A pre-compiled zip with the latest build can be 
-[downloaded here](http://dl.justlep.net/synchronizer/Synchronizer-v1.0.8-Win64.zip) (approx. 65MB, unpacked ~150MB).
-Just extract it somewhere and run `Synchronizer.exe`.
+[downloaded here](http://dl.justlep.net/synchronizer/Synchronizer-v1.0.8-Win64.zip) (approx. 65MB, unpacked ~150MB).  
+Just extract it anywhere you like and run `Synchronizer.exe`.
 
-However, if you have Nodejs installed, you're free to build the app all by yourself.
+## Build manually using NodeJS 6+
+If you have Nodejs installed, you can build the app yourself, starting with
 ```sh
 $ npm install
 ```
@@ -40,11 +42,9 @@ $ grunt buildAppCompressed
 ```
 
 After either build task, the executable standalone program is located in 
-* **build/Synchronizer/<platform>/**
+* **build/Synchronizer/\<platform>\/**
 
 Build platforms are defined in the config section of package.json.
-Allowed platforms: ['win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64']
+Allowed platforms: [`'win32', 'win64', 'osx32', 'osx64', 'linux32', 'linux64'`]  
 See: https://github.com/nwjs/nw-builder
 
-
-## More Screenshots: (see [doc/](./doc/))
