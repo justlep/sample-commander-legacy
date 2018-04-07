@@ -92,10 +92,6 @@ menu.append(new gui.MenuItem({
 }));
 menu.append(new gui.MenuItem({type: 'separator'}))
 menu.append(new gui.MenuItem({
-    label: 'Configure ffmpeg...',
-    click: () => config.openFfmpegExecutableFileDialog()
-}));
-menu.append(new gui.MenuItem({
     label: 'Show Spectrograms',
     click: () => {
         let ffmpegExe = config.ffmpegExecutablePath();
@@ -109,6 +105,10 @@ menu.append(new gui.MenuItem({
 menu.append(new gui.MenuItem({
     label: 'Hide Spectrograms',
     click: () => source.hideSpectrograms()
+}));
+menu.append(new gui.MenuItem({
+    label: 'Configure ffmpeg...',
+    click: () => config.openFfmpegExecutableFileDialog()
 }));
 menu.append(new gui.MenuItem({type: 'separator'}))
 menu.append(asListItem);
