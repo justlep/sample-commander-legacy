@@ -5,6 +5,7 @@ let {ko, Helper, _, moment, $} = require('./common'),
     FileComparer = require('./FileComparer'),
     FILE_PATTERN = ['*.wav', '*.WAV'],       // TODO make this configurable
     AUDIO_FILE_PATTERN = /\.(wav|mp3|ogg)$/i,
+    MAX_AUDIOFILE_SIZE_FOR_SPECTROGRAMS_IN_BYTES = 600 * 1024 * 1024,
     readdirp = require('readdirp'),
     nodeCrypto = require('crypto'),
     config = require('./Config').getInstance(),
@@ -432,6 +433,7 @@ function PathWatcher(opts) {
     this.hideSpectrograms = () => this.files().forEach(f => f.spectrogram(null));
 
     let _spectrogramProcessQueue = ko.observableArray(),
+        _isStopSpectroRequested = false,
         _processNextSpectrogram = () => {
             let {f, audioFilename, parentDirPath, spectroImgFilename, spectroImgFilePath, ffmpegExe} = _spectrogramProcessQueue()[0],
                 cmd = ffmpegExe + ` -i "${audioFilename}" -lavfi showspectrumpic=s=hd480:color=fire:legend=0,format=yuv444p "${spectroImgFilename}"`; // jshint ignore:line
@@ -449,7 +451,9 @@ function PathWatcher(opts) {
                 }
 
                 _spectrogramProcessQueue.shift();
-                if (_spectrogramProcessQueue().length) {
+                if (_isStopSpectroRequested) {
+                    _spectrogramProcessQueue.removeAll();
+                } else if (_spectrogramProcessQueue().length) {
                     setTimeout(_processNextSpectrogram, 50);
                 }
             });
@@ -461,13 +465,14 @@ function PathWatcher(opts) {
         return o && o.audioFilename;
     });
     this.cancelSpectrogramProcessing = () => {
-        let currentQueue = _spectrogramProcessQueue();
-        if (currentQueue.length > 1) {
-            _spectrogramProcessQueue(currentQueue[0]) // let the current job finish, but remove the others
-        }
+        _isStopSpectroRequested = true;
     };
 
+    let _filterAudioFilesEligibleForSpectrogramCreation =
+        (f) => f.isAudioFile && (f.filesize <= MAX_AUDIOFILE_SIZE_FOR_SPECTROGRAMS_IN_BYTES) && !f.spectrogram();
+
     this.showSpectrograms = () => {
+        _isStopSpectroRequested = false;
         let ffmpegExe = config.ffmpegExecutablePath();
 
         if (!ffmpegExe) {
@@ -480,7 +485,7 @@ function PathWatcher(opts) {
             return;
         }
 
-        this.files().filter(f => f.isAudioFile && !f.spectrogram()).forEach(f => {
+        this.files().filter(_filterAudioFilesEligibleForSpectrogramCreation).forEach(f => {
             let audioFilename = f.filename,
                 audioFilePath = f.path,
                 parentDirPath = nodePath.resolve(audioFilePath, '..'),
