@@ -448,7 +448,7 @@ function PathWatcher(opts) {
                 args = [
                     '-i',
                     audioFilename,
-                    '-lavfi', 'showspectrumpic=s=hd480:color=fire:legend=0,format=yuv444p',
+                    '-lavfi', 'showspectrumpic=s=800x400:color=fire:legend=0',
                     spectroImgFilename
                 ];
 
