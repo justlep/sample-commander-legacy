@@ -1,5 +1,7 @@
 'use strict';
 
+const nodeSpawn = require("child_process").spawn;
+
 let {_, Helper, gui} = require('./common'),
     Config = require('./Config'),
     DialogManager = require('./DialogManager'),
@@ -88,12 +90,13 @@ let {_, Helper, gui} = require('./common'),
         ITEM_OPEN_IN_EDITOR: function() {
             Helper.assert(currentFileItem && currentFileItem.isAudioFile && currentFileItem.path, 'Invalid file');
             let editorExecutable = config.editorExecutablePath(),
-                cmdLine = editorExecutable && Helper.formatString('"{executable}" "{audioFile}"', {
-                        executable: editorExecutable,
-                        audioFile: currentFileItem.path
-                    });
-            if (cmdLine) {
-                require("child_process").exec(cmdLine);
+                editorArgs = editorExecutable && [currentFileItem.path];
+
+            if (editorArgs) {
+                nodeSpawn(editorExecutable, [editorArgs], {
+                    detached: true,
+                    shell: false
+                });
             } else {
                 alert('need to configure Editor first!');
             }

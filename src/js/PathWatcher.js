@@ -9,7 +9,7 @@ let {ko, Helper, _, moment, $} = require('./common'),
     readdirp = require('readdirp'),
     nodeCrypto = require('crypto'),
     config = require('./Config').getInstance(),
-    nodeExec = require('child_process').exec,
+    nodeExecFile = require('child_process').execFile,
     nodeFs = require('fs'),
     nodePath = require('path'),
     createFileItem = function(fileInfo) {
@@ -445,11 +445,16 @@ function PathWatcher(opts) {
         _isStopSpectroRequested = false,
         _processNextSpectrogram = () => {
             let {f, audioFilename, parentDirPath, spectroImgFilename, spectroImgFilePath, ffmpegExe} = _spectrogramProcessQueue()[0],
-                cmd = ffmpegExe + ` -i "${audioFilename}" -lavfi showspectrumpic=s=hd480:color=fire:legend=0,format=yuv444p "${spectroImgFilename}"`; // jshint ignore:line
+                args = [
+                    '-i',
+                    audioFilename,
+                    '-lavfi', 'showspectrumpic=s=hd480:color=fire:legend=0,format=yuv444p',
+                    spectroImgFilename
+                ];
 
             // console.log('cmd: ' + cmd);
 
-            nodeExec(cmd, {
+            nodeExecFile(ffmpegExe, args, {
                 cwd: parentDirPath,
                 timeout: undefined // makes sense or not?
             }, (err, stdout, stderr) => {
