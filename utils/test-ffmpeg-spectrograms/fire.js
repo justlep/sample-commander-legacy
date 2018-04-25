@@ -1,5 +1,5 @@
 
-const audioFilenames = ['sweep.wav', 'bing.wav'];
+const audioFilenames = ['sweep.wav', 'bing.wav', 'sweep-linear.wav'];
 const ffmpegExe = 'ffmpeg.exe';
 const WINDOW_FUNCS = [
 	 'rect'
