@@ -6,3 +6,4 @@ src/config.json
 src/index.html
 src/css
 build/**
+package-lock.json
