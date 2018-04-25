@@ -13,7 +13,7 @@ More screenshots in [doc/](./doc/)
 
 ## Download & Installation (prebuild for Windows 7)
 A pre-compiled zip with the latest build can be 
-[downloaded here](http://dl.justlep.net/synchronizer/Synchronizer-v1.0.8-Win64.zip) (approx. 65MB, unpacked ~150MB).  
+[downloaded here](http://dl.justlep.net/synchronizer/Synchronizer-latest-Win64.zip) (approx. 65MB, unpacked ~150MB).  
 Just extract it anywhere you like and run `Synchronizer.exe`.
 
 ## Build manually using NodeJS 6+
