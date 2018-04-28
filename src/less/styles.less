@@ -9,6 +9,8 @@
 @import 'imports/dialog';
 @import 'imports/renameFilesDialog';
 @import 'imports/player';
+@import 'imports/spectro';
+@import 'imports/label';
 
 @defaultGray: #444;
 
@@ -105,40 +107,6 @@ label, audio {
 
 .showCDate .cdate {
     display: block;
-}
-
-.spectro {
-    height: 100px;
-    width: 100%;
-    min-width: 250px;
-    background: transparent none 0 0 no-repeat;
-    background-clip: content-box;
-    background-size: 100% 100%;
-    position: relative;
-
-    .asFloatingList & {
-        max-width: 300px;
-    }
-
-    &__progress {
-        height: 100%;
-        background: rgba(255,255,255,0.1);
-        overflow: hidden;
-        position: absolute;
-        left: 0;
-        top: 0;
-        transition: width 0.1s;
-    }
-    &__clickzone {
-        height: 100%;
-        width: 100%;
-        background: transparent;
-        overflow: hidden;
-        position: absolute;
-        left: 0;
-        top: 0;
-        cursor: crosshair;
-    }
 }
 
 .remainingSpectrograms {
@@ -397,10 +365,12 @@ header {
         line-height: 12px;
         display: flex;
         align-items: center;
+        color: orange;
+        opacity: 0.75;
 
         &:hover {
-            color: orange;
             background: darken(@defaultGray, 5%);
+            opacity: 1;
         }
     }
 }
@@ -503,5 +473,11 @@ table tr:nth-of-type(odd) {
 
     &__url {
         user-select: all;
+    }
+
+    &__sourceOn {
+        @media only screen and (max-width: 800px) {
+            display: none;
+        }
     }
 }

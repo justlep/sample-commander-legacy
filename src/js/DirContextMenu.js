@@ -72,7 +72,7 @@ menu.append(new gui.MenuItem({
 }));
 menu.append(new gui.MenuItem({type: 'separator'}));
 menu.append(new gui.MenuItem({
-    label: 'Open in Explorer',
+    label: 'Show in Explorer',
     click: HANDLERS.DIR_ITEM_OPEN_IN_EXPLORER
 }));
 menu.append(new gui.MenuItem({type: 'separator'}));

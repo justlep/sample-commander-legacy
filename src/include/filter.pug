@@ -3,6 +3,6 @@ form.filter__form.uk-form.padded-top.column
         input.filter__text.uk-form-small(type="text", data-bind="textInput: filter", placeholder="Filter filename...")
         button.uk-button.uk-button-small.uk-button-success(data-bind="click: resetFilter,  css: {'filter__clear--disabled': !filter()}") Clear
     .filter__block.filter__duplicates(data-bind="foreach: DUPLICATE_FILTER_OPTS")
-        label.filter__duplicate(data-bind="click: $parent.duplicateFilter, " +
-        "css: {'filter__duplicate--selected': $parent.duplicateFilter() === $data}, " +
-        "text: {none: 'All files', with: 'Duplicates', without: 'Non-duplicates'}[$data]")
+        label.label__btn(data-bind="click: $parent.duplicateFilter, " +
+        "css: {'label__btn--selected': $parent.duplicateFilter() === $data}, " +
+        "text: {none: 'All files', with: 'Duplicates', without: 'Uniques'}[$data]")

@@ -3,7 +3,8 @@ An application for browsing an audio sample collection and for copying/moving .W
 Based on NodeJS and Node-Webkit. Compileable to a standalone program (currently tested on Win7/64bit only),
 but should easily be adjustable for Linux/Mac.
 
-**Update April 2018**: can now generate & display spectrograms for the .wav files (requires [ffmpeg](https://ffmpeg.org/download.html) to be installed). Clicks on the spectrograms change the current play position.
+**Update April 2018**: can now display **spectrograms** for the .wav files (requires [ffmpeg](https://ffmpeg.org/download.html) being installed)
+in 3 different sizes. Clicks on the spectrograms change the playback position.
 
 ![](https://raw.githubusercontent.com/justlep/synchronizer/master/doc/screenshots/overview.png)
 With spectrograms (clickable to change the play position):

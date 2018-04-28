@@ -1,0 +1,8 @@
+.spectro__config(data-bind="with: spectrograms")
+    <!-- ko foreach: displayedHeightOptions -->
+    label.label__btn.label__btn--spectroSize(data-bind="text: $data, visible: $parent.isEnabled, click: $parent.displayedHeight, css: {'label__btn--selected': $data === $parent.displayedHeight()}")
+    <!-- /ko -->
+
+    label.label__btn.label__btn--spectro(data-bind="click: isEnabled.toggle, css: {'label__btn--selected': isEnabled}") SPEC
+
+    style(type="text/css", data-bind="text: '.spectro {height: '+ displayedHeight() +'px}'")

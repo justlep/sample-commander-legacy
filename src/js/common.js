@@ -1,7 +1,23 @@
 
+'use strict';
+
 require('./lib/jquery.min');
 window.ko = require('./lib/knockout');
 require('./lib/knockout-fast-foreach-mod');
+
+window.ko.extenders.toggleable = function(target /*, opts */) {
+    target.toggleOn = function() {
+        target(true);
+    };
+    target.toggleOff = function() {
+        target(false);
+    };
+    target.toggle = function() {
+        target(!target());
+    };
+
+    return target;
+};
 
 module.exports = {
     $: global.jQuery,

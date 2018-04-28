@@ -24,7 +24,7 @@ script#renameFilesDialogTpl(type='text/html')
                 .renameFilesDialog__setting
                     label
                         | Counter Start
-                        input(type='text', data-bind="textInput: counterStart", style='width: 80px')
+                        input(type='number', min=0, data-bind="textInput: counterStart", style='width: 80px')
                 .renameFilesDialog__setting
                     label
                         | Digits

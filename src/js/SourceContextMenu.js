@@ -1,13 +1,15 @@
 
 'use strict';
 
-let {Helper, gui} = require('./common'),
+const {Helper, gui} = require('./common'),
     Config = require('./Config'),
     DialogManager = require('./DialogManager'),
     DeleteFilesDialog = require('./dialogs/DeleteFilesDialog'),
+    Spectrograms = require('./Spectrograms'),
     menu = new gui.Menu(),
-    config = Config.getInstance(),
-    source = null,
+    config = Config.getInstance();
+
+let source = null,
     instance = null,
     getInstance = function(sourceWatcher) {
         Helper.assertObject(sourceWatcher, 'invalid sourceWatcher in SourceContextMenu.getInstance');
@@ -70,13 +72,13 @@ let {Helper, gui} = require('./common'),
     lastPathMenu = new gui.Menu();
 
 
-menu.append(new gui.MenuItem({
-    label: 'One up',
-    click: () => source.gotoParent()
-}));
 menu.append(new gui.MenuItem( {
     label: 'Recent paths',
     submenu: lastPathMenu
+}));
+menu.append(new gui.MenuItem({
+    label: 'Parent directory',
+    click: () => source.gotoParent()
 }));
 menu.append(new gui.MenuItem({type: 'separator'}));
 menu.append(new gui.MenuItem({
@@ -85,7 +87,7 @@ menu.append(new gui.MenuItem({
         gui.Shell.openItem(source.path());
     }
 }));
-menu.append(new gui.MenuItem({type: 'separator'}))
+menu.append(new gui.MenuItem({type: 'separator'}));
 menu.append(new gui.MenuItem({
     label: 'Delete project files...',
     click: function() {
@@ -94,20 +96,24 @@ menu.append(new gui.MenuItem({
         }).show();
     }
 }));
-menu.append(new gui.MenuItem({type: 'separator'}))
-menu.append(new gui.MenuItem({
-    label: 'Show Spectrograms',
-    click: () => source.showSpectrograms()
-}));
-menu.append(new gui.MenuItem({
-    label: 'Hide Spectrograms',
-    click: () => source.hideSpectrograms()
-}));
-menu.append(new gui.MenuItem({
+
+menu.append(new gui.MenuItem({type: 'separator'}));
+
+let configSubMenu = new gui.Menu();
+configSubMenu.append(new gui.MenuItem({
     label: 'Configure ffmpeg...',
     click: () => config.openFfmpegExecutableFileDialog()
 }));
-menu.append(new gui.MenuItem({type: 'separator'}))
+configSubMenu.append(new gui.MenuItem({
+    label: 'Show app config file in Explorer',
+    click: config.showConfigFileInExplorer
+}));
+menu.append(new gui.MenuItem({
+    label: 'Config',
+    submenu: configSubMenu
+}));
+
+menu.append(new gui.MenuItem({type: 'separator'}));
 menu.append(asListItem);
 menu.append(filesizeItem);
 menu.append(cdateItem);

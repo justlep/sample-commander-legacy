@@ -1,7 +1,9 @@
 
 'use strict';
 
-let {ko, _, $, gui} = require('./common'),
+let instance;
+
+const {ko, _, $, gui} = require('./common'),
     nodePath = require('path'),
     execPath = process.execPath,
     isStandalone = /Synchronizer.exe$/.test(execPath),
@@ -11,7 +13,6 @@ let {ko, _, $, gui} = require('./common'),
     MAX_RECENT_REPLACE_PATTERNS = 20,
     DEFAULT_PROJECT_FILE_PATTERN = '*.hprj',
     jsonfile = require('jsonfile'), // no module 'jsonfile'
-    instance = null,
     getInstance = function() {
         if (!instance) {
             instance = new Config();
@@ -49,7 +50,8 @@ function Config() {
             'projectFilePattern',
             'editorExecutablePath',
             'ffmpegExecutablePath',
-            'showTargetColumn'
+            'showTargetColumn',
+            'spectrogramHeight'
         ],
         writeConfig = function() {
             resetFileInputs();
@@ -115,28 +117,39 @@ function Config() {
     this.projectFilePattern = ko.observable(DEFAULT_PROJECT_FILE_PATTERN);
     this.editorExecutablePath = ko.observable('');
     this.ffmpegExecutablePath = ko.observable('');
+    this.spectrogramHeight = ko.observable(100);
 
-    this.openEditorExecutableFileDialog = function() {
-        $('#editor-executable-file').trigger('click');
-    };
+    const J_FFMPEG_EXECUTABLE_FILE = $('#ffmpeg-executable-file'),
+          J_EDITOR_EXECUTABLE_FILE = $('#editor-executable-file');
+
 
     this.openFfmpegExecutableFileDialog = function() {
-        $('#ffmpeg-executable-file').trigger('click');
-    };
-
-    this.saveEditorExecutableFileDialog = function() {
-        let filePath = $('#editor-executable-file').val();
-        resetFileInputs();
-        if (filePath) {
-            self.editorExecutablePath(filePath);
-        }
+        alert('Please select the ffmpeg executable (e.g. ffmpeg.exe on Windows)');
+        J_FFMPEG_EXECUTABLE_FILE.trigger('click');
     };
 
     this.saveFfmpegExecutableFileDialog = function() {
-        let filePath = $('#ffmpeg-executable-file').val();
+        let filePath = J_FFMPEG_EXECUTABLE_FILE.val();
         resetFileInputs();
         if (filePath && /ffmpeg/.test(filePath)) {
             self.ffmpegExecutablePath(filePath);
+        }
+    };
+
+    this.openEditorExecutableFileDialog = function() {
+        alert('Select the executable file of your sample editor (e.g. audacity.exe on Windows)');
+        J_EDITOR_EXECUTABLE_FILE.trigger('click');
+    };
+
+    this.showConfigFileInExplorer = function() {
+        gui.Shell.showItemInFolder(CONFIG_FILE);
+    };
+
+    this.saveEditorExecutableFileDialog = function() {
+        let filePath = J_EDITOR_EXECUTABLE_FILE.val();
+        resetFileInputs();
+        if (filePath) {
+            self.editorExecutablePath(filePath);
         }
     };
 

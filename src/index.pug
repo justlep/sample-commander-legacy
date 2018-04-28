@@ -8,6 +8,7 @@ html
     body
         header
             include include/player
+            include include/spectroConfig
             include include/filter
 
             input#sourcePath(type='file', nwdirectory='', data-bind='event: {change: source.onPathChange}')
@@ -60,16 +61,16 @@ html
                                 .dir(data-bind='text: $data.name, css: {subdir: $data.depth}, attr: {id: elemId}')
             // /TARGET BOX
 
-        <!-- ko with: source.remainingSpectrogramsToProcess -->
+        <!-- ko with: spectrograms.remainingSpectrogramsToProcess() && spectrograms -->
         .remainingSpectrograms.spinner
-            span Processing spectrogram...<br> <!-- ko text: $parent.source.currentlyProcessedAudioFilename --><!-- /ko -->
-            div(data-bind="text: $data + ' remaining'")
-            button.uk-button.uk-button-small.uk-button-danger(data-bind="click: $parent.source.cancelSpectrogramProcessing") Abort after current
+            span Processing spectrogram...<br> <!-- ko text: currentlyProcessedAudioFilename --><!-- /ko -->
+            div(data-bind="text: remainingSpectrogramsToProcess() + ' remaining'")
+            button.uk-button.uk-button-small.uk-button-danger(data-bind="click: cancelSpectrogramProcessing") Abort after current
         <!-- /ko -->
 
         footer.footer
             include include/footer
-            .column__toggle(title="Show Target Panel", data-bind="visible: !config.showTargetColumn(), click: function(){ $root.config.showTargetColumn(true) }") Target
+            .column__toggle(title="Show Target Panel", data-bind="visible: !config.showTargetColumn(), click: function(){ $root.config.showTargetColumn(true) }") Show Target
 
         include include/modalDialog
         include include/infoDialogTpl

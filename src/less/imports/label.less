@@ -1,0 +1,53 @@
+@import (reference) "variables";
+
+.label {
+
+    &__btn {
+        @btnHighlightColor: #96CB50;
+
+        @bgColor: rgba(255,255,255,0.1);
+        margin: 0 5px;
+        vertical-align: middle;
+        display: inline-block;
+        background: @bgColor;
+        border-radius: 3px;
+        line-height: 1.5em;
+        padding: 0 10px;
+        border: 1px solid @bgColor;
+        color: @color-light-gray;
+        text-transform: uppercase;
+
+        &--spectro {
+            margin: 0;
+            width: auto;
+            padding: 0 8px;
+
+            &Size {
+                font-size: 10px;
+                line-height: 12px;
+                margin: 0 0 1px 0;
+
+                &.label__btn--selected {
+                    @color: darken(@btnHighlightColor, 10%);
+                    border-color: @color;
+                    color: @color;
+                }
+            }
+        }
+
+        &:hover,
+        &--selected {
+            border-color: @btnHighlightColor;
+            color: @btnHighlightColor;
+        }
+
+        &--inactive {
+            opacity: 0.5;
+        }
+
+        input {
+            display: none;
+        }
+    }
+
+}

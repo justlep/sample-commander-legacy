@@ -1,9 +1,10 @@
 
 'use strict';
 
-let {ko, _, Helper, $} = require('./common'),
+let {ko, _, Helper, $, gui} = require('./common'),
     Config = require('./Config'),
     PathWatcher = require('./PathWatcher'),
+    Spectrograms = require('./Spectrograms'),
     DialogManager = require('./DialogManager'),
     ConfirmDialog = require('./dialogs/ConfirmDialog'),
     InfoDialog = require('./dialogs/InfoDialog'),
@@ -255,6 +256,8 @@ function App() {
         listId: 'targetList'
     });
 
+    this.spectrograms = new Spectrograms(this.source.files);
+
     this.resetFilter = function() {
         self.filter('');
     };
@@ -274,6 +277,12 @@ function App() {
     };
 
     function initOnce() {
+        gui.Window.get().on('new-win-policy', (frame, url, policy) => {
+            alert(119);
+            policy.forceNewWindow();
+            return false;
+        });
+
         self.reloadAll();
 
         Helper.assert(_.isElement(audioElement), 'Missing the audioElement');

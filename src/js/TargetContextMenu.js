@@ -50,7 +50,7 @@ menu.append(new gui.MenuItem( {
 }));
 menu.append(new gui.MenuItem({type: 'separator'}))
 menu.append(new gui.MenuItem({
-    label: 'Open in Explorer',
+    label: 'Show in Explorer',
     click: function() {
         gui.Shell.openItem(target.path());
     }
@@ -65,7 +65,7 @@ menu.append(new gui.MenuItem({
     }
 }));
 menu.append(new gui.MenuItem({
-    label: '<-> Swap with Target',
+    label: '<-> Swap with Source',
     click: function() {
         Helper.notify(Helper.EVENTS.SWAP_PATHS);
     }
