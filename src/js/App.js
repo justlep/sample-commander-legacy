@@ -366,13 +366,20 @@ function App() {
         if (selector) {
             // the same file may reside in multiple list simultaneously, and we wanna scroll all of them..
             $(selector).each(function() {
-                $(this).closest('.col-content .scrollable-container').scrollTo(selector, {
+                $(this).closest('.col-content .scrollable-container').stop().scrollTo(selector, {
                     duration: 200,
                     offset: {top: -6}
                 });
             });
         }
     };
+
+    ko.computed(() => {
+        let shouldRefocus = this.spectrograms.isEnabled() && this.spectrograms.displayedHeight();
+        if (shouldRefocus && !ko.computedContext.isInitial()) {
+            setTimeout(this.scrollToPlayedFile, 250);
+        }
+    });
 
     this.swapPaths = function() {
         let oldTargetPath = self.target.path();
