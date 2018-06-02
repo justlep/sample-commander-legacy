@@ -1,11 +1,10 @@
 
 'use strict';
 
-let {ko, Helper, _} = require('../common'),
+const {ko, Helper, _} = require('../common'),
     PathWatcher = require('../PathWatcher'),
     DialogManager = require('../DialogManager'),
     DEFAULT_WIDTH = 700,
-    instance,
     getInstance = function(opts) {
         if (!instance) {
             instance = new CopyMoveFilesDialog();
@@ -15,7 +14,10 @@ let {ko, Helper, _} = require('../common'),
     },
     nodeFs = require('fs'),
     nodeFsExtra = require('fs-extra'),
-    nodePath = require('path');
+    nodePath = require('path'),
+    Spectrograms = require('../Spectrograms');
+
+let instance;
 
 /**
  * Dialog opened after dragging selected files to a folder
@@ -65,7 +67,8 @@ function CopyMoveFilesDialog() {
                 }
                 let fileItem = filesLeft.shift(),
                     srcPath = fileItem.path,
-                    targetPath = nodePath.resolve(self.targetDirItem.path, fileItem.filenameRenamed || fileItem.filename);
+                    targetPath = nodePath.resolve(self.targetDirItem.path, fileItem.filenameRenamed || fileItem.filename),
+                    srcSpectroPath = Spectrograms.getSpectroFilenameForAudioFilename(srcPath);
 
                 fileItem.__copyFailed = false;
                 fileItem.__deleteFailed = null;
@@ -74,25 +77,50 @@ function CopyMoveFilesDialog() {
                 // TODO fs.exists is deprecated
                 if (nodeFs.existsSync(targetPath)) {
                     fileItem.__skipExists = true;
-                    return process.nextTick(transferFiles);
+                    process.nextTick(transferFiles);
+                    return;
                 }
 
                 nodeFsExtra.copy(srcPath, targetPath, function(err) {
                     if (err) {
                         fileItem.__copyFailed = true;
-                    } else {
-                        self.copiedFileItems.push(fileItem);
-                        if (moveMode) {
+                        process.nextTick(transferFiles);
+                        return;
+                    }
+
+                    self.copiedFileItems.push(fileItem);
+
+                    let isSpectrogramCopied = false;
+
+                    if (nodeFs.existsSync(srcSpectroPath)) {
+                        let targetSpectroPath = Spectrograms.getSpectroFilenameForAudioFilename(targetPath);
+                        try {
+                            nodeFsExtra.copySync(srcSpectroPath, targetSpectroPath);
+                            isSpectrogramCopied = true;
+                        } catch (e) {
+                            console.error('Failed to copy spectrogram %s to %s', srcSpectroPath, targetSpectroPath);
+                        }
+                    }
+
+                    if (moveMode) {
+                        try {
+                            nodeFs.unlinkSync(srcPath);
+                            self.deletedFileItems.push(fileItem);
+                            fileItem.__deleteFailed = false;
+                        } catch (e) {
+                            fileItem.__deleteFailed = true;
+                            console.error('Unable to delete file %s after copy.', srcPath, e);
+                        }
+
+                        if (isSpectrogramCopied && !fileItem.__deleteFailed) {
                             try {
-                                nodeFs.unlinkSync(srcPath);
-                                self.deletedFileItems.push(fileItem);
-                                fileItem.__deleteFailed = false;
+                                nodeFs.unlinkSync(srcSpectroPath);
                             } catch (e) {
-                                fileItem.__deleteFailed = true;
-                                console.error('Unable to delete file %s after copy.', srcPath, e);
+                                console.error('Failed to delete spectro file %s', srcSpectroPath);
                             }
                         }
                     }
+
                     process.nextTick(transferFiles);
                 });
             };
