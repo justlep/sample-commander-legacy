@@ -13,20 +13,12 @@ const MAX_AUDIOFILE_SIZE_FOR_SPECTROGRAMS_IN_BYTES = 600 * 1024 * 1024,
     KEEP_LINEAR_SPECTRO = false;
 
 /**
- * @param {string} audioFilename
- * @return string
- */
-function getSpectroFilenameForAudioFilename(audioFilename) {
-    return audioFilename.replace(/\.\w+$/i, '.spectro.png');
-}
-/**
  * @param {string} spectroFilename
  * @return string
  */
 function getLinearSpectroFilenameForSpectroFilename(spectroFilename) {
     return spectroFilename.replace(/\.spectro\.png$/, '.spectro-lin.png');
 }
-
 
 let _instance;
 
@@ -123,7 +115,7 @@ function Spectrograms(files) {
         files().filter(_filterAudioFilesEligibleForSpectrogramCreation).forEach(f => {
             let audioFilename = f.filename,
                 parentDirPath = nodePath.join(f.path, '..'),
-                spectroImgFilename = getSpectroFilenameForAudioFilename(audioFilename),
+                spectroImgFilename = Spectrograms.getSpectroFilenameForAudioFilename(audioFilename),
                 spectroImgFilePath = nodePath.join(parentDirPath, spectroImgFilename),
                 stats,
                 exists = false;
@@ -177,6 +169,17 @@ function Spectrograms(files) {
 
     this.displayedHeightOptions = [100, 200, 300];
 }
+
+const FILE_EXTENSION_REGEX = /\.\w+$/i;
+
+/**
+ * @param {string} audioFilename
+ * @return string
+ * @static
+ */
+Spectrograms.getSpectroFilenameForAudioFilename = function(audioFilename) {
+    return audioFilename.replace(FILE_EXTENSION_REGEX, '.spectro.png');
+};
 
 /**
  * @return {Spectrograms} the instance if exists, otherwise throw error

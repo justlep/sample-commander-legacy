@@ -15,7 +15,8 @@ let {ko, Helper, _, $} = require('../common'),
         return instance;
     },
     nodeFs = require('fs'),
-    nodePath = require('path');
+    nodePath = require('path'),
+    Spectrograms = require('../Spectrograms');
 
 /**
  * Dialog opened after dragging selected files to a folder
@@ -187,7 +188,8 @@ function RenameFilesDialog() {
             fileItem.__renameSkippedExists = false;
 
             let oldPath = fileItem.path,
-                newPath = nodePath.resolve(oldPath, '..', fileItem._newFilename());
+                newPath = nodePath.resolve(oldPath, '..', fileItem._newFilename()),
+                oldSpectroPath = Spectrograms.getSpectroFilenameForAudioFilename(oldPath);
 
             // TODO fs.exists is deprecated
             if (nodeFs.existsSync(newPath)) {
@@ -198,11 +200,23 @@ function RenameFilesDialog() {
                     nodeFs.renameSync(oldPath, newPath);
                     self.renamedFileItems.push(fileItem);
                     fileItem.__renameFailed = false;
+
                     // TODO refresh file item filename, path and hash
                 } catch (e) {
                     fileItem.__renameFailed = true;
                     self.doneWithErrors(true);
                     console.error('Unable to rename file %s.', oldPath, e);
+                }
+
+                // silently rename spectrogram, too
+                if (!fileItem.__renameFailed && nodeFs.existsSync(oldSpectroPath)) {
+                    let newSpectroPath = Spectrograms.getSpectroFilenameForAudioFilename(newPath);
+                    try {
+                        nodeFs.renameSync(oldSpectroPath, newSpectroPath);
+                    } catch (e) {
+                        self.doneWithErrors(true);
+                        console.error('Unable to rename spectrogram %s into %s', oldSpectroPath, newSpectroPath);
+                    }
                 }
             }
             self.processedFileItems.push(fileItem);
