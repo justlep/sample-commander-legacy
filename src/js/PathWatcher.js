@@ -10,6 +10,7 @@ let {ko, Helper, _, moment, $} = require('./common'),
     config = require('./Config').getInstance(),
     nodeFs = require('fs'),
     nodePath = require('path'),
+    Spectrograms = require('./Spectrograms'),
     createFileItem = function(fileInfo) {
         let size = fileInfo.stat.size || 0,
             idHash = nodeCrypto.createHash('sha1'),
@@ -88,6 +89,7 @@ function PathWatcher(opts) {
         dirsOnly = ko.observable(!!opts.directoriesOnly),
         abortRequested = false,
         lastSelectedFileId = null,
+        restoreSpectrogramsEnabledStateAfterFilesLoaded = false,
         jList = $('#' + opts.listId);
 
     this.directoriesOnly = ko.computed({
@@ -302,6 +304,11 @@ function PathWatcher(opts) {
             self.files(newFiles);
             self.aborted(aborted);
 
+            if (restoreSpectrogramsEnabledStateAfterFilesLoaded) {
+                restoreSpectrogramsEnabledStateAfterFilesLoaded = false;
+                Spectrograms.getExistingInstance().recallEnabledState();
+            }
+
             if (!err) {
                 opts.configPathObservable(newPath);
             }
@@ -404,6 +411,10 @@ function PathWatcher(opts) {
      * Reloads the current path of this watcher.
      */
     this.reload = function() {
+        if (!dirsOnly()) {
+            Spectrograms.getExistingInstance().memorizeEnabledState();
+            restoreSpectrogramsEnabledStateAfterFilesLoaded = true;
+        }
         FileComparer.flushCacheForFileItems(self.files());
         self.path(self.path());
     };

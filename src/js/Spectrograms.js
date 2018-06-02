@@ -168,6 +168,11 @@ function Spectrograms(files) {
         }
     }).extend({toggleable: true});
 
+    let _savedEnabledState = null;
+
+    this.memorizeEnabledState = () => _savedEnabledState = this.isEnabled();
+    this.recallEnabledState = () => _savedEnabledState !== this.isEnabled() && this.isEnabled(_savedEnabledState);
+
     this.displayedHeight = config.spectrogramHeight;
 
     this.displayedHeightOptions = [100, 200, 300];
