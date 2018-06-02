@@ -1,13 +1,12 @@
 
 'use strict';
 
-let {ko, Helper, _} = require('../common'),
+const {ko, Helper, _} = require('../common'),
     DialogManager = require('../DialogManager'),
     PathWatcher = require('../PathWatcher'),
     Config = require('../Config'),
     DEFAULT_WIDTH = 700,
     VALID_FILE_PATTERN_REGEX = /\*\.[a-z0-9_-]+$/i,
-    instance,
     getInstance = function(opts) {
         if (!instance) {
             instance = new DeleteFilesDialog();
@@ -15,10 +14,11 @@ let {ko, Helper, _} = require('../common'),
         instance.init(opts);
         return instance;
     },
-    nodeFs = require('fs');
+    nodeFs = require('fs'),
+    Spectrograms = require('../Spectrograms'),
+    H6_PROJECT_FILE_PATTERN = '*.hprj';
 
-const H6_PROJECT_FILE_PATTERN = '*.hprj';
-
+let instance;
 
 /**
  * Dialog opened after dragging selected files to a folder
@@ -101,7 +101,6 @@ function DeleteFilesDialog() {
             try {
                 nodeFs.unlinkSync(srcPath);
                 self.deletedFileItems.push(fileItem);
-                fileItem.__deleteFailed = false;
                 if (deleteEmptyParentFolder) {
                     let folderPath = srcPath.replace(/(.*)[/\\][^/\\]+$/, '$1');
                     deletableFoldersMap[folderPath] = 1;
@@ -111,6 +110,17 @@ function DeleteFilesDialog() {
                 self.doneWithErrors(true);
                 console.error('Unable to delete file %s.', srcPath, e);
             }
+
+            let deletableSpectroFile = !fileItem.__deleteFailed && Spectrograms.getSpectroFilenameForAudioFilename(srcPath);
+            if (deletableSpectroFile) {
+                try {
+                    nodeFs.unlinkSync(deletableSpectroFile);
+                } catch (e) {
+                    self.doneWithErrors(true);
+                    console.error('Failed to delete spectro file %s', deletableSpectroFile);
+                }
+            }
+
             self.processedFileItems.push(fileItem);
         });
 

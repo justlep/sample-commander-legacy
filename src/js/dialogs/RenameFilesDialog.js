@@ -1,12 +1,11 @@
 
 'use strict';
 
-let {ko, Helper, _, $} = require('../common'),
+const {ko, Helper, _, $} = require('../common'),
     DialogManager = require('../DialogManager'),
     Config = require('../Config'),
     PathWatcher = require('../PathWatcher'),
     DEFAULT_WIDTH = 700,
-    instance,
     getInstance = function(opts) {
         if (!instance) {
             instance = new RenameFilesDialog();
@@ -17,6 +16,8 @@ let {ko, Helper, _, $} = require('../common'),
     nodeFs = require('fs'),
     nodePath = require('path'),
     Spectrograms = require('../Spectrograms');
+
+let instance;
 
 /**
  * Dialog opened after dragging selected files to a folder
