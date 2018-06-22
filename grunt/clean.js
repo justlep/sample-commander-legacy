@@ -4,7 +4,7 @@ module.exports = function (/*grunt, options*/) {
         options: {
         },
         oldPreparedBuild: ["build/preparedBuild"],
-        oldBuild: ["build/Synchronizer"],
+        oldBuild: ["build/SampleCommander"],
         oldZips: ["build/*.zip"]
     };
 };

@@ -5,8 +5,8 @@ module.exports = function (grunt) {
     var nodePath = require('path'),
         COMPRESSION_LEVEL = 1, // level 1 = fast, 9 = slow,best
         PACKER_EXE = nodePath.resolve('utils/upx391w/upx.exe'),
-        EXE_FILE_32 = nodePath.resolve('build/Synchronizer/win32/Synchronizer.exe'),
-        EXE_FILE_64 = nodePath.resolve('build/Synchronizer/win64/Synchronizer.exe');
+        EXE_FILE_32 = nodePath.resolve('build/SampleCommander/win32/SampleCommander.exe'),
+        EXE_FILE_64 = nodePath.resolve('build/SampleCommander/win64/SampleCommander.exe');
 
     grunt.registerTask('compressExeFile', 'Compresses the built standalone .exe file.', function () {
 

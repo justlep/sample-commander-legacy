@@ -17,13 +17,13 @@ module.exports = function (grunt, opts) {
         },
         zipWin64: {
             options: {
-                archive: 'build/Synchronizer-v<%= pkg.version %>-Win64.zip'
+                archive: 'build/SampleCommander-v<%= pkg.version %>-Win64.zip'
             },
             files: [
                 {
                     expand: true,
                     cwd: 'build/',
-                    src: ['Synchronizer/win64/**/*.*']
+                    src: ['SampleCommander/win64/**/*.*']
                 }
             ]
         }

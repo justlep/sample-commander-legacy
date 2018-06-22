@@ -1,22 +1,23 @@
 {
-  "name": "Synchronizer",
+  "name": "SampleCommander",
   "version": "0.0.1",
   "description": "Desktop application to quickly transfer audio files from fieldrecorder SD cards etc to a PC",
   "author": "Lennart Pegel <github@justlep.net>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/justlep/synchronizer.git"
+    "url": "https://github.com/justlep/sample-commander.git"
   },
   "main": "index.html",
   "chromium-args": "--mixed-context",
   "window": {
-    "id": "LePs_Synchronizer",
-    "title": "LeP's Synchronizer",
+    "id": "LePs_Sample_Commander",
+    "title": "LeP's Sample Commander",
     "frame": true,
     "width": 900,
     "height": 700,
     "min_width": 500,
-    "min_height": 650
+    "min_height": 650,
+    "icon": "images/icon.png"
   },
   "webkit": {
     "plugin": false

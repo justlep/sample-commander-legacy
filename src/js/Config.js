@@ -6,7 +6,7 @@ let instance;
 const {ko, _, $, gui} = require('./common'),
     nodePath = require('path'),
     execPath = process.execPath,
-    isStandalone = /Synchronizer.exe$/.test(execPath),
+    isStandalone = /SampleCommander.exe$/.test(execPath),
     appPath = (isStandalone) ? nodePath.resolve(execPath, '..') : nodePath.resolve('.'),
     CONFIG_FILE = nodePath.resolve(appPath, 'config.json'),
     MAX_RECENT_PATHS = 10,
