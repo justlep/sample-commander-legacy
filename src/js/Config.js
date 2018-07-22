@@ -38,6 +38,7 @@ function Config() {
             'sourcePath',
             'targetPath',
             'autoplay',
+            'recurseSource',
             'floatingList',
             'showFilesize',
             'showCDate',
@@ -103,6 +104,7 @@ function Config() {
 
     this.sourcePath = ko.observable(appPath);
     this.targetPath = ko.observable(appPath);
+    this.recurseSource = ko.observable(true);
     this.autoplay = ko.observable(true);
     this.filePathTooltip = ko.observable(true);
     this.floatingList = ko.observable(true);

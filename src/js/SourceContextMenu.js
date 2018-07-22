@@ -19,11 +19,11 @@ let source = null,
         source = sourceWatcher;
         return instance;
     },
-    asListItem = new gui.MenuItem({
-        label: 'Show as floating list',
+    isRecursive = new gui.MenuItem({
+        label: 'Recurse subdirectories',
         type: 'checkbox',
         click: function() {
-            config.floatingList(!config.floatingList());
+            config.recurseSource(!config.recurseSource());
         }
     }),
     filesizeItem = new gui.MenuItem({
@@ -54,8 +54,8 @@ let source = null,
             config.filePathTooltip(!config.filePathTooltip());
         }
     }),
-    updateListItem = function() {
-        asListItem.checked = config.floatingList();
+    updateRecurseItem = function() {
+        isRecursive.checked = config.recurseSource();
     },
     updateFilesizeItem = function() {
         filesizeItem.checked = config.showFilesize();
@@ -114,12 +114,12 @@ menu.append(new gui.MenuItem({
 }));
 
 menu.append(new gui.MenuItem({type: 'separator'}));
-menu.append(asListItem);
+menu.append(isRecursive);
 menu.append(filesizeItem);
 menu.append(cdateItem);
 menu.append(tooltipItem);
 menu.append(autoplayItem);
-menu.append(new gui.MenuItem({type: 'separator'}))
+menu.append(new gui.MenuItem({type: 'separator'}));
 menu.append(new gui.MenuItem({
     label: 'Show same path in Target -->',
     click: function() {
@@ -172,8 +172,8 @@ function updateRecentPaths() {
  * @constructor
  */
 function SourceContextMenu() {
-    config.floatingList.subscribe(updateListItem);
-    updateListItem();
+    config.recurseSource.subscribe(updateRecurseItem);
+    updateRecurseItem();
     config.showFilesize.subscribe(updateFilesizeItem);
     updateFilesizeItem();
     config.showCDate.subscribe(updateCDateItem);

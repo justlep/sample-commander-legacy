@@ -86,16 +86,13 @@ function PathWatcher(opts) {
     Helper.assertString(opts.listId, 'Missing listId');
 
     let self = this,
-        dirsOnly = ko.observable(!!opts.directoriesOnly),
+        dirsOnly = ko.computed(() => !!opts.directoriesOnly),
         abortRequested = false,
         lastSelectedFileId = null,
         restoreSpectrogramsEnabledStateAfterFilesLoaded = false,
         jList = $('#' + opts.listId);
 
-    this.directoriesOnly = ko.computed({
-        read: dirsOnly,
-        write: self.reload
-    });
+    this.directoriesOnly = dirsOnly;
 
     this.aborted = ko.observable(false);
     this.maxDirsExceeded = ko.observable(false);
@@ -287,7 +284,8 @@ function PathWatcher(opts) {
             aborted = false,
             stream = readdirp({
                 root: newPath,
-                fileFilter: FILE_PATTERN
+                fileFilter: FILE_PATTERN,
+                depth: (dirsOnly() || config.recurseSource()) ? undefined : 0
             });
 
         stream.on('data', function(fileInfo) {
@@ -389,7 +387,7 @@ function PathWatcher(opts) {
                     return;
                 }
                 self.invalidPath(false);
-                if (self.directoriesOnly()) {
+                if (dirsOnly()) {
                     loadDirectories(resolvedPath);
                 } else {
                     loadFiles(resolvedPath);
@@ -437,7 +435,7 @@ function PathWatcher(opts) {
      * @param callback (function) called when done
      */
     this.checkDuplicates = function(sourceItems, callback) {
-        if (self.directoriesOnly() && !self.files().length) {
+        if (dirsOnly() && !self.files().length) {
             loadFiles(self.path(), function() {
                 FileComparer.checkDuplicateFileItems(sourceItems, self.files(), callback);
             });
@@ -445,6 +443,11 @@ function PathWatcher(opts) {
             FileComparer.checkDuplicateFileItems(sourceItems, self.files(), callback);
         }
     };
+
+    if (!dirsOnly()) {
+        // auto-refresh files list if recurse-mode changed
+        config.recurseSource.subscribe(this.reload);
+    }
 }
 
 
