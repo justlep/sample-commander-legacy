@@ -21,7 +21,7 @@ html
             // SOURCE BOX
             .column
                 h2.column-headline(data-bind='click: selectSourcePath, event: {contextmenu: onSourceRightclick}')
-                    span.leftButton(title='Switch floating/table mode', data-bind="click: switchListMode, clickBubble: false") Mode
+                    span.leftButton(title='Switch floating/table mode', data-bind="click: switchListMode, clickBubble: false, text: $root.config.floatingList() ? 'Flat List' : 'Floating List'")
                     | Source
                     span.filesAndDirStats(data-bind='pathWatcherInfo: source')
                     span.rightButton(title='Refresh', data-bind="click: source.reload, clickBubble: false") Refresh
