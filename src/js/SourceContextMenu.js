@@ -3,11 +3,24 @@
 
 const {Helper, gui} = require('./common'),
     Config = require('./Config'),
-    DialogManager = require('./DialogManager'),
     DeleteFilesDialog = require('./dialogs/DeleteFilesDialog'),
-    Spectrograms = require('./Spectrograms'),
     menu = new gui.Menu(),
     config = Config.getInstance();
+
+/**
+ * @param {String} label
+ * @param {ko.observable} togglableObservable
+ */
+function createCheckboxMenuItem(label, togglableObservable) {
+    let item = new gui.MenuItem({
+        type: 'checkbox',
+        label: label,
+        click: togglableObservable.toggle,
+        checked: togglableObservable()
+    });
+    togglableObservable.subscribe(isChecked => item.checked = isChecked);
+    return item;
+}
 
 let source = null,
     instance = null,
@@ -18,46 +31,6 @@ let source = null,
         }
         source = sourceWatcher;
         return instance;
-    },
-    isRecursive = new gui.MenuItem({
-        label: 'Recurse subdirectories',
-        type: 'checkbox',
-        click: config.recurseSource.toggle
-    }),
-    filesizeItem = new gui.MenuItem({
-        type: 'checkbox',
-        label: 'Show filesize',
-        click: config.showFilesize.toggle
-    }),
-    cdateItem = new gui.MenuItem({
-        type: 'checkbox',
-        label: 'Show Creation Date',
-        click: config.showCDate.toggle
-    }),
-    autoplayItem = new gui.MenuItem({
-        type: 'checkbox',
-        label: 'Autoplay',
-        click: config.autoplay.toggle
-    }),
-    tooltipItem = new gui.MenuItem({
-        type: 'checkbox',
-        label: 'Show path tooltip',
-        click: config.filePathTooltip.toggle
-    }),
-    updateRecurseItem = function() {
-        isRecursive.checked = config.recurseSource();
-    },
-    updateFilesizeItem = function() {
-        filesizeItem.checked = config.showFilesize();
-    },
-    updateCDateItem = function() {
-        cdateItem.checked = config.showCDate();
-    },
-    updateAutoplayItem = function() {
-        autoplayItem.checked = config.autoplay();
-    },
-    updateTooltipItem = function() {
-        tooltipItem.checked = config.filePathTooltip();
     },
     lastPathMenu = new gui.Menu();
 
@@ -73,18 +46,12 @@ menu.append(new gui.MenuItem({
 menu.append(new gui.MenuItem({type: 'separator'}));
 menu.append(new gui.MenuItem({
     label: 'Show in Explorer',
-    click: function() {
-        gui.Shell.openItem(source.path());
-    }
+    click: () => gui.Shell.openItem(source.path())
 }));
 menu.append(new gui.MenuItem({type: 'separator'}));
 menu.append(new gui.MenuItem({
     label: 'Delete project files...',
-    click: function() {
-        DeleteFilesDialog.getInstanceForDeleteProjectFiles({
-            source: source
-        }).show();
-    }
+    click: () => DeleteFilesDialog.getInstanceForDeleteProjectFiles({source}).show()
 }));
 
 menu.append(new gui.MenuItem({type: 'separator'}));
@@ -104,34 +71,36 @@ menu.append(new gui.MenuItem({
 }));
 
 menu.append(new gui.MenuItem({type: 'separator'}));
-menu.append(isRecursive);
-menu.append(filesizeItem);
-menu.append(cdateItem);
-menu.append(tooltipItem);
-menu.append(autoplayItem);
+menu.append(createCheckboxMenuItem('Recurse subdirectories', config.recurseSource));
+menu.append(createCheckboxMenuItem('Show filesize', config.showFilesize));
+menu.append(createCheckboxMenuItem('Show Creation Date', config.showCDate));
+menu.append(createCheckboxMenuItem('Show path tooltip', config.filePathTooltip));
+menu.append(createCheckboxMenuItem('Autoplay', config.autoplay));
 menu.append(new gui.MenuItem({type: 'separator'}));
 menu.append(new gui.MenuItem({
     label: 'Show same path in Target -->',
-    click: function() {
-        Helper.notify(Helper.EVENTS.CHANGE_TARGET_PATH, source.path());
-    }
+    click: () => Helper.notify(Helper.EVENTS.CHANGE_TARGET_PATH, source.path())
 }));
 menu.append(new gui.MenuItem({
     label: 'Swap with Target <->',
-    click: function() {
-        Helper.notify(Helper.EVENTS.SWAP_PATHS);
-    }
+    click: () => Helper.notify(Helper.EVENTS.SWAP_PATHS)
 }));
 
+/**
+ * @this {gui.MenuItem}
+ */
 let onPathItemClick = function() {
     let newPath = this.label;
     source.path(newPath);
-};
+}
 
 function updateRecentPaths() {
+    const _allPaths = config.lastSourcePaths();
+
     for (let i=0; i<Config.MAX_RECENT_PATHS; i++) {
         let item = lastPathMenu.items[i],
-            path = config.lastSourcePaths()[i];
+            path = _allPaths[i];
+
         if (!item) {
             item = new gui.MenuItem({
                 label: '',
@@ -150,9 +119,7 @@ function updateRecentPaths() {
         }));
         lastPathMenu.append(new gui.MenuItem({
             label: 'Clear all',
-            click: function() {
-                config.lastSourcePaths.removeAll();
-            }
+            click: () => config.lastSourcePaths.removeAll()
         }));
     }
 }
@@ -162,24 +129,14 @@ function updateRecentPaths() {
  * @constructor
  */
 function SourceContextMenu() {
-    config.recurseSource.subscribe(updateRecurseItem);
-    updateRecurseItem();
-    config.showFilesize.subscribe(updateFilesizeItem);
-    updateFilesizeItem();
-    config.showCDate.subscribe(updateCDateItem);
-    updateCDateItem();
-    config.autoplay.subscribe(updateAutoplayItem);
-    updateAutoplayItem();
-    config.filePathTooltip.subscribe(updateTooltipItem);
-    updateTooltipItem();
     config.lastSourcePaths.subscribe(updateRecentPaths);
     updateRecentPaths();
 
-    this.show = function(e) {
+    this.show = (e) => {
         Helper.assertObject(e, 'missing e for SourceContextMenu.show()');
         e.preventDefault();
         menu.popup(e.originalEvent.x, e.originalEvent.y);
-    }
+    };
 }
 
 module.exports = {getInstance};
