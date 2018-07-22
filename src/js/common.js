@@ -5,7 +5,7 @@ require('./lib/jquery.min');
 window.ko = require('./lib/knockout');
 require('./lib/knockout-fast-foreach-mod');
 
-window.ko.extenders.toggleable = function(target /*, opts */) {
+window.ko.extenders.togglable = function(target /*, opts */) {
     target.toggleOn = function() {
         target(true);
     };

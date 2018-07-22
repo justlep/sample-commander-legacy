@@ -158,7 +158,7 @@ function Spectrograms(files) {
                 this.hideSpectrograms()
             }
         }
-    }).extend({toggleable: true});
+    }).extend({togglable: true});
 
     let _savedEnabledState = null;
 

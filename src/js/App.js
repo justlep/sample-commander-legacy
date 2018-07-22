@@ -349,12 +349,11 @@ function App() {
         return style;
     };
 
-    this.switchListMode = () => {
-        this.config.floatingList(!this.config.floatingList());
+    this.config.floatingList.subscribe(() => {
         if (this.filePlaying() && !audioElement.paused) {
             setTimeout(this.scrollToPlayedFile, 100);
         }
-    };
+    });
 
     /**
      * Scrolls to the file that is currently being played.

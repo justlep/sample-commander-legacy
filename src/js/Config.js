@@ -104,15 +104,15 @@ function Config() {
 
     this.sourcePath = ko.observable(appPath);
     this.targetPath = ko.observable(appPath);
-    this.recurseSource = ko.observable(true);
-    this.autoplay = ko.observable(true);
-    this.filePathTooltip = ko.observable(true);
-    this.floatingList = ko.observable(true);
-    this.showFilesize = ko.observable(true);
-    this.showTargetColumn = ko.observable(true);
-    this.showCDate = ko.observable(true);
+    this.recurseSource = ko.observable(true).extend({togglable: true});
+    this.autoplay = ko.observable(true).extend({togglable: true});
+    this.filePathTooltip = ko.observable(true).extend({togglable: true});
+    this.floatingList = ko.observable(true).extend({togglable: true});
+    this.showFilesize = ko.observable(true).extend({togglable: true});
+    this.showTargetColumn = ko.observable(true).extend({togglable: true});
+    this.showCDate = ko.observable(true).extend({togglable: true});
     this.maxDirs = ko.observable(300);
-    this.showSourcePaths = ko.observable(true);
+    this.showSourcePaths = ko.observable(true).extend({togglable: true});
     this.lastSourcePaths = ko.observableArray();
     this.lastTargetPaths = ko.observableArray();
     this.lastRenamePatterns = ko.observableArray();

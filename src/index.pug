@@ -21,7 +21,7 @@ html
             // SOURCE BOX
             .column
                 h2.column-headline(data-bind='click: selectSourcePath, event: {contextmenu: onSourceRightclick}')
-                    span.leftButton(title='Switch floating/table mode', data-bind="click: switchListMode, clickBubble: false, text: $root.config.floatingList() ? 'Flat List' : 'Floating List'")
+                    span.leftButton(title='Switch floating/table mode', data-bind="click: $root.config.floatingList.toggle, clickBubble: false, text: $root.config.floatingList() ? 'Flat List' : 'Floating List'")
                     | Source
                     span.filesAndDirStats(data-bind='pathWatcherInfo: source')
                     span.rightButton(title='Refresh', data-bind="click: source.reload, clickBubble: false") Refresh
@@ -47,7 +47,7 @@ html
                 h2.column-headline(data-bind='click: selectTargetPath, event: {contextmenu: onTargetRightclick}')
                     | Target
                     span.filesAndDirStats(data-bind='pathWatcherInfo: target')
-                    span.rightButton(title='Hide this panel', data-bind="click: function(){$root.config.showTargetColumn(false)}, clickBubble: false") Hide
+                    span.rightButton(title='Hide this panel', data-bind="click: $root.config.showTargetColumn.toggleOff, clickBubble: false") Hide
                     span.leftButton(title='Refresh', data-bind="click: target.reload, clickBubble: false") Refresh
                     span.path(data-bind='text: target.path')
                 .col-content(data-bind="css: {'spinner-round': target.isLoading}, abortLoadingOnClick: target")
@@ -70,7 +70,7 @@ html
 
         footer.footer
             include include/footer
-            .column__toggle(title="Show Target Panel", data-bind="visible: !config.showTargetColumn(), click: function(){ $root.config.showTargetColumn(true) }") Show Target
+            .column__toggle(title="Show Target Panel", data-bind="visible: !config.showTargetColumn(), click: $root.config.showTargetColumn.toggleOn") Show Target
 
         include include/modalDialog
         include include/infoDialogTpl

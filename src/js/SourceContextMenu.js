@@ -22,37 +22,27 @@ let source = null,
     isRecursive = new gui.MenuItem({
         label: 'Recurse subdirectories',
         type: 'checkbox',
-        click: function() {
-            config.recurseSource(!config.recurseSource());
-        }
+        click: config.recurseSource.toggle
     }),
     filesizeItem = new gui.MenuItem({
         type: 'checkbox',
         label: 'Show filesize',
-        click: function() {
-            config.showFilesize(!config.showFilesize());
-        }
+        click: config.showFilesize.toggle
     }),
     cdateItem = new gui.MenuItem({
         type: 'checkbox',
         label: 'Show Creation Date',
-        click: function() {
-            config.showCDate(!config.showCDate());
-        }
+        click: config.showCDate.toggle
     }),
     autoplayItem = new gui.MenuItem({
         type: 'checkbox',
         label: 'Autoplay',
-        click: function() {
-            config.autoplay(!config.autoplay());
-        }
+        click: config.autoplay.toggle
     }),
     tooltipItem = new gui.MenuItem({
         type: 'checkbox',
         label: 'Show path tooltip',
-        click: function() {
-            config.filePathTooltip(!config.filePathTooltip());
-        }
+        click: config.filePathTooltip.toggle
     }),
     updateRecurseItem = function() {
         isRecursive.checked = config.recurseSource();
