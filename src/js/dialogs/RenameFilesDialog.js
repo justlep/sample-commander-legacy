@@ -25,8 +25,7 @@ let instance;
  */
 function RenameFilesDialog() {
 
-    let self = this,
-        DEFAULT_REGEX_SEARCH = '',
+    let DEFAULT_REGEX_SEARCH = '',
         DEFAULT_REGEX_REPLACE = '',
         ORIGINAL_NAME_PLACEHOLDER = '[N]',
         ORIGINAL_NAME_PLACEHOLDER_REGEX = new RegExp(Helper.escapeForRegex(ORIGINAL_NAME_PLACEHOLDER), 'g'),
@@ -50,16 +49,12 @@ function RenameFilesDialog() {
     this.doneWithErrors = ko.observable(false);
     this.fileItems = ko.observableArray();
     this.inProgress = ko.observable(false);
-    this.totalSize = ko.pureComputed(function() {
-        return _.reduce(self.fileItems(), function(totalSize, fileItem) {
-            return totalSize + fileItem.filesize;
-        }, 0);
-    });
+    this.totalSize = ko.pureComputed(() => this.fileItems().reduce((totalSize, fileItem) => totalSize + fileItem.filesize, 0));
     this.processedFileItems = ko.observableArray();
     this.renamedFileItems = ko.observableArray();
-    this.progressInPercent = ko.pureComputed(function() {
-        let copiedSize = self.processedFileItems().length,
-            totalSize = self.fileItems().length;
+    this.progressInPercent = ko.pureComputed(() => {
+        let copiedSize = this.processedFileItems().length,
+            totalSize = this.fileItems().length;
 
         return (totalSize) ? Math.round(100 * copiedSize / totalSize) : 0;
     });
@@ -73,17 +68,17 @@ function RenameFilesDialog() {
     this.counterDigits = ko.observable(DEFAULT_COUNTER_DIGITS);
     this.counterStepsize = ko.observable(DEFAULT_COUNTER_STEPSIZE);
 
-    function createRegex() {
-        let ignoreCaseI = (self.regexIgnoreCase()) ? 'i' : '';
-        return new RegExp('(' + self.regexSearch() + ')', 'g' + ignoreCaseI);
-    }
+    let _createRegex = () => {
+        let ignoreCaseI = this.regexIgnoreCase() ? 'i' : '';
+        return new RegExp('(' + this.regexSearch() + ')', 'g' + ignoreCaseI);
+    };
 
-    this.isRegexValid = ko.pureComputed(function() {
-        let regex = self.regexSearch(),
+    this.isRegexValid = ko.pureComputed(() => {
+        let regex = this.regexSearch(),
             isValid = true;
         if (regex) {
             try {
-                createRegex();
+                _createRegex();
             } catch (e) {
                 isValid = false;
             }
@@ -91,41 +86,42 @@ function RenameFilesDialog() {
         return isValid;
     });
 
-    this.regexToUse = ko.pureComputed(function() {
-        let useRegex = self.useRegex(),
-            isValid = self.isRegexValid();
-        return (useRegex && isValid) ? createRegex() : null;
+    this.regexToUse = ko.pureComputed(() => {
+        let useRegex = this.useRegex(),
+            isValid = this.isRegexValid();
+        
+        return (useRegex && isValid) ? _createRegex() : null;
     });
 
-    this.resetSettings = function() {
-        self.regexSearch(DEFAULT_REGEX_SEARCH);
-        self.regexReplace(DEFAULT_REGEX_REPLACE);
-        self.regexIgnoreCase(true);
-        self.targetPattern(ORIGINAL_NAME_PLACEHOLDER);
-        self.counterStart(DEFAULT_COUNTER_START);
-        self.counterDigits(DEFAULT_COUNTER_DIGITS);
-        self.counterStepsize(DEFAULT_COUNTER_STEPSIZE);
-        self.useRegex(DEFAULT_USE_REGEX);
-        self.regexIgnoreCase(DEFAULT_REGEX_IGNORE_CASE);
+    this.resetSettings = () => {
+        this.regexSearch(DEFAULT_REGEX_SEARCH);
+        this.regexReplace(DEFAULT_REGEX_REPLACE);
+        this.regexIgnoreCase(true);
+        this.targetPattern(ORIGINAL_NAME_PLACEHOLDER);
+        this.counterStart(DEFAULT_COUNTER_START);
+        this.counterDigits(DEFAULT_COUNTER_DIGITS);
+        this.counterStepsize(DEFAULT_COUNTER_STEPSIZE);
+        this.useRegex(DEFAULT_USE_REGEX);
+        this.regexIgnoreCase(DEFAULT_REGEX_IGNORE_CASE);
     };
 
-    this.applySettings = function() {
-        let trimmedTargetPattern = $.trim(self.targetPattern());
+    this.applySettings = () => {
+        let trimmedTargetPattern = $.trim(this.targetPattern());
         if (!trimmedTargetPattern) {
             return;
         }
 
-        let parsedCounterStart = parseInt(self.counterStart(), 10),
+        let parsedCounterStart = parseInt(this.counterStart(), 10),
             counterStart = isNaN(parsedCounterStart) ? DEFAULT_COUNTER_START : Math.round(parsedCounterStart),
-            counterStepsize = parseInt(self.counterStepsize(), 10) || DEFAULT_COUNTER_STEPSIZE,
-            counterDigits = parseInt(self.counterDigits(), 10) || DEFAULT_COUNTER_DIGITS,
+            counterStepsize = parseInt(this.counterStepsize(), 10) || DEFAULT_COUNTER_STEPSIZE,
+            counterDigits = parseInt(this.counterDigits(), 10) || DEFAULT_COUNTER_DIGITS,
             counter = counterStart;
 
-        _.each(self.fileItems(), function(fileItem) {
+        this.fileItems().forEach(fileItem => {
             let oldName = /* fileItem._newFilename() || */ fileItem.filename,
-                oldExt = '',
-                newName = '',
-                counterStr = '' + counter;
+                counterStr = '' + counter,
+                oldExt,
+                newName;
 
             for (let i = counterDigits - counterStr.length; i > 0; i--) {
                 counterStr = '0' + counterStr;
@@ -138,10 +134,10 @@ function RenameFilesDialog() {
             newName = trimmedTargetPattern.replace(ORIGINAL_NAME_PLACEHOLDER_REGEX, newName);
             newName = newName.replace(COUNTER_PLACEHOLDER_REGEX, counterStr);
 
-            if (self.regexToUse()) {
-                newName = newName.replace(self.regexToUse(), self.regexReplace());
-            } else if (!self.useRegex() && self.regexSearch()) {
-                newName = newName.replace(self.regexSearch(), self.regexReplace());
+            if (this.regexToUse()) {
+                newName = newName.replace(this.regexToUse(), this.regexReplace());
+            } else if (!this.useRegex() && this.regexSearch()) {
+                newName = newName.replace(this.regexSearch(), this.regexReplace());
             }
 
             newName = $.trim(newName.replace(/\s{2,}/g, ' '));
@@ -152,38 +148,38 @@ function RenameFilesDialog() {
         });
     };
 
-    this.regexSearch.subscribe(self.applySettings);
-    this.regexReplace.subscribe(self.applySettings);
-    this.useRegex.subscribe(self.applySettings);
-    this.regexIgnoreCase.subscribe(self.applySettings);
-    this.targetPattern.subscribe(self.applySettings);
-    this.counterStart.subscribe(self.applySettings);
-    this.counterDigits.subscribe(self.applySettings);
-    this.counterStepsize.subscribe(self.applySettings);
+    this.regexSearch.subscribe(this.applySettings);
+    this.regexReplace.subscribe(this.applySettings);
+    this.useRegex.subscribe(this.applySettings);
+    this.regexIgnoreCase.subscribe(this.applySettings);
+    this.targetPattern.subscribe(this.applySettings);
+    this.counterStart.subscribe(this.applySettings);
+    this.counterDigits.subscribe(this.applySettings);
+    this.counterStepsize.subscribe(this.applySettings);
 
-    this.insertCounterPlaceholder = function() {
-        self.targetPattern(self.targetPattern() + COUNTER_PLACEHOLDER);
+    this.insertCounterPlaceholder = () => {
+        this.targetPattern(this.targetPattern() + COUNTER_PLACEHOLDER);
     };
 
     this.insertNamePlaceholder = function() {
-        self.targetPattern(self.targetPattern() + ORIGINAL_NAME_PLACEHOLDER);
+        this.targetPattern(this.targetPattern() + ORIGINAL_NAME_PLACEHOLDER);
     };
 
-    this.reusePatternSelected = function(ctx, e) {
+    this.reusePatternSelected = (ctx, e) => {
         let dropdown = e.target,
             pattern = dropdown.value;
-        self.targetPattern(pattern || ORIGINAL_NAME_PLACEHOLDER);
+        this.targetPattern(pattern || ORIGINAL_NAME_PLACEHOLDER);
         dropdown.selectedIndex = 0;
     };
 
-    this.renameFilesNow = function() {
-        self.inProgress(true);
-        self.doneWithErrors(false);
-        let trimmedPattern = $.trim(self.targetPattern());
+    this.renameFilesNow = () => {
+        this.inProgress(true);
+        this.doneWithErrors(false);
+        let trimmedPattern = $.trim(this.targetPattern());
         if (trimmedPattern !== ORIGINAL_NAME_PLACEHOLDER) {
             config.addLastRenamePattern(trimmedPattern);
         }
-        _.each(self.fileItems(), function(fileItem) {
+        this.fileItems().forEach(fileItem => {
 
             fileItem.__renameFailed = true;
             fileItem.__renameSkippedExists = false;
@@ -195,17 +191,17 @@ function RenameFilesDialog() {
             // TODO fs.exists is deprecated
             if (nodeFs.existsSync(newPath)) {
                 fileItem.__renameSkippedExists = true;
-                self.doneWithErrors(true);
+                this.doneWithErrors(true);
             } else {
                 try {
                     nodeFs.renameSync(oldPath, newPath);
-                    self.renamedFileItems.push(fileItem);
+                    this.renamedFileItems.push(fileItem);
                     fileItem.__renameFailed = false;
 
                     // TODO refresh file item filename, path and hash
                 } catch (e) {
                     fileItem.__renameFailed = true;
-                    self.doneWithErrors(true);
+                    this.doneWithErrors(true);
                     console.error('Unable to rename file %s.', oldPath, e);
                 }
 
@@ -215,23 +211,23 @@ function RenameFilesDialog() {
                     try {
                         nodeFs.renameSync(oldSpectroPath, newSpectroPath);
                     } catch (e) {
-                        self.doneWithErrors(true);
+                        this.doneWithErrors(true);
                         console.error('Unable to rename spectrogram %s into %s', oldSpectroPath, newSpectroPath);
                     }
                 }
             }
-            self.processedFileItems.push(fileItem);
+            this.processedFileItems.push(fileItem);
         });
 
-        self.isComplete(true);
+        this.isComplete(true);
 
-        if (self.renamedFileItems().length) {
+        if (this.renamedFileItems().length) {
             source.reload();
         }
     };
 
-    this.close = function() {
-        self.fileItems.removeAll();
+    this.close = () => {
+        this.fileItems.removeAll();
         dialogManager.reset();
     };
 
@@ -240,16 +236,19 @@ function RenameFilesDialog() {
         DialogManager.autoHeight();
     };
 
-    this.init = function(opts) {
-        Helper.assertObject(opts, 'invalid opts for RenameFilesDialog.init()');
-        Helper.assert(opts.source && opts.source instanceof PathWatcher,
-                                'invalid source for RenameFilesDialog.init()');
+    /**
+     * @param {object} opts
+     * @param {PathWatcher} opts.source
+     */
+    this.init = (opts) => {
+        Helper.assert(opts && opts.source instanceof PathWatcher,
+            'invalid source for RenameFilesDialog.init()');
         source = opts.source;
-        self.inProgress(false);
-        self.processedFileItems.removeAll();
-        self.renamedFileItems.removeAll();
-        self.fileItems(source.getVisibleSelectedFileItems());
-        _.each(self.fileItems(), function(fileItem) {
+        this.inProgress(false);
+        this.processedFileItems.removeAll();
+        this.renamedFileItems.removeAll();
+        this.fileItems(source.getVisibleSelectedFileItems());
+        this.fileItems().forEach(fileItem => {
             let newFilenameToInitWith = fileItem.newFilename || fileItem.filename;
             if (!fileItem.newFilename) {
                 fileItem._newFilename = ko.observable(newFilenameToInitWith);
@@ -258,8 +257,12 @@ function RenameFilesDialog() {
             }
 
         });
-        self.resetSettings();
-        self.isComplete(false);
+        this.resetSettings();
+        if (this.fileItems().length === 1 && /(.*)\.\w+$/.test(this.fileItems()[0].filename)) {
+            let filenameWoExt = RegExp.$1;
+            this.targetPattern(filenameWoExt || '');
+        }
+        this.isComplete(false);
     };
 }
 
