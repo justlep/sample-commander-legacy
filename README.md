@@ -1,4 +1,4 @@
-# LeP's Sample Commander [![Build Status](https://travis-ci.org/justlep/sample-commander.svg?branch=master)](https://travis-ci.org/justlep/sample-commander)
+# LeP's Sample Commander [![Build Status](https://travis-ci.org/justlep/sample-commander-legacy.svg?branch=master)](https://travis-ci.org/justlep/sample-commander-legacy)
 An application for browsing an audio sample collection and for copying/moving .WAV files from a fieldrecorder or SD card to the PC.
 Based on NodeJS and Node-Webkit. Compileable to a standalone program (currently tested on Win7/64bit only),
 but should easily be adjustable for Linux/Mac.
@@ -6,15 +6,15 @@ but should easily be adjustable for Linux/Mac.
 **Update April 2018**: can now display **spectrograms** for the .wav files (requires [ffmpeg](https://ffmpeg.org/download.html) being installed)
 in 3 different sizes. Clicks on the spectrograms change the playback position.
 
-![](https://raw.githubusercontent.com/justlep/sample-commander/master/doc/screenshots/overview.png)
+![](https://raw.githubusercontent.com/justlep/sample-commander-legacy/master/doc/screenshots/overview.png)
 With spectrograms (clickable to change the play position):
-![](https://raw.githubusercontent.com/justlep/sample-commander/master/doc/screenshots/spectrogram-floating.png)
+![](https://raw.githubusercontent.com/justlep/sample-commander-legacy/master/doc/screenshots/spectrogram-floating.png)
 
 More screenshots in [doc/](./doc/)
 
 ## Download & Installation (prebuild for Windows 7)
 A pre-compiled zip with the latest build can be 
-[downloaded here](http://dl.justlep.net/sample-commander/SampleCommander-latest-Win64.zip) (approx. 65MB, unpacked ~150MB).
+[downloaded here](http://dl.justlep.net/sample-commander-legacy/SampleCommander-latest-Win64.zip) (approx. 65MB, unpacked ~150MB).
 Just extract it anywhere you like and run `SampleCommander.exe`.
 
 ## Build manually using NodeJS 6+
