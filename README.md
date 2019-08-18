@@ -1,3 +1,6 @@
+#### *** This is the discontinued legacy repo of Sample Commander v1. ***
+Find the latest, completely rewritten Sample Commander 2 on https://github.com/justlep/sample-commander.
+
 # LeP's Sample Commander [![Build Status](https://travis-ci.org/justlep/sample-commander-legacy.svg?branch=master)](https://travis-ci.org/justlep/sample-commander-legacy)
 An application for browsing an audio sample collection and for copying/moving .WAV files from a fieldrecorder or SD card to the PC.
 Based on NodeJS and Node-Webkit. Compileable to a standalone program (currently tested on Win7/64bit only),
